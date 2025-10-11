@@ -423,6 +423,7 @@ const sectionTabs = document.getElementById('sectionTabs');
 const sectionButtons = document.querySelectorAll('.section-button');
 const priceHeader = document.getElementById('priceHeader');
 const itemHeader = document.getElementById('itemHeader');
+const collectionInfo = document.getElementById('collectionInfo');
 
 // 현재 선택된 지역과 섹션
 let currentRegion = 'wild';
@@ -451,6 +452,10 @@ function renderTable(productsToShow) {
             <td class="price">${priceDisplay}</td>
         `;
         
+        // 검색 중이고 컬랙션북 아이템일 경우 파란색 스타일 적용
+        if (searchInput.value.trim() !== '' && product.isCollection) {
+            row.classList.add('collection-search-item');
+        }
         
         tableBody.appendChild(row);
 
@@ -471,6 +476,7 @@ function searchProducts() {
     
     if (searchTerm === '') {
         updateHeader(false); // 검색이 아닐 때
+        collectionInfo.style.display = 'none'; // 컬랙션북 안내 숨기기
         renderTable(getCurrentProducts());
         return;
     }
@@ -479,25 +485,29 @@ function searchProducts() {
     
     let allProducts = [];
     
+    // 모든 검색에서 컬랙션북 아이템도 포함 (컬랙션북 표시 추가)
+    const allCollectionItems = [
+        ...regionData.collection.blocks.map(item => ({...item, isCollection: true})),
+        ...regionData.collection.nature.map(item => ({...item, isCollection: true})),
+        ...regionData.collection.loot.map(item => ({...item, isCollection: true})),
+        ...regionData.collection.collectibles.map(item => ({...item, isCollection: true}))
+    ];
+    
     if (currentRegion === 'wild') {
-        allProducts = regionData.wild;
+        allProducts = [...regionData.wild, ...allCollectionItems];
     } else if (currentRegion === 'grindel') {
-        // 그린델 지역의 모든 섹션에서 검색
+        // 그린델 지역의 모든 섹션에서 검색 + 컬랙션북
         allProducts = [
             ...regionData.grindel.sell,
             ...regionData.grindel.buy,
             ...regionData.grindel.process,
             ...regionData.grindel.cooking,
-            ...regionData.grindel.enhancement
+            ...regionData.grindel.enhancement,
+            ...allCollectionItems
         ];
     } else if (currentRegion === 'collection') {
         // 컬랙션북 지역의 모든 섹션에서 검색
-        allProducts = [
-            ...regionData.collection.blocks,
-            ...regionData.collection.nature,
-            ...regionData.collection.loot,
-            ...regionData.collection.collectibles
-        ];
+        allProducts = allCollectionItems;
     } else {
         // 모든 지역에서 검색
         allProducts = [
@@ -507,10 +517,7 @@ function searchProducts() {
             ...regionData.grindel.process,
             ...regionData.grindel.cooking,
             ...regionData.grindel.enhancement,
-            ...regionData.collection.blocks,
-            ...regionData.collection.nature,
-            ...regionData.collection.loot,
-            ...regionData.collection.collectibles
+            ...allCollectionItems
         ];
     }
     
@@ -520,6 +527,10 @@ function searchProducts() {
         const priceMatch = product.price && product.price.toLowerCase().includes(searchTerm);
         return nameMatch || ingredientsMatch || priceMatch;
     });
+    
+    // 컬랙션북 아이템이 검색 결과에 있는지 확인
+    const hasCollectionItems = filteredProducts.some(product => product.isCollection);
+    collectionInfo.style.display = hasCollectionItems ? 'block' : 'none';
     
     renderTable(filteredProducts);
 }
