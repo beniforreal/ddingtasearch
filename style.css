@@ -138,14 +138,6 @@ tbody tr:last-child td {
     border-bottom: 1px solid #ccc;
 }
 
-.collection-item {
-    background-color: #ffe6f2 !important;
-}
-
-.collection-item td {
-    color: #d63384 !important;
-    font-weight: 500;
-}
 
 /* 반응형 디자인 */
 @media (max-width: 768px) {
