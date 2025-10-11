@@ -276,9 +276,12 @@ function searchProducts() {
         ];
     }
     
-    const filteredProducts = allProducts.filter(product => 
-        product.name.toLowerCase().includes(searchTerm)
-    );
+    const filteredProducts = allProducts.filter(product => {
+        const nameMatch = product.name.toLowerCase().includes(searchTerm);
+        const ingredientsMatch = product.ingredients && product.ingredients.toLowerCase().includes(searchTerm);
+        const priceMatch = product.price && product.price.toLowerCase().includes(searchTerm);
+        return nameMatch || ingredientsMatch || priceMatch;
+    });
     
     renderTable(filteredProducts);
 }
