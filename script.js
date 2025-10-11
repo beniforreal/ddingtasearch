@@ -257,9 +257,12 @@ function searchProducts() {
     const searchTerm = searchInput.value.toLowerCase().trim();
     
     if (searchTerm === '') {
+        updateHeader(false); // 검색이 아닐 때
         renderTable(getCurrentProducts());
         return;
     }
+    
+    updateHeader(true); // 검색 중일 때
     
     let allProducts = [];
     
@@ -296,7 +299,7 @@ function getCurrentProducts() {
 }
 
 // 헤더 텍스트 업데이트 함수
-function updateHeader() {
+function updateHeader(isSearching = false) {
     const headers = {
         sell: '판매 가격',
         buy: '구매 가격',
@@ -305,7 +308,11 @@ function updateHeader() {
         enhancement: '필요 재료'
     };
     
-    if (currentRegion === 'grindel') {
+    if (isSearching) {
+        // 검색 중일 때는 "내용"으로 표시
+        priceHeader.textContent = '내용';
+        itemHeader.textContent = '품목';
+    } else if (currentRegion === 'grindel') {
         priceHeader.textContent = headers[currentSection] || '가격';
         if (currentSection === 'cooking') {
             itemHeader.textContent = '요리명';
