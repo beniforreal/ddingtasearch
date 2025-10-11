@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>상품 가격 검색</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="region-tabs">
+            <button class="tab-button active" data-region="wild">야생</button>
+            <button class="tab-button" data-region="grindel">그린델</button>
+        </div>
+        
+        <div class="section-tabs" id="sectionTabs" style="display: none;">
+            <button class="section-button active" data-section="sell">판매</button>
+            <button class="section-button" data-section="buy">구매</button>
+            <button class="section-button" data-section="process">가공</button>
+            <button class="section-button" data-section="cooking">요리</button>
+            <button class="section-button" data-section="enhancement">강화</button>
+        </div>
+        
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="상품명을 입력하세요..." />
+        </div>
+        
+        <div class="table-container">
+            <table id="productTable">
+                <thead>
+                    <tr>
+                        <th id="itemHeader">품목</th>
+                        <th id="priceHeader">판매 가격</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <!-- 상품 데이터가 여기에 동적으로 추가됩니다 -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
