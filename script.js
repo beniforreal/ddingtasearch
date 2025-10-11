@@ -201,7 +201,210 @@ const regionData = {
             { name: "14강", price: "하급 라이프스톤 10개 + 중급 라이프스톤 6개 + 상급 라이프스톤 4개 + 루비 30개 + 1,500,000G", probability: "1%" },
             { name: "15강", price: "하급 라이프스톤 10개 + 중급 라이프스톤 6개 + 상급 라이프스톤 5개 + 루비 30개 + 2,000,000G", probability: "1%" }
         ]
-    }
+    },
+    
+    collection: [
+        // 수집품
+        { name: "음반 (13)", price: "1개", category: "수집품" },
+        { name: "음반 (cat)", price: "1개", category: "수집품" },
+        { name: "음반 (blocks)", price: "1개", category: "수집품" },
+        { name: "음반 (chirp)", price: "1개", category: "수집품" },
+        { name: "음반 (far)", price: "1개", category: "수집품" },
+        { name: "음반 (mall)", price: "1개", category: "수집품" },
+        { name: "음반 (mellohi)", price: "1개", category: "수집품" },
+        { name: "음반 (stal)", price: "1개", category: "수집품" },
+        { name: "음반 (strad)", price: "1개", category: "수집품" },
+        { name: "음반 (ward)", price: "1개", category: "수집품" },
+        { name: "음반 (11)", price: "1개", category: "수집품" },
+        { name: "음반 (Creator 오르골)", price: "1개", category: "수집품" },
+        { name: "음반 (wait)", price: "1개", category: "수집품" },
+        { name: "음반 (Creator)", price: "1개", category: "수집품" },
+        { name: "음반 (Precipice)", price: "1개", category: "수집품" },
+        { name: "음반 (otherside)", price: "1개", category: "수집품" },
+        { name: "음반 (Relic)", price: "1개", category: "수집품" },
+        { name: "음반 (5)", price: "1개", category: "수집품" },
+        { name: "음반 (Pigstep)", price: "1개", category: "수집품" },
+        { name: "낚시꾼 도자기 조각", price: "1개", category: "수집품" },
+        { name: "궁수 도자기 조각", price: "1개", category: "수집품" },
+        { name: "만세 도자기 조각", price: "1개", category: "수집품" },
+        { name: "칼날 도자기 조각", price: "1개", category: "수집품" },
+        { name: "양조가 도자기 조각", price: "1개", category: "수집품" },
+        { name: "불탐 도자기 조각", price: "1개", category: "수집품" },
+        { name: "위험 도자기 조각", price: "1개", category: "수집품" },
+        { name: "흐름 도자기 조각", price: "1개", category: "수집품" },
+        { name: "탐험가 도자기 조각", price: "1개", category: "수집품" },
+        { name: "친구 도자기 조각", price: "1개", category: "수집품" },
+        { name: "소용돌이 도자기 조각", price: "1개", category: "수집품" },
+        { name: "심장 도자기 조각", price: "1개", category: "수집품" },
+        { name: "찢어진 심장 도자기 조각", price: "1개", category: "수집품" },
+        { name: "짖음 도자기 조각", price: "1개", category: "수집품" },
+        { name: "광부 도자기 조각", price: "1개", category: "수집품" },
+        { name: "애도자 도자기 조각", price: "1개", category: "수집품" },
+        { name: "풍부 도자기 조각", price: "1개", category: "수집품" },
+        { name: "보물 도자기 조각", price: "1개", category: "수집품" },
+        { name: "긁개 도자기 조각", price: "1개", category: "수집품" },
+        { name: "다발 도자기 조각", price: "1개", category: "수집품" },
+        { name: "피신처 도자기 조각", price: "1개", category: "수집품" },
+        { name: "해골 도자기 조각", price: "1개", category: "수집품" },
+        { name: "콧바람 도자기 조각", price: "1개", category: "수집품" },
+        { name: "보초 갑옷 장식", price: "1개", category: "수집품" },
+        { name: "벡스 갑옷 장식", price: "1개", category: "수집품" },
+        { name: "야생 갑옷 장식", price: "1개", category: "수집품" },
+        { name: "해안 갑옷 장식", price: "1개", category: "수집품" },
+        { name: "사구 갑옷 장식", price: "1개", category: "수집품" },
+        { name: "길잡이 갑옷 장식", price: "1개", category: "수집품" },
+        { name: "사육사 갑옷 장식", price: "1개", category: "수집품" },
+        { name: "조형가 갑옷 장식", price: "1개", category: "수집품" },
+        { name: "주인 갑옷 장식", price: "1개", category: "수집품" },
+        { name: "파수 갑옷 장식", price: "1개", category: "수집품" },
+        { name: "고요 갑옷 장식", price: "1개", category: "수집품" },
+        { name: "물결 갑옷 장식", price: "1개", category: "수집품" },
+        { name: "돼지 코 갑옷 장식", price: "1개", category: "수집품" },
+        { name: "갈비뼈 갑옷 장식", price: "1개", category: "수집품" },
+        { name: "눈 갑옷 장식", price: "1개", category: "수집품" },
+        { name: "첨탑 갑옷 장식", price: "1개", category: "수집품" },
+        { name: "흐름 갑옷 장식", price: "1개", category: "수집품" },
+        { name: "나사 갑옷 장식", price: "1개", category: "수집품" },
+        
+        // 전리품
+        { name: "거미줄", price: "50개", category: "전리품" },
+        { name: "엔더의 눈", price: "50개", category: "전리품" },
+        { name: "이름표", price: "10개", category: "전리품" },
+        { name: "안장", price: "10개", category: "전리품" },
+        { name: "삼지창", price: "1개", category: "전리품" },
+        { name: "가죽 말 갑옷", price: "10개", category: "전리품" },
+        { name: "철 말 갑옷", price: "5개", category: "전리품" },
+        { name: "금 말 갑옷", price: "5개", category: "전리품" },
+        { name: "다이아몬드 말 갑옷", price: "5개", category: "전리품" },
+        { name: "불사의 토템", price: "1개", category: "전리품" },
+        { name: "마법이 부여된 황금 사과", price: "1개", category: "전리품" },
+        { name: "후렴과", price: "50개", category: "전리품" },
+        { name: "케이크", price: "10개", category: "전리품" },
+        { name: "레드스톤 가루", price: "50개", category: "전리품" },
+        { name: "석탄", price: "50개", category: "전리품" },
+        { name: "숯", price: "50개", category: "전리품" },
+        { name: "에메랄드", price: "50개", category: "전리품" },
+        { name: "청금석", price: "50개", category: "전리품" },
+        { name: "다이아몬드", price: "50개", category: "전리품" },
+        { name: "네더 석영", price: "50개", category: "전리품" },
+        { name: "자수정 조각", price: "50개", category: "전리품" },
+        { name: "철 주괴", price: "50개", category: "전리품" },
+        { name: "구리 주괴", price: "50개", category: "전리품" },
+        { name: "금 주괴", price: "50개", category: "전리품" },
+        { name: "네더라이트 주괴", price: "10개", category: "전리품" },
+        { name: "먹물 주머니", price: "50개", category: "전리품" },
+        { name: "발광 먹물 주머니", price: "50개", category: "전리품" },
+        { name: "아르마딜로 인갑", price: "50개", category: "전리품" },
+        { name: "앵무조개 껍데기", price: "10개", category: "전리품" },
+        { name: "바다의 심장", price: "1개", category: "전리품" },
+        { name: "블레이즈 막대기", price: "50개", category: "전리품" },
+        { name: "브리즈 막대기", price: "10개", category: "전리품" },
+        { name: "무거운 코어", price: "1개", category: "전리품" },
+        { name: "네더의 별", price: "1개", category: "전리품" },
+        { name: "메아리 조각", price: "50개", category: "전리품" },
+        { name: "드래곤의 숨결", price: "50개", category: "전리품" },
+        { name: "토끼 발", price: "50개", category: "전리품" },
+        { name: "가스트 눈물", price: "50개", category: "전리품" },
+        { name: "경험치 병", price: "50개", category: "전리품" },
+        
+        // 블록
+        { name: "껍질 벗긴 참나무", price: "50개", category: "블록" },
+        { name: "껍질 벗긴 가문비나무", price: "50개", category: "블록" },
+        { name: "껍질 벗긴 자작나무", price: "50개", category: "블록" },
+        { name: "껍질 벗긴 정글나무", price: "50개", category: "블록" },
+        { name: "껍질 벗긴 아카시아나무", price: "50개", category: "블록" },
+        { name: "껍질 벗긴 짙은 참나무", price: "50개", category: "블록" },
+        { name: "껍질 벗긴 맹그로브나무", price: "50개", category: "블록" },
+        { name: "껍질 벗긴 벚나무", price: "50개", category: "블록" },
+        { name: "껍질 벗긴 창백한 참나무", price: "50개", category: "블록" },
+        { name: "껍질 벗긴 진홍빛 균사", price: "50개", category: "블록" },
+        { name: "껍질 벗긴 뒤틀린 균사", price: "50개", category: "블록" },
+        { name: "엔드 돌", price: "50개", category: "블록" },
+        { name: "퍼퍼 블록", price: "50개", category: "블록" },
+        { name: "구리 격자", price: "50개", category: "블록" },
+        { name: "하얀색 콘크리트", price: "50개", category: "블록" },
+        { name: "하얀색 유광 테라코타", price: "50개", category: "블록" },
+        { name: "차광 유리", price: "50개", category: "블록" },
+        { name: "잔디 블록", price: "50개", category: "블록" },
+        { name: "회백토", price: "50개", category: "블록" },
+        { name: "균사체", price: "50개", category: "블록" },
+        { name: "진흙", price: "50개", category: "블록" },
+        { name: "붉은 모래", price: "50개", category: "블록" },
+        { name: "얼음", price: "50개", category: "블록" },
+        { name: "꽁꽁 언 얼음", price: "50개", category: "블록" },
+        { name: "푸른얼음", price: "50개", category: "블록" },
+        { name: "우는 흑요석", price: "50개", category: "블록" },
+        { name: "영혼 모래", price: "50개", category: "블록" },
+        { name: "석탄 광석", price: "50개", category: "블록" },
+        { name: "심층암 석탄 광석", price: "10개", category: "블록" },
+        { name: "철 광석", price: "50개", category: "블록" },
+        { name: "심층암 철 광석", price: "50개", category: "블록" },
+        { name: "구리 광석", price: "50개", category: "블록" },
+        { name: "심층암 구리 광석", price: "50개", category: "블록" },
+        { name: "금 광석", price: "50개", category: "블록" },
+        { name: "심층암 금 광석", price: "50개", category: "블록" },
+        { name: "레드스톤 광석", price: "50개", category: "블록" },
+        { name: "심층암 레드스톤 광석", price: "50개", category: "블록" },
+        { name: "에메랄드 광석", price: "50개", category: "블록" },
+        { name: "심층암 에메랄드 광석", price: "5개", category: "블록" },
+        { name: "청금석 광석", price: "50개", category: "블록" },
+        { name: "심층암 청금석 광석", price: "50개", category: "블록" },
+        { name: "다이아몬드 광석", price: "50개", category: "블록" },
+        { name: "심층암 다이아몬드 광석", price: "50개", category: "블록" },
+        { name: "네더 금 광석", price: "50개", category: "블록" },
+        { name: "네더 석영 광석", price: "50개", category: "블록" },
+        { name: "고대 잔해", price: "50개", category: "블록" },
+        { name: "관 산호 블록", price: "50개", category: "블록" },
+        { name: "뇌 산호 블록", price: "50개", category: "블록" },
+        { name: "거품 산호 블록", price: "50개", category: "블록" },
+        { name: "불 산호 블록", price: "50개", category: "블록" },
+        { name: "사방산호 블록", price: "50개", category: "블록" },
+        { name: "스컬크 촉매", price: "10개", category: "블록" },
+        { name: "스컬크 비명체", price: "10개", category: "블록" },
+        
+        // 자연
+        { name: "창백한 매달린 이끼", price: "50개", category: "자연" },
+        { name: "뾰족한 점적석", price: "50개", category: "자연" },
+        { name: "진홍빛 균", price: "50개", category: "자연" },
+        { name: "뒤틀린 균", price: "50개", category: "자연" },
+        { name: "파란색 난초", price: "50개", category: "자연" },
+        { name: "알리움", price: "50개", category: "자연" },
+        { name: "빨간색 튤립", price: "50개", category: "자연" },
+        { name: "주황색 튤립", price: "50개", category: "자연" },
+        { name: "하얀색 튤립", price: "50개", category: "자연" },
+        { name: "분홍색 튤립", price: "50개", category: "자연" },
+        { name: "은방울꽃", price: "50개", category: "자연" },
+        { name: "횃불꽃", price: "1개", category: "자연" },
+        { name: "감은 눈망울꽃", price: "50개", category: "자연" },
+        { name: "뜬 눈망울꽃", price: "50개", category: "자연" },
+        { name: "위더 장미", price: "10개", category: "자연" },
+        { name: "분홍 꽃잎", price: "50개", category: "자연" },
+        { name: "대나무", price: "50개", category: "자연" },
+        { name: "선인장", price: "50개", category: "자연" },
+        { name: "해바라기", price: "50개", category: "자연" },
+        { name: "라일락", price: "50개", category: "자연" },
+        { name: "장미 덤불", price: "50개", category: "자연" },
+        { name: "모란", price: "50개", category: "자연" },
+        { name: "벌레잡이풀", price: "1개", category: "자연" },
+        { name: "큰 흘림잎", price: "50개", category: "자연" },
+        { name: "작은 흘림잎", price: "50개", category: "자연" },
+        { name: "발광 이끼", price: "50개", category: "자연" },
+        { name: "스니퍼 알", price: "1개", category: "자연" },
+        { name: "발광 열매", price: "50개", category: "자연" },
+        { name: "달콤한 열매", price: "50개", category: "자연" },
+        { name: "수련잎", price: "50개", category: "자연" },
+        { name: "불우렁쉥이", price: "50개", category: "자연" },
+        { name: "관 산호", price: "50개", category: "자연" },
+        { name: "뇌 산호", price: "50개", category: "자연" },
+        { name: "거품 산호", price: "50개", category: "자연" },
+        { name: "불 산호", price: "50개", category: "자연" },
+        { name: "사방산호", price: "50개", category: "자연" },
+        { name: "부채형 관 산호", price: "50개", category: "자연" },
+        { name: "부채형 뇌 산호", price: "50개", category: "자연" },
+        { name: "부채형 거품 산호", price: "50개", category: "자연" },
+        { name: "부채형 불 산호", price: "50개", category: "자연" },
+        { name: "부채형 사방산호", price: "50개", category: "자연" }
+    ]
 };
 
 // DOM 요소들
@@ -239,6 +442,12 @@ function renderTable(productsToShow) {
             <td>${product.name}</td>
             <td class="price">${priceDisplay}</td>
         `;
+        
+        // 컬랙션북 항목일 경우 분홍색 스타일 적용
+        if (product.category) {
+            row.classList.add('collection-item');
+        }
+        
         tableBody.appendChild(row);
 
         // 요리 섹션일 경우 재료 정보 추가 (검색 결과에서도 항상 표시)
@@ -268,7 +477,7 @@ function searchProducts() {
     
     if (currentRegion === 'wild') {
         allProducts = regionData.wild;
-    } else {
+    } else if (currentRegion === 'grindel') {
         // 그린델 지역의 모든 섹션에서 검색
         allProducts = [
             ...regionData.grindel.sell,
@@ -276,6 +485,20 @@ function searchProducts() {
             ...regionData.grindel.process,
             ...regionData.grindel.cooking,
             ...regionData.grindel.enhancement
+        ];
+    } else if (currentRegion === 'collection') {
+        // 컬랙션북 지역의 모든 데이터에서 검색
+        allProducts = regionData.collection;
+    } else {
+        // 모든 지역에서 검색
+        allProducts = [
+            ...regionData.wild,
+            ...regionData.grindel.sell,
+            ...regionData.grindel.buy,
+            ...regionData.grindel.process,
+            ...regionData.grindel.cooking,
+            ...regionData.grindel.enhancement,
+            ...regionData.collection
         ];
     }
     
@@ -293,9 +516,12 @@ function searchProducts() {
 function getCurrentProducts() {
     if (currentRegion === 'wild') {
         return regionData.wild;
-    } else {
+    } else if (currentRegion === 'grindel') {
         return regionData.grindel[currentSection];
+    } else if (currentRegion === 'collection') {
+        return regionData.collection;
     }
+    return [];
 }
 
 // 헤더 텍스트 업데이트 함수
@@ -321,6 +547,9 @@ function updateHeader(isSearching = false) {
         } else {
             itemHeader.textContent = '품목';
         }
+    } else if (currentRegion === 'collection') {
+        priceHeader.textContent = '달성 개수';
+        itemHeader.textContent = '종류';
     } else {
         priceHeader.textContent = '판매 가격';
         itemHeader.textContent = '품목';
