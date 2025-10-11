@@ -241,8 +241,8 @@ function renderTable(productsToShow) {
         `;
         tableBody.appendChild(row);
 
-        // 요리 섹션일 경우 재료 정보 추가
-        if (currentRegion === 'grindel' && currentSection === 'cooking' && product.ingredients) {
+        // 요리 섹션일 경우 재료 정보 추가 (검색 결과에서도 항상 표시)
+        if (currentRegion === 'grindel' && product.ingredients) {
             const ingredientsRow = document.createElement('tr');
             ingredientsRow.innerHTML = `
                 <td colspan="2" class="ingredients-display">재료: ${product.ingredients}</td>
