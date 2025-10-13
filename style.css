@@ -12,10 +12,35 @@ body {
 }
 
 .container {
-    max-width: 1200px;
+    max-width: 700px;
     margin: 0 auto;
     padding: 20px;
 }
+
+/* 요리 탭 범례 */
+.legend {
+    display: none;
+    margin: 10px auto 20px;
+    font-size: 12px;
+    color: #666;
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 8px 12px;
+}
+.legend-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+.legend-item { display: inline-flex; align-items: center; gap: 6px; }
+.legend-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+.legend-dot.green { background: #00cf91; }
+.legend-dot.red { background: #cc0000; }
+.legend-dot.blue { background: #0066cc; }
+.legend-dot.yellow { background: #ffaa00; }
 
 .region-tabs {
     display: flex;

@@ -425,6 +425,7 @@ const priceHeader = document.getElementById('priceHeader');
 const itemHeader = document.getElementById('itemHeader');
 const collectionInfo = document.getElementById('collectionInfo');
 const costHeader = document.getElementById('costHeader');
+const cookingLegend = document.getElementById('cookingLegend');
 
 // 현재 선택된 지역과 섹션
 let currentRegion = 'wild';
@@ -684,6 +685,13 @@ function updateHeader(isSearching = false) {
         cooking: '가격 범위',
         enhancement: '필요 재료'
     };
+    
+    // 요리 범례 표시 토글
+    if (currentRegion === 'grindel' && currentSection === 'cooking') {
+        if (cookingLegend) cookingLegend.style.display = 'block';
+    } else {
+        if (cookingLegend) cookingLegend.style.display = 'none';
+    }
     
     // 원재료 비용 헤더 토글
     if (currentRegion === 'grindel' && currentSection === 'cooking' && !isSearching) {
