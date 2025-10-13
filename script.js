@@ -424,6 +424,7 @@ const sectionButtons = document.querySelectorAll('.section-button');
 const priceHeader = document.getElementById('priceHeader');
 const itemHeader = document.getElementById('itemHeader');
 const collectionInfo = document.getElementById('collectionInfo');
+const costHeader = document.getElementById('costHeader');
 
 // 현재 선택된 지역과 섹션
 let currentRegion = 'wild';
@@ -434,7 +435,7 @@ function renderTable(productsToShow) {
     tableBody.innerHTML = '';
     
     if (productsToShow.length === 0) {
-        tableBody.innerHTML = '<tr><td colspan="2" class="no-results">검색 결과가 없습니다.</td></tr>';
+        tableBody.innerHTML = '<tr><td colspan="3" class="no-results">검색 결과가 없습니다.</td></tr>';
         return;
     }
     
@@ -446,11 +447,27 @@ function renderTable(productsToShow) {
         if (currentRegion === 'grindel' && currentSection === 'enhancement' && product.probability) {
             priceDisplay += ` (${product.probability})`;
         }
+
+        // 원재료 비용 계산 (요리 섹션에서만)
+        let costCellHtml = '';
+        if (currentRegion === 'grindel' && currentSection === 'cooking' && product.ingredients) {
+            const costInfo = computeTotalIngredientCost(product.ingredients);
+            const suffix = costInfo.unknownCount > 0 ? ' (일부 제외)' : '';
+            costCellHtml = `<td class="price-cost">${formatNumber(costInfo.total)} G${suffix}</td>`;
+        }
         
-        row.innerHTML = `
-            <td>${product.name}</td>
-            <td class="price">${priceDisplay}</td>
-        `;
+        if (currentRegion === 'grindel' && currentSection === 'cooking') {
+            row.innerHTML = `
+                <td>${product.name}</td>
+                <td class="price">${priceDisplay}</td>
+                ${costCellHtml}
+            `;
+        } else {
+            row.innerHTML = `
+                <td>${product.name}</td>
+                <td class="price">${priceDisplay}</td>
+            `;
+        }
         
         // 검색 중이고 컬랙션북 아이템일 경우 파란색 스타일 적용
         if (searchInput.value.trim() !== '' && product.isCollection) {
@@ -459,15 +476,126 @@ function renderTable(productsToShow) {
         
         tableBody.appendChild(row);
 
-        // 요리 섹션일 경우 재료 정보 추가 (검색 결과에서도 항상 표시)
+        // 재료 정보는 기존처럼 아래에 한 줄 표시
         if (currentRegion === 'grindel' && product.ingredients) {
             const ingredientsRow = document.createElement('tr');
+            const colSpan = (currentRegion === 'grindel' && currentSection === 'cooking') ? 3 : 2;
             ingredientsRow.innerHTML = `
-                <td colspan="2" class="ingredients-display">재료: ${product.ingredients}</td>
+                <td colspan="${colSpan}" class="ingredients-display">${formatIngredients(product.ingredients)}</td>
             `;
             tableBody.appendChild(ingredientsRow);
+
+            // 원재료 비용 합계 표시
+            // (요청에 따라 재료 아래 별도 행 표시는 제거되었습니다)
         }
     });
+}
+
+// 재료별 상세 정보 데이터
+const ingredientDetails = {
+    // 그린델 채집 아이템
+    '토마토 베이스': { source: '그린델', recipe: '토마토 8개', cost: '8×7G = 56G' },
+    '양파 베이스': { source: '그린델', recipe: '양파 8개', cost: '8×11G = 88G' },
+    '마늘 베이스': { source: '그린델', recipe: '마늘 8개', cost: '8×7G = 56G' },
+    '코코넛': { source: '그린델', recipe: '코코넛 1개', cost: '1×1G = 1G' },
+    '파인애플': { source: '그린델', recipe: '파인애플 1개', cost: '1×1G = 1G' },
+    
+    // 구매/가공 제품
+    '소금': { source: '그린델 구매', recipe: '소금 1개', cost: '1×2G = 2G' },
+    '요리용 달걀': { source: '그린델 구매', recipe: '요리용 달걀 1개', cost: '1×3G = 3G' },
+    '요리용 우유': { source: '그린델 구매', recipe: '요리용 우유 1개', cost: '1×3G = 3G' },
+    '오일': { source: '그린델 구매', recipe: '오일 1개', cost: '1×4G = 4G' },
+    '치즈 조각': { source: '그린델 가공', recipe: '요리용 우유 8개 + 소금 8개', cost: '8×3G + 8×2G = 40G' },
+    '버터 조각': { source: '그린델 가공', recipe: '요리용 우유 8개 + 소금 4개 + 오일 4개', cost: '8×3G + 4×2G + 4×4G = 48G' },
+    '요리용 소금': { source: '그린델 가공', recipe: '소금 16개', cost: '16×2G = 32G' },
+    
+    // 혼합 제품
+    '밀가루 반죽': { source: '혼합', recipe: '밀 12개 + 요리용 달걀 4개', cost: '바닐라 + 4×3G = 12G' },
+    
+    // 묶음류
+    '호박 묶음': { source: '바닐라 호박', recipe: '호박 64개', cost: '64×2G = 128G' },
+    '당근 묶음': { source: '바닐라 당근', recipe: '당근 64개', cost: '64×1G = 64G' },
+    '비트 묶음': { source: '바닐라 비트', recipe: '비트 64개', cost: '64×3G = 192G' },
+    '수박 묶음': { source: '바닐라 수박', recipe: '수박 64개', cost: '64×2G = 128G' },
+    '달콤한 열매 묶음': { source: '바닐라 달콤한 열매', recipe: '달콤한 열매 64개', cost: '64×1G = 64G' },
+    '감자 묶음': { source: '바닐라 감자', recipe: '감자 64개', cost: '64×1G = 64G' },
+    
+    // 고기류
+    '익힌 돼지고기': { source: '바닐라 돼지고기', recipe: '익히지 않은 돼지고기 1개', cost: '1×2G = 2G' },
+    '익힌 돼지 삼겹살': { source: '바닐라 돼지 삼겹살', recipe: '익히지 않은 돼지 삼겹살 1개', cost: '1×2G = 2G' },
+    '익힌 돼지 앞다리살': { source: '바닐라 돼지 앞다리살', recipe: '익히지 않은 돼지 앞다리살 1개', cost: '1×2G = 2G' },
+    '익힌 닭 가슴살': { source: '바닐라 닭 가슴살', recipe: '익히지 않은 닭 가슴살 1개', cost: '1×2G = 2G' },
+    '익힌 닭 다리살': { source: '바닐라 닭 다리살', recipe: '익히지 않은 닭 다리살 1개', cost: '1×2G = 2G' },
+    '익힌 양고기': { source: '바닐라 양고기', recipe: '익히지 않은 양고기 1개', cost: '1×2G = 2G' },
+    '익힌 양 갈비살': { source: '바닐라 양 갈비살', recipe: '익히지 않은 양 갈비살 1개', cost: '1×2G = 2G' },
+    '익힌 양 다리살': { source: '바닐라 양 다리살', recipe: '익히지 않은 양 다리살 1개', cost: '1×2G = 2G' },
+    '익힌 소 등심': { source: '바닐라 소 등심', recipe: '익히지 않은 소 등심 1개', cost: '1×2G = 2G' },
+    '스테이크': { source: '바닐라 소고기', recipe: '익히지 않은 소고기 1개', cost: '1×2G = 2G' },
+    
+    // 설탕
+    '설탕 큐브': { source: '바닐라 설탕', recipe: '설탕 64개', cost: '바닐라' }
+};
+
+// 요리 재료 문자열을 토큰별로 스타일링하여 HTML로 변환
+function formatIngredients(ingredientsText) {
+    // 분류 기준 세트
+    const grindelGatherables = new Set(['토마토 베이스', '양파 베이스', '마늘 베이스', '코코넛', '파인애플']);
+    const grindelPurchasesAndDerived = new Set(['소금', '요리용 달걀', '요리용 우유', '오일', '치즈 조각', '버터 조각', '요리용 소금']);
+    const mixedProducts = new Set(['밀가루 반죽']); // 밀(바닐라) + 요리용 달걀(구매) 혼합
+    const isBundleOrMeatOrSugar = (name) => name.includes('묶음') || name.startsWith('익힌 ') || name === '스테이크' || name === '설탕 큐브';
+
+    const parts = ingredientsText.split('+').map(p => p.trim());
+    const styledParts = parts.map(part => {
+        // 수량 표기 제거 후 재료명 추출
+        const name = part.replace(/\s*\d+개.*$/, '').trim();
+        
+        let className = 'ing';
+        if (grindelGatherables.has(name)) {
+            className += ' ing-gather';
+        } else if (grindelPurchasesAndDerived.has(name)) {
+            className += ' ing-buy';
+        } else if (mixedProducts.has(name)) {
+            className += ' ing-mixed';
+        } else if (isBundleOrMeatOrSugar(name)) {
+            className += ' ing-extra';
+        }
+        
+        // 툴팁 데이터 속성 추가
+        const detail = ingredientDetails[name];
+        if (detail) {
+            const tooltipText = `${detail.source}\n${detail.recipe}\n${detail.cost}`;
+            return `<span class="${className}" data-tooltip="${tooltipText}">${part}</span>`;
+        }
+        
+        return `<span class="${className}">${part}</span>`;
+    });
+    return `재료: ${styledParts.join(' + ')}`;
+}
+
+// 비용 합계 계산
+function computeTotalIngredientCost(ingredientsText) {
+    let total = 0;
+    let unknownCount = 0;
+    const parts = ingredientsText.split('+').map(p => p.trim());
+    parts.forEach(part => {
+        const name = part.replace(/\s*\d+개.*$/, '').trim();
+        const qtyMatch = part.match(/(\d+)개/);
+        const qty = qtyMatch ? parseInt(qtyMatch[1], 10) : 1;
+        const detail = ingredientDetails[name];
+        if (!detail) { unknownCount++; return; }
+        const costMatch = detail.cost && detail.cost.match(/=\s*([\d,]+)G/);
+        if (costMatch) {
+            const unit = parseInt(costMatch[1].replace(/,/g, ''), 10);
+            total += unit * qty;
+        } else {
+            unknownCount++;
+        }
+    });
+    return { total, unknownCount };
+}
+
+function formatNumber(n) {
+    return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 
 // 검색 함수
@@ -557,8 +685,14 @@ function updateHeader(isSearching = false) {
         enhancement: '필요 재료'
     };
     
+    // 원재료 비용 헤더 토글
+    if (currentRegion === 'grindel' && currentSection === 'cooking' && !isSearching) {
+        if (costHeader) costHeader.style.display = '';
+    } else {
+        if (costHeader) costHeader.style.display = 'none';
+    }
+    
     if (isSearching) {
-        // 검색 중일 때는 "내용"으로 표시
         priceHeader.textContent = '내용';
         itemHeader.textContent = '품목';
     } else if (currentRegion === 'grindel') {

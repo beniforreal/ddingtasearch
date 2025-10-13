@@ -124,6 +124,12 @@ tbody tr:last-child td {
     color: #333;
 }
 
+.price-cost {
+    font-weight: 600;
+    color: #333;
+    width: 180px;
+}
+
 .no-results {
     text-align: center;
     padding: 40px;
@@ -136,6 +142,53 @@ tbody tr:last-child td {
     color: #555;
     padding-left: 30px;
     border-bottom: 1px solid #ccc;
+}
+
+/* 재료 토큰 스타일 */
+.ingredients-display .ing { 
+    color: #555; 
+    cursor: help;
+    position: relative;
+}
+.ingredients-display .ing-buy { color: #cc0000; font-weight: 600; } /* 빨간색: 구매/가공 제품 */
+.ingredients-display .ing-mixed { color: #ffaa00; font-weight: 600; } /* 노란색: 혼합 제품 */
+.ingredients-display .ing-extra { color: #0066cc; font-weight: 600; } /* 파란색: 묶음/고기/설탕큐브 */
+.ingredients-display .ing-gather { color: #00cf91; font-weight: 600; } /* 그린델 채집 아이템 */
+
+/* 툴팁 스타일 */
+.ing[data-tooltip]:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #2c3e50;
+    color: white;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    margin-bottom: 8px;
+    min-width: 200px;
+    max-width: 350px;
+    white-space: pre-line;
+    line-height: 1.6;
+    text-align: left;
+    border: 2px solid #34495e;
+}
+
+.ing[data-tooltip]:hover::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 8px solid transparent;
+    border-top-color: #2c3e50;
+    z-index: 1000;
+    margin-bottom: -8px;
 }
 
 .collection-search-item {
@@ -163,6 +216,15 @@ tbody tr:last-child td {
     font-weight: 600;
 }
 
+.ingredients-cost {
+    font-size: 0.9em;
+    color: #333;
+    padding-left: 30px;
+    padding-top: 6px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #ccc;
+    font-weight: 600;
+}
 
 /* 반응형 디자인 */
 @media (max-width: 768px) {
@@ -193,6 +255,8 @@ tbody tr:last-child td {
     table {
         font-size: 14px;
     }
+
+    .price-cost { width: 120px; }
 }
 
 @media (max-width: 480px) {
