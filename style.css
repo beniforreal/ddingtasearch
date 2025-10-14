@@ -28,6 +28,22 @@ body {
     margin-bottom: 30px;
     display: flex;
     justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.price-timer.fixed {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    margin: 0;
+    margin-bottom: 0;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid #e0e0e0;
+    padding: 10px 0;
 }
 
 .timer-container {

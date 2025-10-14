@@ -436,6 +436,7 @@ let currentSection = 'sell';
 
 // 타이머 관련 변수
 let timerInterval = null;
+let originalTimerPosition = null;
 
 // 요리 가격 변동일 (매월 1, 3, 9, 12, 15, 18, 21, 24, 27, 30일 오전 3시)
 const priceChangeDays = [1, 3, 9, 12, 15, 18, 21, 24, 27, 30];
@@ -521,6 +522,26 @@ function stopTimer() {
     if (timerInterval) {
         clearInterval(timerInterval);
         timerInterval = null;
+    }
+}
+
+// 스크롤 이벤트 핸들러
+function handleScroll() {
+    if (!priceTimer) return;
+    
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    
+    // 원래 위치 저장 (한 번만)
+    if (originalTimerPosition === null) {
+        const rect = priceTimer.getBoundingClientRect();
+        originalTimerPosition = rect.top + scrollTop;
+    }
+    
+    // 스크롤이 원래 위치를 넘어가면 고정, 그렇지 않으면 원래 위치로
+    if (scrollTop > originalTimerPosition) {
+        priceTimer.classList.add('fixed');
+    } else {
+        priceTimer.classList.remove('fixed');
     }
 }
 
@@ -938,4 +959,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // 타이머 시작
     startTimer();
+    
+    // 스크롤 이벤트 리스너 추가
+    window.addEventListener('scroll', handleScroll);
 });
