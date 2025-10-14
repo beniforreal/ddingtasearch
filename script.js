@@ -426,10 +426,103 @@ const itemHeader = document.getElementById('itemHeader');
 const collectionInfo = document.getElementById('collectionInfo');
 const costHeader = document.getElementById('costHeader');
 const cookingLegend = document.getElementById('cookingLegend');
+const cookingInfo = document.getElementById('cookingInfo');
+const priceTimer = document.getElementById('priceTimer');
+const timerDisplay = document.getElementById('timerDisplay');
 
 // 현재 선택된 지역과 섹션
 let currentRegion = 'wild';
 let currentSection = 'sell';
+
+// 타이머 관련 변수
+let timerInterval = null;
+
+// 요리 가격 변동일 (매월 1, 3, 9, 12, 15, 18, 21, 24, 27, 30일 오전 3시)
+const priceChangeDays = [1, 3, 9, 12, 15, 18, 21, 24, 27, 30];
+
+// 다음 가격 변동 시간 계산
+function getNextPriceChangeTime() {
+    const now = new Date();
+    const currentDay = now.getDate();
+    const currentHour = now.getHours();
+    const currentMinute = now.getMinutes();
+    const currentSecond = now.getSeconds();
+    
+    // 현재 시간이 오전 3시 이전인지 확인
+    const isBefore3AM = currentHour < 3;
+    
+    // 오늘 날짜 기준으로 다음 변동일 찾기
+    let nextChangeDay = null;
+    let nextChangeDate = null;
+    
+    // 오늘 오전 3시가 지났는지 확인
+    if (isBefore3AM && priceChangeDays.includes(currentDay)) {
+        // 오늘 오전 3시가 아직 안 지났고, 오늘이 변동일이면 오늘 오전 3시
+        nextChangeDate = new Date(now.getFullYear(), now.getMonth(), currentDay, 3, 0, 0);
+    } else {
+        // 다음 변동일 찾기
+        for (let i = 0; i < priceChangeDays.length; i++) {
+            const changeDay = priceChangeDays[i];
+            if (changeDay > currentDay) {
+                nextChangeDay = changeDay;
+                break;
+            }
+        }
+        
+        // 이번 달에 다음 변동일이 없으면 다음 달 첫 번째 변동일
+        if (nextChangeDay === null) {
+            nextChangeDay = priceChangeDays[0];
+            nextChangeDate = new Date(now.getFullYear(), now.getMonth() + 1, nextChangeDay, 3, 0, 0);
+        } else {
+            nextChangeDate = new Date(now.getFullYear(), now.getMonth(), nextChangeDay, 3, 0, 0);
+        }
+    }
+    
+    return nextChangeDate;
+}
+
+// 타이머 업데이트 함수
+function updateTimer() {
+    const nextChangeTime = getNextPriceChangeTime();
+    const now = new Date();
+    const timeDiff = nextChangeTime.getTime() - now.getTime();
+    
+    if (timeDiff <= 0) {
+        // 시간이 지났으면 다음 변동일로 업데이트
+        const nextChangeTime = getNextPriceChangeTime();
+        const newTimeDiff = nextChangeTime.getTime() - now.getTime();
+        updateTimerDisplay(newTimeDiff);
+    } else {
+        updateTimerDisplay(timeDiff);
+    }
+}
+
+// 타이머 표시 업데이트
+function updateTimerDisplay(timeDiff) {
+    const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+    
+    timerDisplay.textContent = `${days}일 ${hours}시간 ${minutes}분 ${seconds}초`;
+}
+
+// 타이머 시작
+function startTimer() {
+    if (timerInterval) {
+        clearInterval(timerInterval);
+    }
+    updateTimer(); // 즉시 한 번 실행
+    timerInterval = setInterval(updateTimer, 1000);
+}
+
+// 타이머 중지
+function stopTimer() {
+    if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+    }
+}
 
 // 테이블 렌더링 함수
 function renderTable(productsToShow) {
@@ -689,8 +782,10 @@ function updateHeader(isSearching = false) {
     // 요리 범례 표시 토글
     if (currentRegion === 'grindel' && currentSection === 'cooking') {
         if (cookingLegend) cookingLegend.style.display = 'block';
+        if (cookingInfo) cookingInfo.style.display = 'block';
     } else {
         if (cookingLegend) cookingLegend.style.display = 'none';
+        if (cookingInfo) cookingInfo.style.display = 'none';
     }
     
     // 원재료 비용 헤더 토글
@@ -751,6 +846,13 @@ function switchRegion(region) {
     // 검색어 초기화
     searchInput.value = '';
     
+    // 요리 섹션 정보 박스 토글
+    if (region === 'grindel' && currentSection === 'cooking') {
+        if (cookingInfo) cookingInfo.style.display = 'block';
+    } else {
+        if (cookingInfo) cookingInfo.style.display = 'none';
+    }
+    
     // 헤더 업데이트
     updateHeader();
     
@@ -796,6 +898,14 @@ function showCollectionSections() {
 function switchSection(section) {
     currentSection = section;
     updateSectionButtons();
+    
+    // 요리 섹션 정보 박스 토글
+    if (currentRegion === 'grindel' && section === 'cooking') {
+        if (cookingInfo) cookingInfo.style.display = 'block';
+    } else {
+        if (cookingInfo) cookingInfo.style.display = 'none';
+    }
+    
     updateHeader();
     searchInput.value = '';
     renderTable(getCurrentProducts());
@@ -822,4 +932,10 @@ sectionButtons.forEach(button => {
 document.addEventListener('DOMContentLoaded', () => {
     updateHeader();
     renderTable(getCurrentProducts());
+    
+    // 초기 요리 정보 박스 상태 설정
+    if (cookingInfo) cookingInfo.style.display = 'none';
+    
+    // 타이머 시작
+    startTimer();
 });
