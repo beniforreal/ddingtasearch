@@ -18,9 +18,6 @@
                 <span class="timer-text">다음 요리 가격 변동까지:</span>
                 <span id="timerDisplay" class="timer-display">--일 --시간 --분 --초</span>
                 <button id="themeToggle" class="theme-toggle" aria-label="다크 모드 전환" title="다크 모드 전환">🌙</button>
-                <div class="floating-search">
-                    <input type="text" id="floatingSearchInput" placeholder="상품명 검색..." />
-                </div>
             </div>
         </div>
         
@@ -42,9 +39,6 @@
             <button class="section-button" data-section="collectibles">수집품</button>
         </div>
         
-        <div class="search-container">
-            <input type="text" id="searchInput" placeholder="상품명을 입력하세요..." />
-        </div>
         
         <div id="cookingLegend" class="legend" style="display: none;">
             <div class="legend-row">
@@ -79,6 +73,13 @@
         
         <div class="collection-info" id="collectionInfo" style="display: none;">
             <p>컬랙션북 아이템은 <span class="collection-highlight">[파란색]</span>입니다</p>
+        </div>
+    </div>
+    
+    <!-- 푸터 검색 영역 -->
+    <div class="footer-search" id="footerSearch">
+        <div class="footer-search-container">
+            <input type="text" id="floatingSearchInput" placeholder="상품명 검색..." />
         </div>
     </div>
     

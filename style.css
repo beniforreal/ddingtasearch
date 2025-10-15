@@ -76,39 +76,12 @@ body.dark-theme .price-timer.fixed {
     width: 100%;
 }
 
-/* 플로팅 상태에서 검색창 포함 레이아웃 */
+/* 플로팅 상태에서 레이아웃 */
 .price-timer.fixed .timer-container {
     min-width: auto;
     max-width: none;
     width: auto;
     gap: 16px;
-}
-
-.floating-search {
-    display: none;
-    align-items: center;
-    gap: 8px;
-}
-
-.price-timer.fixed .floating-search {
-    display: flex;
-}
-
-.floating-search input {
-    width: 200px;
-    padding: 8px 12px;
-    font-size: 14px;
-    border: 1px solid #90caf9;
-    border-radius: 16px;
-    outline: none;
-    background: white;
-    color: #333;
-}
-
-body.dark-theme .floating-search input {
-    background: #1a1a1a;
-    color: #e5e5e5;
-    border-color: #455a64;
 }
 
 /* 다크 모드 타이머 색상 */
@@ -272,35 +245,7 @@ body.dark-theme .section-button.active {
     color: #fff;
 }
 
-.search-container {
-    margin-bottom: 30px;
-    text-align: center;
-}
 
-/* 플로팅 상태일 때 원래 검색창 숨김 */
-.price-timer.fixed ~ * .search-container {
-    display: none;
-}
-
-#searchInput {
-    width: 100%;
-    max-width: 500px;
-    padding: 15px 20px;
-    font-size: 16px;
-    border: 2px solid #666;
-    border-radius: 25px;
-    outline: none;
-}
-
-body.dark-theme #searchInput {
-    background: #111;
-    color: #e5e5e5;
-    border-color: #555;
-}
-
-#searchInput:focus {
-    border-color: #666;
-}
 
 .table-container {
     background: white;
@@ -377,11 +322,27 @@ body.dark-theme .price-cost { color: #e5e5e5; }
 
 body.dark-theme .no-results { color: #bbb; }
 
+.ingredients-row {
+    display: table-row; /* 기본적으로 표시 */
+    background-color: #f9f9f9;
+}
+
+body.dark-theme .ingredients-row {
+    background-color: #2a2a2a;
+}
+
 .ingredients-display {
     font-size: 0.9em;
     color: #555;
     padding-left: 30px;
+    padding-top: 8px;
+    padding-bottom: 8px;
     border-bottom: 1px solid #ccc;
+}
+
+body.dark-theme .ingredients-display {
+    color: #bbb;
+    border-bottom: 1px solid #333;
 }
 
 /* 접기/펼치기 아이콘 및 상태 */
@@ -390,8 +351,13 @@ tr.collapsible td:first-child { cursor: pointer; }
     display: inline-block;
     margin-right: 8px;
     transition: transform 0.2s ease;
+    color: #333;
 }
 .row-toggle.expanded { transform: rotate(90deg); }
+
+body.dark-theme .row-toggle {
+    color: #e5e5e5;
+}
 
 .ingredients-row.collapsed {
     display: none;
@@ -629,6 +595,57 @@ body.dark-theme .theme-toggle {
     color: #e5e5e5;
 }
 
+/* 푸터 검색 영역 */
+.footer-search {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    padding: 15px 20px;
+    z-index: 1000;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+}
+
+body.dark-theme .footer-search {
+    background: #1e1e1e;
+    border-top-color: #444;
+}
+
+.footer-search-container {
+    min-width: 700px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+}
+
+.footer-search input {
+    width: 100%;
+    max-width: 660px;
+    padding: 12px 20px;
+    font-size: 16px;
+    border: 1px solid #666;
+    border-radius: 25px;
+    outline: none;
+    background: white;
+    color: #333;
+}
+
+body.dark-theme .footer-search input {
+    background: #2a2a2a;
+    color: #e5e5e5;
+    border-color: #555;
+}
+
+.footer-search input:focus {
+    border-color: #666;
+}
+
+/* 푸터 검색창이 있을 때 body에 하단 여백 추가 */
+body {
+    padding-bottom: 80px;
+}
+
 @media (max-width: 480px) {
     th, td {
         padding: 10px 12px;
@@ -637,5 +654,18 @@ body.dark-theme .theme-toggle {
     
     .container {
         padding: 10px;
+    }
+    
+    .footer-search {
+        padding: 12px 15px;
+    }
+    
+    .footer-search input {
+        font-size: 14px;
+        padding: 10px 16px;
+    }
+    
+    body {
+        padding-bottom: 70px;
     }
 }
