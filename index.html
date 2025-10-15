@@ -1,88 +1,169 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>상품 가격 검색</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="container">
-        <div class="header-image">
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <!-- <div class="left-panel">
+        <div class="left-inner">
+          <div class="left-brand">
+            <div class="brand-title">wello!</div>
+            <div class="brand-sub">내게 맞는 정책을 찾아보세요</div>
+          </div>
+        </div>
+      </div> -->
+      <div class="right-panel">
+        <div class="container">
+          <div class="header-image">
             <img src="img/header.png" alt="띵타이쿤 온라인 재료 검색기" />
-        </div>
-        
-        <div id="priceTimer" class="price-timer">
+          </div>
+
+          <div id="priceTimer" class="price-timer">
             <div class="timer-container">
-                <span class="timer-icon">⏰</span>
-                <span class="timer-text">다음 요리 가격 변동까지:</span>
-                <span id="timerDisplay" class="timer-display">--일 --시간 --분 --초</span>
-                <button id="themeToggle" class="theme-toggle" aria-label="다크 모드 전환" title="다크 모드 전환">🌙</button>
+              <span class="timer-icon">⏰</span>
+              <span class="timer-text">다음 요리 가격 변동까지:</span>
+              <span id="timerDisplay" class="timer-display timer-left"
+                >--일 --시간 --분 --초</span
+              >
+              <label class="switch timer-switch" for="themeSwitch">
+                <input type="checkbox" id="themeSwitch" />
+                <div class="sunmoon">
+                  <div class="darkside"></div>
+                </div>
+                <div class="border"></div>
+                <div class="clouds">
+                  <img src="img/cloud_1.svg" alt="" class="cloud cloud-1" />
+                  <img src="img/cloud_2.svg" alt="" class="cloud cloud-2" />
+                  <img src="img/cloud_3.svg" alt="" class="cloud cloud-3" />
+                  <img src="img/cloud_4.svg" alt="" class="cloud cloud-4" />
+                  <img src="img/stars.svg" alt="" class="stars" />
+                </div>
+              </label>
             </div>
-        </div>
-        
-        <div class="region-tabs">
+          </div>
+
+          <div class="region-tabs">
             <button class="tab-button active" data-region="wild">야생</button>
-            <button class="tab-button" data-region="grindel">그린델</button>
-            <button class="tab-button" data-region="collection">컬랙션북</button>
-        </div>
-        
-        <div class="section-tabs" id="sectionTabs" style="display: none;">
-            <button class="section-button active" data-section="sell">판매</button>
+            <button class="tab-button" data-region="grindel">세레니티</button>
+            <button class="tab-button" data-region="collection">
+              컬랙션북
+            </button>
+          </div>
+
+          <div class="section-tabs" id="sectionTabs" style="display: none">
+            <button class="section-button active" data-section="sell">
+              판매
+            </button>
             <button class="section-button" data-section="buy">구매</button>
             <button class="section-button" data-section="process">가공</button>
             <button class="section-button" data-section="cooking">요리</button>
-            <button class="section-button" data-section="enhancement">강화</button>
+            <button class="section-button" data-section="enhancement">
+              강화
+            </button>
             <button class="section-button" data-section="blocks">블록</button>
             <button class="section-button" data-section="nature">자연</button>
             <button class="section-button" data-section="loot">전리품</button>
-            <button class="section-button" data-section="collectibles">수집품</button>
-        </div>
-        
-        
-        <div id="cookingLegend" class="legend" style="display: none;">
+            <button class="section-button" data-section="collectibles">
+              수집품
+            </button>
+          </div>
+
+          <div id="cookingLegend" class="legend" style="display: none">
             <div class="legend-row">
-                <span class="legend-item"><span class="legend-dot green"></span>녹색 그린델 채집</span>
-                <span class="legend-item"><span class="legend-dot red"></span>빨간색 그린델 구매·가공</span>
-                <span class="legend-item"><span class="legend-dot blue"></span>파란색 바닐라 가공</span>
-                <span class="legend-item"><span class="legend-dot yellow"></span>노란색 바닐라+그린델</span>
+              <span class="legend-item"
+                ><span class="legend-dot green"></span>녹색 그린델 채집</span
+              >
+              <span class="legend-item"
+                ><span class="legend-dot red"></span>빨간색 그린델
+                구매·가공</span
+              >
+              <span class="legend-item"
+                ><span class="legend-dot blue"></span>파란색 바닐라 가공</span
+              >
+              <span class="legend-item"
+                ><span class="legend-dot yellow"></span>노란색
+                바닐라+그린델</span
+              >
             </div>
-        </div>
-        
-        <!-- <div id="cookingInfo" class="cooking-info" style="display: none;">
-            <div class="info-box">
-                <span class="info-icon">💡</span>
-                <span class="info-text">요리 가격은 1, 3, 9, 12, 15, 18, 21, 24, 27, 30일 오전 3시에 변동돼요.</span>
-            </div>
-        </div> -->
-        
-        <div class="table-container">
+          </div>
+
+          <div class="table-container">
             <table id="productTable">
-                <thead>
-                    <tr>
-                        <th id="itemHeader"><button id="toggleAllIcon" class="toggle-all-icon" title="전체 열기/닫기" aria-label="전체 열기/닫기" style="display: none;"><span class="row-toggle" aria-hidden="true">▶</span></button><span id="itemHeaderText">품목</span></th>
-                        <th id="priceHeader">판매 가격</th>
-                        <th id="costHeader" style="display: none;">원재료 비용</th>
-                    </tr>
-                </thead>
-                <tbody id="tableBody">
-                    <!-- 상품 데이터가 여기에 동적으로 추가됩니다 -->
-                </tbody>
+              <thead>
+                <tr>
+                  <th id="itemHeader">
+                    <button
+                      id="toggleAllIcon"
+                      class="toggle-all-icon"
+                      title="전체 열기/닫기"
+                      aria-label="전체 열기/닫기"
+                      style="display: none"
+                    >
+                      <span class="row-toggle" aria-hidden="true"
+                        >▶</span
+                      ></button
+                    ><span id="itemHeaderText">품목</span>
+                  </th>
+                  <th id="priceHeader">판매 가격</th>
+                  <th id="costHeader" style="display: none">원재료 비용</th>
+                </tr>
+              </thead>
+              <tbody id="tableBody">
+                <!-- 상품 데이터가 여기에 동적으로 추가됩니다 -->
+              </tbody>
             </table>
+          </div>
+
+          <div
+            class="collection-info"
+            id="collectionInfo"
+            style="display: none"
+          >
+            <p>
+              컬랙션북 아이템은
+              <span class="collection-highlight">[파란색]</span>입니다
+            </p>
+          </div>
         </div>
-        
-        <div class="collection-info" id="collectionInfo" style="display: none;">
-            <p>컬랙션북 아이템은 <span class="collection-highlight">[파란색]</span>입니다</p>
+        <div class="footer-search" id="footerSearch">
+          <div class="footer-search-container">
+            <input
+              type="text"
+              id="floatingSearchInput"
+              placeholder="상품명 검색..."
+            />
+            <button
+              id="calculatorBtn"
+              class="calculator-btn"
+              title="수익 계산기"
+            >
+              <img
+                src="img/icons8-calculator.svg"
+                alt="계산기"
+                class="calculator-icon"
+              />
+            </button>
+          </div>
         </div>
+
+        <!-- 계산기 모달 -->
+        <div id="calculatorModal" class="calculator-modal">
+          <div class="calculator-content">
+            <div class="calculator-header">
+              <h3>요리 수익 계산기</h3>
+              <button id="closeCalculator" class="close-btn">×</button>
+            </div>
+            <div class="calculator-body" id="calculatorBody">
+              <!-- 계산기 내용이 여기에 동적으로 추가됩니다 -->
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    
-    <!-- 푸터 검색 영역 -->
-    <div class="footer-search" id="footerSearch">
-        <div class="footer-search-container">
-            <input type="text" id="floatingSearchInput" placeholder="상품명 검색..." />
-        </div>
-    </div>
-    
     <script src="script.js"></script>
-</body>
+  </body>
 </html>
