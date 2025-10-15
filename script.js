@@ -417,18 +417,22 @@ const regionData = {
 
 // DOM 요소들
 const searchInput = document.getElementById('searchInput');
+const floatingSearchInput = document.getElementById('floatingSearchInput');
 const tableBody = document.getElementById('tableBody');
 const tabButtons = document.querySelectorAll('.tab-button');
 const sectionTabs = document.getElementById('sectionTabs');
 const sectionButtons = document.querySelectorAll('.section-button');
 const priceHeader = document.getElementById('priceHeader');
 const itemHeader = document.getElementById('itemHeader');
+const itemHeaderText = document.getElementById('itemHeaderText');
 const collectionInfo = document.getElementById('collectionInfo');
 const costHeader = document.getElementById('costHeader');
 const cookingLegend = document.getElementById('cookingLegend');
 const cookingInfo = document.getElementById('cookingInfo');
 const priceTimer = document.getElementById('priceTimer');
 const timerDisplay = document.getElementById('timerDisplay');
+const themeToggle = document.getElementById('themeToggle');
+const toggleAllIcon = document.getElementById('toggleAllIcon');
 
 // 현재 선택된 지역과 섹션
 let currentRegion = 'wild';
@@ -572,8 +576,12 @@ function renderTable(productsToShow) {
         }
         
         if (currentRegion === 'grindel' && currentSection === 'cooking') {
+            const toggleIcon = product.ingredients ? '<span class="row-toggle expanded" aria-hidden="true">▶</span>' : '';
+            if (product.ingredients) {
+                row.classList.add('collapsible');
+            }
             row.innerHTML = `
-                <td>${product.name}</td>
+                <td>${toggleIcon}${product.name}</td>
                 <td class="price">${priceDisplay}</td>
                 ${costCellHtml}
             `;
@@ -595,6 +603,10 @@ function renderTable(productsToShow) {
         if (currentRegion === 'grindel' && product.ingredients) {
             const ingredientsRow = document.createElement('tr');
             const colSpan = (currentRegion === 'grindel' && currentSection === 'cooking') ? 3 : 2;
+            ingredientsRow.classList.add('ingredients-row');
+            if (currentSection === 'cooking') {
+                ingredientsRow.classList.add('collapsed');
+            }
             ingredientsRow.innerHTML = `
                 <td colspan="${colSpan}" class="ingredients-display">${formatIngredients(product.ingredients)}</td>
             `;
@@ -715,7 +727,7 @@ function formatNumber(n) {
 
 // 검색 함수
 function searchProducts() {
-    const searchTerm = searchInput.value.toLowerCase().trim();
+    const searchTerm = (searchInput.value || floatingSearchInput.value || '').toLowerCase().trim();
     
     if (searchTerm === '') {
         updateHeader(false); // 검색이 아닐 때
@@ -809,31 +821,33 @@ function updateHeader(isSearching = false) {
         if (cookingInfo) cookingInfo.style.display = 'none';
     }
     
-    // 원재료 비용 헤더 토글
+    // 원재료 비용 헤더 토글 + 헤더 토글 아이콘 표시
     if (currentRegion === 'grindel' && currentSection === 'cooking' && !isSearching) {
         if (costHeader) costHeader.style.display = '';
+        if (toggleAllIcon) toggleAllIcon.style.display = '';
     } else {
         if (costHeader) costHeader.style.display = 'none';
+        if (toggleAllIcon) toggleAllIcon.style.display = 'none';
     }
     
     if (isSearching) {
         priceHeader.textContent = '내용';
-        itemHeader.textContent = '품목';
+        if (itemHeaderText) itemHeaderText.textContent = '품목';
     } else if (currentRegion === 'grindel') {
         priceHeader.textContent = headers[currentSection] || '가격';
         if (currentSection === 'cooking') {
-            itemHeader.textContent = '요리명';
+            if (itemHeaderText) itemHeaderText.textContent = '요리명';
         } else if (currentSection === 'enhancement') {
-            itemHeader.textContent = '강화 단계';
+            if (itemHeaderText) itemHeaderText.textContent = '강화 단계';
         } else {
-            itemHeader.textContent = '품목';
+            if (itemHeaderText) itemHeaderText.textContent = '품목';
         }
     } else if (currentRegion === 'collection') {
         priceHeader.textContent = '달성 개수';
-        itemHeader.textContent = '종류';
+        if (itemHeaderText) itemHeaderText.textContent = '종류';
     } else {
         priceHeader.textContent = '판매 가격';
-        itemHeader.textContent = '품목';
+        if (itemHeaderText) itemHeaderText.textContent = '품목';
     }
 }
 
@@ -866,6 +880,7 @@ function switchRegion(region) {
     
     // 검색어 초기화
     searchInput.value = '';
+    floatingSearchInput.value = '';
     
     // 요리 섹션 정보 박스 토글
     if (region === 'grindel' && currentSection === 'cooking') {
@@ -929,11 +944,13 @@ function switchSection(section) {
     
     updateHeader();
     searchInput.value = '';
+    floatingSearchInput.value = '';
     renderTable(getCurrentProducts());
 }
 
 // 이벤트 리스너
 searchInput.addEventListener('input', searchProducts);
+floatingSearchInput.addEventListener('input', searchProducts);
 
 // 탭 버튼 이벤트 리스너
 tabButtons.forEach(button => {
@@ -962,4 +979,117 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // 스크롤 이벤트 리스너 추가
     window.addEventListener('scroll', handleScroll);
+
+    // 다크 모드 초기화 및 이벤트 바인딩
+    initTheme();
+    if (themeToggle) {
+        themeToggle.addEventListener('click', toggleTheme);
+    }
+
+    // 전체 열기/닫기 아이콘 이벤트
+    if (toggleAllIcon) {
+        toggleAllIcon.addEventListener('click', toggleAllIngredients);
+    }
+
+    // 요리 탭 재료 접기/펼치기 위임 클릭 핸들러
+    tableBody.addEventListener('click', (e) => {
+        if (currentRegion !== 'grindel' || currentSection !== 'cooking') return;
+        // tr.collapsible 또는 그 내부 클릭 시 처리
+        let targetRow = e.target.closest('tr');
+        if (!targetRow || !targetRow.classList.contains('collapsible')) return;
+        const nextRow = targetRow.nextElementSibling;
+        if (!nextRow || !nextRow.classList.contains('ingredients-row')) return;
+        nextRow.classList.toggle('collapsed');
+        // 토글 아이콘 회전
+        const icon = targetRow.querySelector('.row-toggle');
+        if (icon) icon.classList.toggle('expanded');
+        // 전체 버튼 상태 업데이트
+        updateToggleAllButton();
+    });
 });
+
+// 테마 적용/토글 로직
+function initTheme() {
+    try {
+        const saved = localStorage.getItem('theme');
+        if (saved === 'dark') {
+            document.body.classList.add('dark-theme');
+            updateThemeToggleIcon();
+        } else {
+            document.body.classList.remove('dark-theme');
+            updateThemeToggleIcon();
+        }
+    } catch (_) {
+        // localStorage 접근 실패 시 무시
+    }
+}
+
+function toggleTheme() {
+    document.body.classList.toggle('dark-theme');
+    const isDark = document.body.classList.contains('dark-theme');
+    try {
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    } catch (_) { /* ignore */ }
+    updateThemeToggleIcon();
+}
+
+function updateThemeToggleIcon() {
+    if (!themeToggle) return;
+    const isDark = document.body.classList.contains('dark-theme');
+    themeToggle.textContent = isDark ? '☀️' : '🌙';
+    themeToggle.setAttribute('aria-label', isDark ? '라이트 모드 전환' : '다크 모드 전환');
+    themeToggle.setAttribute('title', isDark ? '라이트 모드 전환' : '다크 모드 전환');
+}
+
+// 전체 재료 열기/닫기 함수
+function toggleAllIngredients() {
+    if (currentRegion !== 'grindel' || currentSection !== 'cooking') return;
+    
+    const ingredientsRows = document.querySelectorAll('.ingredients-row');
+    const collapsibleRows = document.querySelectorAll('.collapsible');
+    
+    if (ingredientsRows.length === 0) return;
+    
+    // 모든 재료 행이 접혀있는지 확인
+    const allCollapsed = Array.from(ingredientsRows).every(row => row.classList.contains('collapsed'));
+    
+    // 모든 재료 행 토글
+    ingredientsRows.forEach(row => {
+        if (allCollapsed) {
+            row.classList.remove('collapsed');
+        } else {
+            row.classList.add('collapsed');
+        }
+    });
+    
+    // 모든 토글 아이콘 상태 업데이트
+    collapsibleRows.forEach(row => {
+        const icon = row.querySelector('.row-toggle');
+        if (icon) {
+            if (allCollapsed) {
+                icon.classList.add('expanded');
+            } else {
+                icon.classList.remove('expanded');
+            }
+        }
+    });
+    
+    // 버튼 텍스트 업데이트
+    updateToggleAllButton();
+}
+
+// 전체 토글 버튼 상태 업데이트
+function updateToggleAllButton() {
+    if (!toggleAllIcon || currentRegion !== 'grindel' || currentSection !== 'cooking') return;
+    const ingredientsRows = document.querySelectorAll('.ingredients-row');
+    if (ingredientsRows.length === 0) return;
+    const allCollapsed = Array.from(ingredientsRows).every(row => row.classList.contains('collapsed'));
+    const icon = toggleAllIcon.querySelector('.row-toggle');
+    if (icon) {
+        if (allCollapsed) {
+            icon.classList.remove('expanded');
+        } else {
+            icon.classList.add('expanded');
+        }
+    }
+}

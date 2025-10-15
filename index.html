@@ -17,6 +17,10 @@
                 <span class="timer-icon">⏰</span>
                 <span class="timer-text">다음 요리 가격 변동까지:</span>
                 <span id="timerDisplay" class="timer-display">--일 --시간 --분 --초</span>
+                <button id="themeToggle" class="theme-toggle" aria-label="다크 모드 전환" title="다크 모드 전환">🌙</button>
+                <div class="floating-search">
+                    <input type="text" id="floatingSearchInput" placeholder="상품명 검색..." />
+                </div>
             </div>
         </div>
         
@@ -62,7 +66,7 @@
             <table id="productTable">
                 <thead>
                     <tr>
-                        <th id="itemHeader">품목</th>
+                        <th id="itemHeader"><button id="toggleAllIcon" class="toggle-all-icon" title="전체 열기/닫기" aria-label="전체 열기/닫기" style="display: none;"><span class="row-toggle" aria-hidden="true">▶</span></button><span id="itemHeaderText">품목</span></th>
                         <th id="priceHeader">판매 가격</th>
                         <th id="costHeader" style="display: none;">원재료 비용</th>
                     </tr>
