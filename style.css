@@ -78,7 +78,7 @@ body.dark-theme .price-timer.fixed {
 
 /* 플로팅 상태에서 레이아웃 */
 .price-timer.fixed .timer-container {
-    min-width: auto;
+    min-width: 660px;
     max-width: none;
     width: auto;
     gap: 16px;
