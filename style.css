@@ -643,7 +643,7 @@ body.dark-theme .footer-search input {
 
 /* 푸터 검색창이 있을 때 body에 하단 여백 추가 */
 body {
-    padding-bottom: 80px;
+    padding-bottom: 120px;
 }
 
 @media (max-width: 480px) {
@@ -666,6 +666,6 @@ body {
     }
     
     body {
-        padding-bottom: 70px;
+        padding-bottom: 100px;
     }
 }
