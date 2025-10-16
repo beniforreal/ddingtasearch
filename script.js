@@ -36,6 +36,191 @@ let originalTimerPosition = null;
 // 요리 가격 변동일 (매월 1, 3, 9, 12, 15, 18, 21, 24, 27, 30일 오전 3시)
 const priceChangeDays = [1, 3, 9, 12, 15, 18, 21, 24, 27, 30];
 
+// 쿠키 관련 유틸리티 함수들
+function setCookie(name, value, days = 365) {
+  const expires = new Date();
+  expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
+  document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
+}
+
+function getCookie(name) {
+  const nameEQ = name + "=";
+  const ca = document.cookie.split(";");
+  for (let i = 0; i < ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) === " ") c = c.substring(1, c.length);
+    if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+  }
+  return null;
+}
+
+// ===== 요리 가격 저장소 (쿠키) =====
+let cookingPriceStore = {};
+
+function loadCookingPrices() {
+  try {
+    const raw = getCookie("cookingPrices");
+    cookingPriceStore = raw ? JSON.parse(raw) : {};
+  } catch (_) {
+    cookingPriceStore = {};
+  }
+}
+
+function saveCookingPrices() {
+  try {
+    setCookie("cookingPrices", JSON.stringify(cookingPriceStore));
+  } catch (_) {
+    /* ignore */
+  }
+}
+
+function setCookingPrice(itemName, price) {
+  if (!itemName) return;
+  if (price === "" || price === null || isNaN(Number(price))) {
+    delete cookingPriceStore[itemName];
+  } else {
+    cookingPriceStore[itemName] = Number(price);
+  }
+  saveCookingPrices();
+}
+
+function clearCookingPrices() {
+  cookingPriceStore = {};
+  saveCookingPrices();
+}
+
+// 컬렉션북 체크 상태 관리
+let collectionCheckedItems = new Set();
+
+// 컬렉션북 체크 상태 로드
+function loadCollectionCheckedItems() {
+  try {
+    const saved = getCookie("collectionChecked");
+    if (saved) {
+      const items = JSON.parse(saved);
+      collectionCheckedItems = new Set(items);
+    }
+  } catch (_) {
+    // 쿠키 접근 실패 시 무시
+  }
+}
+
+// 컬렉션북 체크 상태 저장
+function saveCollectionCheckedItems() {
+  try {
+    const items = Array.from(collectionCheckedItems);
+    setCookie("collectionChecked", JSON.stringify(items));
+  } catch (_) {
+    // 쿠키 저장 실패 시 무시
+  }
+}
+
+// 컬렉션북 아이템 체크 토글
+function toggleCollectionItem(itemName) {
+  if (collectionCheckedItems.has(itemName)) {
+    collectionCheckedItems.delete(itemName);
+  } else {
+    collectionCheckedItems.add(itemName);
+  }
+  saveCollectionCheckedItems();
+  // 현재 표시된 테이블 다시 렌더링
+  if (floatingSearchInput.value.trim() !== "") {
+    searchProducts();
+  } else {
+    renderTable(getCurrentProducts());
+  }
+  // 컬렉션북 진행률 업데이트
+  if (currentRegion === "collection") {
+    updateCollectionProgress();
+  }
+}
+
+// 컬렉션북 진행률 계산 및 표시
+function updateCollectionProgress() {
+  if (currentRegion !== "collection") return;
+
+  const currentItems = regionData.collection[currentSection] || [];
+  const totalItems = currentItems.length;
+  const checkedItems = currentItems.filter((item) =>
+    collectionCheckedItems.has(item.name)
+  ).length;
+  const remainingItems = totalItems - checkedItems;
+
+  // 진행률 퍼센트 계산
+  const progressPercent =
+    totalItems > 0 ? Math.round((checkedItems / totalItems) * 100) : 0;
+
+  // 진행률 UI 생성 또는 업데이트
+  let progressElement = document.getElementById("collectionProgress");
+  if (!progressElement) {
+    progressElement = document.createElement("div");
+    progressElement.id = "collectionProgress";
+    progressElement.className = "collection-progress";
+
+    // 섹션 탭 다음에 삽입
+    const sectionTabs = document.getElementById("sectionTabs");
+    if (sectionTabs && sectionTabs.nextSibling) {
+      sectionTabs.parentNode.insertBefore(
+        progressElement,
+        sectionTabs.nextSibling
+      );
+    } else if (sectionTabs) {
+      sectionTabs.parentNode.appendChild(progressElement);
+    }
+  }
+
+  // 섹션명 한글 변환
+  const sectionNames = {
+    blocks: "블록",
+    nature: "자연",
+    loot: "전리품",
+    collectibles: "수집품",
+  };
+
+  const sectionName = sectionNames[currentSection] || currentSection;
+
+  // 100% 완료 시 골드 애니메이션 클래스 추가
+  const completedClass = progressPercent === 100 ? " completed" : "";
+
+  progressElement.innerHTML = `
+    <div class="progress-container">
+      <div class="progress-header">
+        <span class="progress-title">${sectionName} 컬렉션 진행률</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill${completedClass}" style="width: ${progressPercent}%">
+
+        </div>
+        <div class="progress-badge">${progressPercent}%</div>
+      </div>
+      <div class="progress-stats">
+        <span class="percentage">
+          <span class="number">${progressPercent}%</span>
+          완료율
+        </span>
+        <span class="completed">
+          <span class="number">${checkedItems}</span>
+          완료
+        </span>
+        <span class="remaining">
+          <span class="number">${remainingItems}</span>
+          남음
+        </span>
+      </div>
+    </div>
+  `;
+
+  progressElement.style.display = "block";
+}
+
+// 컬렉션북 진행률 숨기기
+function hideCollectionProgress() {
+  const progressElement = document.getElementById("collectionProgress");
+  if (progressElement) {
+    progressElement.style.display = "none";
+  }
+}
+
 // 다음 가격 변동 시간 계산
 function getNextPriceChangeTime() {
   const now = new Date();
@@ -123,7 +308,16 @@ function updateTimerDisplay(timeDiff) {
   const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
   const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
 
+  const prev = timerDisplay.textContent;
   timerDisplay.textContent = `${days}일 ${hours}시간 ${minutes}분 ${seconds}초`;
+
+  // 타이머가 0으로 리셋되는 순간 감지 -> 저장된 요리 가격 초기화
+  if (prev && prev !== timerDisplay.textContent) {
+    const reachedZero = /^0일 0시간 0분 0초$/.test(prev);
+    if (reachedZero) {
+      clearCookingPrices();
+    }
+  }
 }
 
 // 타이머 시작
@@ -242,15 +436,32 @@ function renderTable(productsToShow) {
                 ${costCellHtml}
             `;
     } else {
+      // 컬렉션북 아이템인지 확인하고 체크박스 추가
+      let itemNameHtml = product.name;
+      if (product.isCollection) {
+        const isChecked = collectionCheckedItems.has(product.name);
+        itemNameHtml = `
+          <div class="collection-item-container">
+            <input type="checkbox" class="collection-checkbox" ${
+              isChecked ? "checked" : ""
+            } 
+                   onchange="toggleCollectionItem('${product.name}')" />
+            <span class="collection-item-name ${isChecked ? "checked" : ""}">${
+          product.name
+        }</span>
+          </div>
+        `;
+      }
+
       row.innerHTML = `
-                <td>${product.name}</td>
+                <td>${itemNameHtml}</td>
                 <td class="price">${priceDisplay}</td>
             `;
     }
 
-    // 검색 중이고 컬랙션북 아이템일 경우 파란색 스타일 적용
-    if (floatingSearchInput.value.trim() !== "" && product.isCollection) {
-      row.classList.add("collection-search-item");
+    // 체크된 컬렉션 아이템에 전체 행 스타일 적용
+    if (product.isCollection && collectionCheckedItems.has(product.name)) {
+      row.classList.add("collection-checked-row");
     }
 
     tableBody.appendChild(row);
@@ -516,7 +727,11 @@ function getCurrentProducts() {
   } else if (currentRegion === "grindel") {
     return regionData.grindel[currentSection];
   } else if (currentRegion === "collection") {
-    return regionData.collection[currentSection];
+    // 컬렉션북 아이템에 isCollection 속성 추가
+    return regionData.collection[currentSection].map((item) => ({
+      ...item,
+      isCollection: true,
+    }));
   }
   return [];
 }
@@ -538,6 +753,13 @@ function updateHeader(isSearching = false) {
   } else {
     if (cookingLegend) cookingLegend.style.display = "none";
     if (cookingInfo) cookingInfo.style.display = "none";
+  }
+
+  // 컬렉션북 진행률 표시 토글
+  if (currentRegion === "collection") {
+    updateCollectionProgress();
+  } else {
+    hideCollectionProgress();
   }
 
   // 원재료 비용 헤더 토글 + 헤더 토글 아이콘 표시
@@ -690,6 +912,9 @@ function initializeApp() {
   // 브라우저 감지 및 테마 적용
   detectBrowserAndApplyTheme();
 
+  // 컬렉션북 체크 상태 로드
+  loadCollectionCheckedItems();
+
   updateHeader();
   renderTable(getCurrentProducts());
 
@@ -758,7 +983,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // 테마 적용/토글 로직
 function initTheme() {
   try {
-    const saved = localStorage.getItem("theme");
+    const saved = getCookie("theme");
     if (saved === "dark") {
       document.body.classList.add("dark-theme");
       updateThemeToggleIcon();
@@ -767,7 +992,7 @@ function initTheme() {
       updateThemeToggleIcon();
     }
   } catch (_) {
-    // localStorage 접근 실패 시 무시
+    // 쿠키 접근 실패 시 무시
   }
 }
 
@@ -775,7 +1000,7 @@ function toggleTheme() {
   document.body.classList.toggle("dark-theme");
   const isDark = document.body.classList.contains("dark-theme");
   try {
-    localStorage.setItem("theme", isDark ? "dark" : "light");
+    setCookie("theme", isDark ? "dark" : "light");
   } catch (_) {
     /* ignore */
   }
@@ -873,11 +1098,18 @@ function renderCalculator() {
   const cookingItems = regionData.grindel.cooking;
   calculatorBody.innerHTML = "";
 
-  // 요리 선택 버튼들
+  // 가격 저장소 UI + 요리 선택 버튼들
   const selectDiv = document.createElement("div");
   selectDiv.className = "cooking-selector";
   selectDiv.innerHTML = `
     <div class="cooking-buttons-container">
+      <div class="price-vault" id="priceVault">
+        <div class="vault-header">
+          <span class="vault-title">가격 저장소</span>
+          <button class="vault-clear" id="clearVaultBtn" title="저장된 가격 모두 삭제">초기화</button>
+        </div>
+        <div class="vault-inputs" id="vaultInputs"></div>
+      </div>
       <label class="selector-label">요리 선택</label>
       <div class="cooking-buttons" id="cookingButtons">
         ${cookingItems
@@ -892,6 +1124,44 @@ function renderCalculator() {
     </div>
   `;
   calculatorBody.appendChild(selectDiv);
+
+  // 가격 저장소 인풋 생성
+  loadCookingPrices();
+  const vaultInputs = selectDiv.querySelector("#vaultInputs");
+  if (vaultInputs) {
+    vaultInputs.innerHTML = cookingItems
+      .map((item) => {
+        const saved = cookingPriceStore[item.name] ?? "";
+        return `
+          <div class="vault-card">
+            <div class="vault-name">${item.name}</div>
+            <input type="number" class="vault-price" data-name="${item.name}" placeholder="현재 가격(G)" min="0" value="${saved}" />
+          </div>
+        `;
+      })
+      .join("");
+
+    // 입력 변경 -> 쿠키 저장
+    vaultInputs.addEventListener("input", (e) => {
+      const target = e.target;
+      if (!(target instanceof HTMLInputElement)) return;
+      if (!target.classList.contains("vault-price")) return;
+      const name = target.getAttribute("data-name");
+      setCookingPrice(name, target.value);
+    });
+  }
+
+  // 저장소 초기화 버튼
+  const clearBtn = selectDiv.querySelector("#clearVaultBtn");
+  if (clearBtn) {
+    clearBtn.addEventListener("click", () => {
+      clearCookingPrices();
+      // 입력값 비우기
+      selectDiv.querySelectorAll(".vault-price").forEach((inp) => {
+        inp.value = "";
+      });
+    });
+  }
 
   // 계산 영역 (초기에는 숨김)
   const calculationDiv = document.createElement("div");
@@ -984,7 +1254,7 @@ function showCalculationArea(index, item) {
     </div>
   `;
 
-  // 입력 필드
+  // 입력 필드 (가격 저장소 자동 반영)
   calculationInputs.innerHTML = `
     <div class="input-row">
       <div class="input-group">
@@ -1013,6 +1283,13 @@ function showCalculationArea(index, item) {
   // 이벤트 리스너 추가
   const currentPriceInput = document.getElementById("currentPrice");
   const quantityInput = document.getElementById("quantity");
+
+  // 저장된 가격 자동 반영
+  loadCookingPrices();
+  const savedPrice = cookingPriceStore[item.name];
+  if (typeof savedPrice === "number" && !isNaN(savedPrice)) {
+    currentPriceInput.value = String(savedPrice);
+  }
 
   [currentPriceInput, quantityInput].forEach((input) => {
     input.addEventListener("input", () => {

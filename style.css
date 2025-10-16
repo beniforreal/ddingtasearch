@@ -20,7 +20,7 @@ body {
 }
 
 .left-panel {
-  background: #faf7f2;
+  background: #ffffff;
   border-right: 1px solid #eee;
   display: block;
 }
@@ -33,14 +33,12 @@ body.dark-theme .left-panel {
 .left-inner {
   position: sticky;
   top: 0;
-  padding: 40px 28px;
+  padding: 20px;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
-.left-brand {
-  margin-top: 120px;
-}
+
 .brand-title {
   font-size: 44px;
   font-weight: 900;
@@ -788,14 +786,7 @@ body.dark-theme .ing[data-tooltip]:hover::before {
   border-top-color: #111;
 }
 
-.collection-search-item {
-  background-color: #e6f3ff !important;
-}
-
-.collection-search-item td {
-  color: #0066cc !important;
-  font-weight: 500;
-}
+/* 검색 시 컬렉션북 파란색 스타일 제거됨 */
 
 .collection-info {
   text-align: center;
@@ -1091,8 +1082,7 @@ body.dark-theme .stars {
   flex-direction: column;
   min-height: 100vh;
   max-width: 700px;
-  border-left: 1px solid #eee;
-  border-right: 1px solid #eee;
+  box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);
 }
 
 .footer-search {
@@ -1413,7 +1403,6 @@ body.dark-theme .footer-search input {
   border-radius: 15px;
   width: 90%;
   max-width: 600px;
-  max-height: 50vh;
   overflow-y: auto;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
@@ -1478,21 +1467,155 @@ body.dark-theme .close-btn:hover {
 /* 요리 선택기 */
 .cooking-selector {
   margin-bottom: 20px;
-  padding: 15px;
-  border: 1px solid #eee;
-  border-radius: 10px;
-  background: #f9f9f9;
-}
-
-body.dark-theme .cooking-selector {
-  background: #2a2a2a;
-  border-color: #444;
 }
 
 .cooking-buttons-container {
   display: flex;
   flex-direction: column;
   gap: 15px;
+}
+
+/* ===== Price Vault (요리 가격 저장소) ===== */
+.price-vault {
+}
+
+.price-vault .vault-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.price-vault .vault-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #334155;
+}
+
+.price-vault .vault-clear {
+  border: 0;
+  background: #ef4444;
+  color: #ffffff;
+  font-size: 12px;
+  border-radius: 10px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.price-vault .vault-clear:hover {
+  background: #dc2626;
+}
+
+.price-vault .vault-inputs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+.vault-card {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 8px 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  min-height: 45px;
+  transition: all 0.2s ease;
+}
+
+.price-vault .vault-name {
+  font-size: 12px;
+  color: #333;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+
+.price-vault .vault-price {
+  width: 100%;
+  padding: 10px 6px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #f9f9f9;
+  color: #333;
+  font-size: 11px;
+  text-align: center;
+  -moz-appearance: textfield;
+}
+
+.price-vault .vault-price::-webkit-outer-spin-button,
+.price-vault .vault-price::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* 반응형: 3 / 2 / 2 열 */
+@media (max-width: 1024px) {
+  .price-vault .vault-inputs {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+  }
+}
+@media (max-width: 768px) {
+  .price-vault .vault-inputs {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4px;
+  }
+}
+@media (max-width: 480px) {
+  .price-vault .vault-inputs {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3px;
+  }
+
+  .vault-card {
+    min-height: 40px;
+    padding: 6px 4px;
+  }
+
+  .price-vault .vault-name {
+    font-size: 12px;
+  }
+
+  .price-vault .vault-price {
+    font-size: 12px;
+    padding: 10px 4px;
+  }
+}
+
+body.dark-theme .price-vault {
+  background: transparent;
+}
+
+body.dark-theme .price-vault .vault-title {
+  color: #e5e5e5;
+}
+
+body.dark-theme .vault-card {
+  background: #1a1a1a;
+  border-color: #555;
+}
+
+body.dark-theme .price-vault .vault-name {
+  color: #e5e5e5;
+}
+
+body.dark-theme .price-vault .vault-price {
+  background: #2a2a2a;
+  border-color: #555;
+  color: #e5e5e5;
+  -moz-appearance: textfield;
+}
+
+body.dark-theme .price-vault .vault-price::-webkit-outer-spin-button,
+body.dark-theme .price-vault .vault-price::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 .selector-label {
@@ -1696,7 +1819,7 @@ body.dark-theme .input-group label {
 }
 
 .input-group input {
-  padding: 8px 12px;
+  padding: 8px 6px;
   border: 1px solid #ddd;
   border-radius: 6px;
   font-size: 14px;
@@ -1793,11 +1916,20 @@ body.dark-theme .cost-breakdown {
   }
 
   .input-row {
-    grid-template-columns: 1fr;
+    grid-template-columns: 2fr 1fr;
+    gap: 10px;
+  }
+
+  .input-group:first-child {
+    flex: 2;
+  }
+
+  .input-group:last-child {
+    flex: 1;
   }
 
   .results-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 2fr 2fr;
   }
 }
 
@@ -1834,5 +1966,510 @@ body.dark-theme .cost-breakdown {
   .cooking-btn-icon {
     width: 20px;
     height: 20px;
+  }
+}
+
+/* ===== Reference and Update Info Styles ===== */
+.reference-info {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border: none;
+  border-radius: 16px;
+  padding: 20px 24px;
+  margin-bottom: 16px;
+  text-align: center;
+  font-size: 15px;
+  color: #495057;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.reference-info::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+}
+
+.reference-info p {
+  margin: 0;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.reference-info a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 600;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.reference-info a::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #007bff, #28a745);
+  transition: width 0.3s ease;
+}
+
+.reference-info a:hover::after {
+  width: 100%;
+}
+
+.reference-info a:hover {
+  color: #0056b3;
+  transform: translateY(-1px);
+}
+
+body.dark-theme .reference-info {
+  background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+  color: #e2e8f0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-theme .reference-info a {
+  color: #63b3ed;
+}
+
+body.dark-theme .reference-info a:hover {
+  color: #90cdf4;
+}
+
+.disclaimer-info {
+  background: linear-gradient(135deg, #fff5f5 0%, #fed7d7 100%);
+  border: 1px solid #feb2b2;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin: 12px 0;
+  text-align: center;
+  font-size: 13px;
+  color: #c53030;
+  box-shadow: 0 2px 6px rgba(197, 48, 48, 0.1);
+  position: relative;
+  font-weight: 500;
+}
+
+.disclaimer-info::before {
+  content: "⚠️";
+  margin-right: 8px;
+  font-size: 14px;
+}
+
+.disclaimer-info p {
+  margin: 0;
+  display: inline;
+  line-height: 1.4;
+}
+
+body.dark-theme .disclaimer-info {
+  background: linear-gradient(135deg, #742a2a 0%, #9c1a1a 100%);
+  border-color: #e53e3e;
+  color: #fed7d7;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.update-info {
+  background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+  border: none;
+  border-radius: 16px;
+  padding: 16px 24px;
+  text-align: center;
+  font-size: 14px;
+  color: #856404;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  position: relative;
+  font-weight: 500;
+}
+
+.update-info::before {
+  content: "📅";
+  margin-right: 8px;
+  font-size: 16px;
+}
+
+.update-info p {
+  margin: 0;
+  display: inline;
+}
+
+body.dark-theme .update-info {
+  background: linear-gradient(135deg, #744210 0%, #975a16 100%);
+  color: #fbbf24;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* ===== Collection Book Checkbox Styles ===== */
+.collection-item-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.collection-checkbox {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: #28a745;
+  flex-shrink: 0;
+}
+
+.collection-item-name {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.collection-item-name.checked {
+  color: #28a745;
+  font-weight: 600;
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+
+.collection-item-name:hover {
+  color: #28a745;
+}
+
+/* 다크 모드에서 체크된 컬렉션 아이템 스타일 */
+body.dark-theme .collection-item-name.checked {
+  color: #4ade80;
+  opacity: 0.8;
+}
+
+body.dark-theme .collection-item-name:hover {
+  color: #4ade80;
+}
+
+body.dark-theme .collection-checkbox {
+  accent-color: #4ade80;
+}
+
+/* 컬렉션 테이블 행 호버 효과 */
+tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.02) !important;
+  transform: translateY(-1px);
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+body.dark-theme tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* 체크된 컬렉션 아이템 전체 행 스타일 */
+.collection-checked-row {
+  background: linear-gradient(135deg, #f0f9f0, #e8f5e8) !important;
+  border-left: 4px solid #28a745;
+}
+
+.collection-checked-row td {
+  color: #28a745 !important;
+  text-decoration: line-through;
+  opacity: 0.8;
+}
+
+.collection-checked-row:hover {
+  background: linear-gradient(135deg, #e8f5e8, #d4edda) !important;
+  transform: translateY(-1px);
+}
+
+/* 다크 모드에서 체크된 컬렉션 아이템 전체 행 스타일 */
+body.dark-theme .collection-checked-row {
+  background: linear-gradient(135deg, #1a2e1a, #2d4a2d) !important;
+  border-left: 4px solid #4ade80;
+}
+
+body.dark-theme .collection-checked-row td {
+  color: #4ade80 !important;
+  opacity: 0.9;
+}
+
+body.dark-theme .collection-checked-row:hover {
+  background: linear-gradient(135deg, #2d4a2d, #1a2e1a) !important;
+}
+
+/* ===== Collection Progress UI Styles ===== */
+.collection-progress {
+  margin: 20px auto;
+  max-width: 100%;
+  display: none;
+}
+
+.progress-container {
+  background: white;
+  border: none;
+  border-radius: 24px;
+  padding: 32px;
+}
+
+.progress-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.progress-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 8px;
+}
+
+.progress-subtitle {
+  font-size: 14px;
+  color: #64748b;
+  text-align: center;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 12px;
+  background: #f1f5f9;
+  border-radius: 9999px;
+  overflow: hidden;
+  margin-bottom: 32px;
+  position: relative;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #1d4ed8);
+  border-radius: 9999px;
+  transition: width 0.7s ease-out;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+}
+
+.progress-fill.completed {
+  background: linear-gradient(90deg, #ffd700, #ffed4e);
+  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.4);
+  animation: sparkle 2s infinite;
+}
+
+.progress-percent {
+  font-size: 14px;
+  font-weight: 700;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  white-space: nowrap;
+}
+
+@keyframes grow {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: var(--progress-width);
+  }
+}
+
+@keyframes sparkle {
+  0%,
+  100% {
+    box-shadow: 0 2px 8px rgba(255, 215, 0, 0.4);
+  }
+  50% {
+    box-shadow: 0 2px 12px rgba(255, 215, 0, 0.6),
+      0 0 20px rgba(255, 215, 0, 0.3);
+  }
+}
+
+.progress-fill::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.progress-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  font-size: 14px;
+  font-weight: 500;
+  align-items: stretch;
+}
+
+.progress-stats span {
+  padding: 16px 0 16px 0;
+  border-radius: 16px;
+  text-align: center;
+  border: none;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.progress-stats span::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.progress-stats span:hover::before {
+  left: 100%;
+}
+
+.progress-stats .number {
+  font-size: 30px;
+  font-weight: 700;
+  display: block;
+  line-height: 1;
+}
+
+.percentage {
+  background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+  color: #2563eb;
+}
+
+.completed {
+  background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+  color: #16a34a;
+}
+
+.remaining {
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  color: #d97706;
+}
+
+/* 다크 모드에서 컬렉션 진행률 스타일 */
+body.dark-theme .progress-container {
+  background: #1e293b;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3),
+    0 10px 10px -5px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-theme .progress-title {
+  color: #f1f5f9;
+}
+
+body.dark-theme .progress-subtitle {
+  color: #94a3b8;
+}
+
+body.dark-theme .progress-bar {
+  background: #334155;
+}
+
+body.dark-theme .progress-fill {
+  background: linear-gradient(90deg, #3b82f6, #1d4ed8);
+}
+
+body.dark-theme .progress-fill.completed {
+  background: linear-gradient(90deg, #fbbf24, #f59e0b);
+  box-shadow: 0 2px 8px rgba(251, 191, 36, 0.4);
+}
+
+body.dark-theme .progress-percent {
+  color: #2d3748;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
+}
+
+body.dark-theme .progress-badge {
+  background: #34d399;
+  border-color: #1f2937;
+}
+
+body.dark-theme .percentage {
+  background: linear-gradient(135deg, #1e3a8a, #1e40af);
+  color: #93c5fd;
+}
+
+body.dark-theme .completed {
+  background: linear-gradient(135deg, #166534, #15803d);
+  color: #86efac;
+}
+
+body.dark-theme .remaining {
+  background: linear-gradient(135deg, #92400e, #b45309);
+  color: #fbbf24;
+}
+
+/* 모바일 반응형 */
+@media (max-width: 768px) {
+  .progress-container {
+    padding: 16px;
+  }
+
+  .progress-header {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
+
+  .progress-bar {
+    height: 20px;
+  }
+
+  .progress-percent {
+    font-size: 12px;
+  }
+
+  .progress-stats {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .progress-stats span {
+    padding: 8px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .progress-container {
+    padding: 12px;
+  }
+
+  .progress-title {
+    font-size: 14px;
+  }
+
+  .progress-bar {
+    height: 18px;
+  }
+
+  .progress-percent {
+    font-size: 11px;
   }
 }
