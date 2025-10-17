@@ -8,27 +8,7 @@
   </head>
   <body>
     <div class="layout">
-      <div class="left-panel">
-        <div class="left-inner">
-          <div class="left-brand">
-            <!-- <div class="reference-info">
-              <p>
-                해당 정보는
-                <a
-                  href="https://wiki.ddingtycoon.kr/ko/articles/%EC%83%81%EC%A0%90-5e91f37c"
-                  target="_blank"
-                  >띵타이쿤 온라인 공식 위키</a
-                >를 참고하였습니다
-              </p>
-            </div> -->
-
-            <!-- <div class="update-info">
-              <p>정보 업데이트 날짜: 25.10.16</p>
-            </div> -->
-          </div>
-        </div>
-      </div>
-      <div class="right-panel">
+      <div class="main-panel">
         <div class="container">
           <div class="header-image">
             <img src="img/header.png" alt="띵타이쿤 온라인 재료 검색기" />
@@ -180,8 +160,56 @@
           </div>
         </div>
       </div>
+
+      <div class="sidebar-panel">
+        <div id="todoDropZone" class="todo-drop-zone-overlay">
+          <div class="drop-zone-content">
+            <svg
+              width="80"
+              height="80"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <polyline points="19 12 12 19 5 12"></polyline>
+            </svg>
+            <span class="drop-zone-text">여기에 드래그하여 추가</span>
+          </div>
+        </div>
+        <div class="sidebar-inner">
+          <div class="todo-section">
+            <div class="todo-header">
+              <h3>To-do list</h3>
+              <button
+                id="clearTodoBtn"
+                class="clear-todo-btn"
+                title="모든 할 일 삭제"
+              >
+                초기화
+              </button>
+            </div>
+            <div class="todo-input-container">
+              <textarea
+                id="todoInput"
+                placeholder="새 할 일 추가... (Shift+Enter로 줄바꿈)"
+                maxlength="200"
+                rows="2"
+              ></textarea>
+              <button id="addTodoBtn" class="add-todo-btn">+</button>
+            </div>
+            <ul id="todoList" class="todo-list">
+              <!-- 할 일 목록이 여기에 동적으로 추가됩니다 -->
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
 
     <script src="script.js"></script>
+    <script src="table.js"></script>
+    <script src="search.js"></script>
+    <script src="todo.js"></script>
   </body>
 </html>

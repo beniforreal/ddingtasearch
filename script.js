@@ -92,6 +92,176 @@ function clearCookingPrices() {
 // 컬렉션북 체크 상태 관리
 let collectionCheckedItems = new Set();
 
+// To-Do 로직은 todo.js로 분리됨 (함수들은 todo.js에서 정의)
+
+// 드롭존 위치 업데이트 함수
+function updateDropZonePosition() {
+  const dropZone = document.getElementById("todoDropZone");
+  const sidebarPanel = document.querySelector(".sidebar-panel");
+
+  if (!dropZone || !sidebarPanel) return;
+
+  // 사이드바의 실제 위치 계산
+  const rect = sidebarPanel.getBoundingClientRect();
+  dropZone.style.left = `${rect.left}px`;
+  dropZone.style.width = `${rect.width}px`;
+}
+
+// 드래그 앤 드롭 기능 초기화
+function initializeDragAndDrop() {
+  const sidebarPanel = document.querySelector(".sidebar-panel");
+  if (!sidebarPanel) return;
+
+  // 드롭 존 설정
+  let dragDepth = 0; // dragenter/leaves 추적
+
+  sidebarPanel.addEventListener("dragover", (e) => {
+    // 헤더나 입력 영역에서는 드래그 무시
+    if (
+      e.target.closest(".todo-header") ||
+      e.target.closest(".todo-input-container")
+    ) {
+      return;
+    }
+    e.preventDefault();
+    e.stopPropagation();
+    sidebarPanel.classList.add("drag-over");
+  });
+
+  sidebarPanel.addEventListener("dragenter", (e) => {
+    // 헤더나 입력 영역에서는 드래그 무시
+    if (
+      e.target.closest(".todo-header") ||
+      e.target.closest(".todo-input-container")
+    ) {
+      return;
+    }
+    e.preventDefault();
+    e.stopPropagation();
+    dragDepth++;
+    sidebarPanel.classList.add("drag-over");
+  });
+
+  sidebarPanel.addEventListener("dragleave", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    // sidebar-panel를 완전히 벗어났을 때만 drag-over 제거
+    dragDepth = Math.max(0, dragDepth - 1);
+    if (dragDepth === 0) sidebarPanel.classList.remove("drag-over");
+  });
+
+  sidebarPanel.addEventListener("drop", (e) => {
+    // 드롭존이 활성화되어 있으면 무시 (드롭존이 처리)
+    const dropZone = document.getElementById("todoDropZone");
+    if (dropZone && dropZone.classList.contains("active")) {
+      return;
+    }
+
+    // 헤더나 입력 영역에서는 드롭 무시
+    if (
+      e.target.closest(".todo-header") ||
+      e.target.closest(".todo-input-container")
+    ) {
+      return;
+    }
+    e.preventDefault();
+    e.stopPropagation();
+    dragDepth = 0;
+    sidebarPanel.classList.remove("drag-over");
+    sidebarPanel.classList.remove("dragging-active");
+
+    const draggedText = e.dataTransfer.getData("text/plain");
+    if (draggedText) {
+      addTodoItem(draggedText);
+    }
+  });
+
+  // 스크롤 자동 처리
+  let scrollInterval = null;
+
+  sidebarPanel.addEventListener("dragover", (e) => {
+    // 헤더나 입력 영역에서는 스크롤 처리 무시
+    if (
+      e.target.closest(".todo-header") ||
+      e.target.closest(".todo-input-container")
+    ) {
+      return;
+    }
+
+    const rect = sidebarPanel.getBoundingClientRect();
+    const scrollThreshold = 50; // 스크롤 시작 임계값
+
+    // 상단 근처에서 스크롤 업
+    if (e.clientY - rect.top < scrollThreshold) {
+      if (!scrollInterval) {
+        scrollInterval = setInterval(() => {
+          sidebarPanel.scrollTop -= 10;
+        }, 16); // 60fps
+      }
+    }
+    // 하단 근처에서 스크롤 다운
+    else if (rect.bottom - e.clientY < scrollThreshold) {
+      if (!scrollInterval) {
+        scrollInterval = setInterval(() => {
+          sidebarPanel.scrollTop += 10;
+        }, 16); // 60fps
+      }
+    }
+    // 중간 영역에서는 스크롤 중지
+    else {
+      if (scrollInterval) {
+        clearInterval(scrollInterval);
+        scrollInterval = null;
+      }
+    }
+  });
+
+  // 드래그 종료 시 스크롤 중지
+  document.addEventListener("dragend", () => {
+    if (scrollInterval) {
+      clearInterval(scrollInterval);
+      scrollInterval = null;
+    }
+    dragDepth = 0;
+    sidebarPanel.classList.remove("drag-over");
+    sidebarPanel.classList.remove("dragging-active");
+
+    // 드롭 존 숨기기
+    const dropZone = document.getElementById("todoDropZone");
+    if (dropZone) {
+      dropZone.classList.remove("active");
+    }
+  });
+
+  // To-Do 드롭 존 설정
+  const dropZone = document.getElementById("todoDropZone");
+  if (dropZone) {
+    dropZone.addEventListener("dragover", (e) => {
+      e.preventDefault();
+    });
+
+    dropZone.addEventListener("dragenter", (e) => {
+      e.preventDefault();
+    });
+
+    dropZone.addEventListener("drop", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const draggedText = e.dataTransfer.getData("text/plain");
+      if (draggedText) {
+        addTodoItem(draggedText);
+      }
+
+      // 드롭 존 숨기기
+      dropZone.classList.remove("active");
+      sidebarPanel.classList.remove("dragging-active");
+      sidebarPanel.classList.remove("drag-over");
+      dragDepth = 0;
+    });
+  }
+}
+
 // 컬렉션북 체크 상태 로드
 function loadCollectionCheckedItems() {
   try {
@@ -357,28 +527,827 @@ function handleScroll() {
   }
 }
 
+// 검색 결과를 카테고리별로 렌더링하는 함수
+function renderTableWithCategories(
+  categorizedData,
+  uncategorizedItems,
+  isSearchResult = false
+) {
+  const container = document.querySelector(".table-container");
+  container.innerHTML = "";
+
+  // 카테고리별로 렌더링
+  Object.keys(categorizedData).forEach((category) => {
+    const products = categorizedData[category];
+    if (products.length === 0) return;
+
+    // 첫 번째 아이템으로 타입 판단
+    const firstItem = products[0];
+    const isCooking = firstItem.itemType === "cooking";
+    const isEnhancement = category === "세레니티 - 강화 - 로니";
+
+    // 카테고리 제목
+    const categoryTitle = document.createElement("h3");
+    categoryTitle.className = "process-category-title";
+
+    // 이미지 이름 추출 (가장 오른쪽 토큰 사용: 예 "세레니티 - 판매 - 카이" -> "카이")
+    let imageName = category;
+    if (category.includes(" - ")) {
+      const parts = category.split(" - ");
+      imageName = parts[parts.length - 1].trim();
+    }
+    const fileName = imageName.replace(/\//g, ":");
+
+    // 카테고리 이미지 추가
+    const categoryImage = document.createElement("img");
+    categoryImage.src = `img/npcs/${fileName}.png`;
+    categoryImage.alt = imageName;
+    categoryImage.className = "npc-icon";
+    categoryImage.style.cursor = "pointer";
+    categoryImage.onerror = function () {
+      this.style.display = "none";
+    };
+
+    categoryImage.addEventListener("click", () => {
+      showNpcModal(categoryImage.src, imageName);
+    });
+
+    categoryTitle.appendChild(categoryImage);
+
+    const categoryText = document.createElement("span");
+    categoryText.textContent = category;
+    categoryTitle.appendChild(categoryText);
+
+    container.appendChild(categoryTitle);
+
+    // 테이블 생성
+    const table = document.createElement("table");
+    if (isCooking) {
+      table.className = "cooking-table";
+      table.innerHTML = `
+        <thead>
+          <tr>
+            <th>
+              <button
+                id="toggleAllIcon-${category.replace(/\s+/g, "-")}"
+                class="toggle-all-icon"
+                title="전체 열기/닫기"
+                aria-label="전체 열기/닫기"
+              >
+                <span class="row-toggle" aria-hidden="true">▶</span>
+              </button>
+              <span>요리명</span>
+            </th>
+            <th>가격 범위</th>
+            <th>원재료 비용</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      `;
+    } else if (isEnhancement) {
+      table.className = "enhancement-table";
+      table.innerHTML = `
+        <thead>
+          <tr>
+            <th>품목</th>
+            <th>필요 재료</th>
+            <th>필요 골드</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      `;
+    } else {
+      table.innerHTML = `
+        <thead>
+          <tr>
+            <th>품목</th>
+            <th>${firstItem.recipe ? "재료" : "판매 가격"}</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      `;
+    }
+
+    const tbody = table.querySelector("tbody");
+
+    products.forEach((product) => {
+      if (isCooking) {
+        // 요리 아이템 렌더링
+        const searchTerm = (floatingSearchInput.value || "")
+          .toLowerCase()
+          .trim();
+        const recipeText = product.recipe || product.ingredients || "";
+        const nameMatch = (product.name || "")
+          .toLowerCase()
+          .includes(searchTerm);
+        const shouldExpand =
+          !!searchTerm &&
+          (recipeText.toLowerCase().includes(searchTerm) || nameMatch);
+        const toggleIcon = recipeText
+          ? `<span class="row-toggle ${
+              shouldExpand ? "expanded" : ""
+            }" aria-hidden="true">▶</span>`
+          : "";
+
+        const row = document.createElement("tr");
+        if (recipeText) row.classList.add("collapsible");
+
+        const itemImage = product.image
+          ? `<img src="${product.image}" alt="${product.name}" class="cooking-item-image" />`
+          : "";
+        const priceDisplay = product.price.includes("-")
+          ? product.price.replace(/-/g, " - ")
+          : product.price;
+
+        const costInfo = computeTotalIngredientCost(recipeText);
+        const suffix = costInfo.unknownCount > 0 ? " (일부 제외)" : "";
+        const costCellHtml = `<td class="price-cost">${formatNumber(
+          costInfo.total
+        )} G${suffix}</td>`;
+
+        row.innerHTML = `
+          <td>${toggleIcon}${itemImage}${product.name}</td>
+          <td class="price">${priceDisplay}</td>
+          ${costCellHtml}
+        `;
+
+        row.draggable = true;
+        row.addEventListener("dragstart", (e) => {
+          // 드롭 존 위치 업데이트
+          updateDropZonePosition();
+          const parts = [product.name];
+          if (product.price) parts.push(product.price);
+          if (recipeText) parts.push(recipeText);
+          e.dataTransfer.setData("text/plain", parts.join("\n"));
+          e.dataTransfer.effectAllowed = "copy";
+          row.classList.add("dragging");
+        });
+
+        row.addEventListener("dragend", () => {
+          row.classList.remove("dragging");
+        });
+
+        tbody.appendChild(row);
+
+        // 재료 행 추가
+        if (recipeText) {
+          const ingredientsRow = document.createElement("tr");
+          ingredientsRow.classList.add("ingredients-row");
+          if (!shouldExpand) ingredientsRow.classList.add("collapsed");
+
+          ingredientsRow.innerHTML = `
+            <td colspan="3" class="ingredients-display">${formatIngredients(
+              recipeText
+            )}</td>
+          `;
+
+          ingredientsRow.draggable = true;
+          ingredientsRow.addEventListener("dragstart", (e) => {
+            // 드롭 존 위치 업데이트
+            updateDropZonePosition();
+            const parts = [product.name];
+            if (product.price) parts.push(product.price);
+            if (recipeText) parts.push(recipeText);
+            e.dataTransfer.setData("text/plain", parts.join("\n"));
+            e.dataTransfer.effectAllowed = "copy";
+            ingredientsRow.classList.add("dragging");
+          });
+
+          ingredientsRow.addEventListener("dragend", () => {
+            ingredientsRow.classList.remove("dragging");
+          });
+
+          tbody.appendChild(ingredientsRow);
+        }
+      } else if (isEnhancement) {
+        // 강화 아이템 렌더링 (3컬럼)
+        const row = document.createElement("tr");
+        const itemNameHtml = `${product.name}${
+          product.probability ? ` (${product.probability})` : ""
+        }`;
+        const recipeCell = product.recipe || "-";
+        const priceCell = product.price || "-";
+
+        row.innerHTML = `
+          <td>${itemNameHtml}</td>
+          <td class="price">${recipeCell}</td>
+          <td class="price">${priceCell}</td>
+        `;
+
+        row.draggable = true;
+        row.addEventListener("dragstart", (e) => {
+          // 드롭 존 위치 업데이트 및 표시
+          updateDropZonePosition();
+          const dropZone = document.getElementById("todoDropZone");
+          const sidebarPanel = document.querySelector(".sidebar-panel");
+          if (dropZone) {
+            dropZone.classList.add("active");
+          }
+          if (sidebarPanel) {
+            sidebarPanel.classList.add("dragging-active");
+          }
+
+          const parts = [product.name];
+          if (product.recipe) parts.push(product.recipe);
+          if (product.price) parts.push("비용 " + product.price);
+          e.dataTransfer.setData("text/plain", parts.join("\n"));
+          e.dataTransfer.effectAllowed = "copy";
+          row.classList.add("dragging");
+        });
+
+        row.addEventListener("dragend", () => {
+          row.classList.remove("dragging");
+        });
+
+        tbody.appendChild(row);
+      } else {
+        // 일반 아이템 렌더링
+        const row = document.createElement("tr");
+        const displayValue = product.recipe || product.price;
+        row.innerHTML = `
+          <td>${product.name}</td>
+          <td class="price">${displayValue}</td>
+        `;
+
+        row.draggable = true;
+        row.addEventListener("dragstart", (e) => {
+          // 드롭 존 위치 업데이트
+          updateDropZonePosition();
+          const dragText = product.recipe
+            ? `${product.name}\n${product.recipe}`
+            : product.name;
+          e.dataTransfer.setData("text/plain", dragText);
+          e.dataTransfer.effectAllowed = "copy";
+          row.classList.add("dragging");
+        });
+
+        row.addEventListener("dragend", () => {
+          row.classList.remove("dragging");
+        });
+
+        tbody.appendChild(row);
+      }
+    });
+
+    container.appendChild(table);
+  });
+
+  // 카테고리가 없는 아이템들도 렌더링 (있는 경우)
+  if (uncategorizedItems.length > 0) {
+    const categoryTitle = document.createElement("h3");
+    categoryTitle.className = "process-category-title";
+    categoryTitle.textContent = "기타";
+    container.appendChild(categoryTitle);
+
+    renderTable(uncategorizedItems);
+  }
+}
+
+// 카테고리별 테이블 렌더링 (공통 함수)
+function renderCategorizedTables(categorizedData, priceHeaderText = "재료") {
+  const container = document.querySelector(".table-container");
+  container.innerHTML = "";
+
+  Object.keys(categorizedData).forEach((category) => {
+    const products = categorizedData[category];
+
+    // 카테고리 제목
+    const categoryTitle = document.createElement("h3");
+    categoryTitle.className = "process-category-title";
+
+    // 이미지 이름 추출 (가장 오른쪽 토큰 사용)
+    // 예1: "햇살농가 - 보리" → "보리"
+    // 예2: "세레니티 - 판매 - 카이" → "카이"
+    // 예3: "식재료 가공 시설" → 그대로
+    let imageName = category;
+    if (category.includes(" - ")) {
+      const parts = category.split(" - ");
+      imageName = parts[parts.length - 1].trim();
+    }
+
+    // 파일명에서 슬래시를 콜론으로 변경 (파일시스템 제한)
+    // 예: "도구/무기 제작 시설" → "도구:무기 제작 시설"
+    const fileName = imageName.replace(/\//g, ":");
+
+    // 카테고리 이미지 추가
+    const categoryImage = document.createElement("img");
+    categoryImage.src = `img/npcs/${fileName}.png`;
+    categoryImage.alt = imageName;
+    categoryImage.className = "npc-icon";
+    categoryImage.style.cursor = "pointer";
+    categoryImage.onerror = function () {
+      this.style.display = "none"; // 이미지 로드 실패시 숨김
+    };
+
+    // 클릭 시 큰 이미지 모달 표시
+    categoryImage.addEventListener("click", () => {
+      showNpcModal(categoryImage.src, imageName);
+    });
+
+    categoryTitle.appendChild(categoryImage);
+
+    // 카테고리 텍스트 추가
+    const categoryText = document.createElement("span");
+    categoryText.textContent = category;
+    categoryTitle.appendChild(categoryText);
+
+    container.appendChild(categoryTitle);
+
+    // 테이블 생성
+    const table = document.createElement("table");
+    table.innerHTML = `
+      <thead>
+        <tr>
+          <th>품목</th>
+          <th>${priceHeaderText}</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    `;
+
+    const tbody = table.querySelector("tbody");
+
+    products.forEach((product) => {
+      const row = document.createElement("tr");
+      const displayValue = product.recipe || product.price;
+      row.innerHTML = `
+        <td>${product.name}</td>
+        <td class="price">${displayValue}</td>
+      `;
+
+      // 드래그 가능하도록 설정
+      row.draggable = true;
+      row.addEventListener("dragstart", (e) => {
+        // 드롭 존 위치 업데이트
+        updateDropZonePosition();
+        const dragText = product.recipe
+          ? `${product.name}\n${product.recipe}`
+          : product.name;
+        e.dataTransfer.setData("text/plain", dragText);
+        e.dataTransfer.effectAllowed = "copy";
+        row.classList.add("dragging");
+      });
+
+      row.addEventListener("dragend", (e) => {
+        row.classList.remove("dragging");
+      });
+
+      tbody.appendChild(row);
+    });
+
+    container.appendChild(table);
+  });
+}
+
+// 가공 섹션 카테고리별 테이블 렌더링
+function renderProcessTables(categorizedData) {
+  renderCategorizedTables(categorizedData, "재료");
+}
+
+// 야생 섹션 카테고리별 테이블 렌더링
+function renderWildTables(categorizedData) {
+  renderCategorizedTables(categorizedData, "판매 가격");
+}
+
+// 판매 섹션 카테고리별 테이블 렌더링 (카이/로니 등)
+function renderSellTables(categorizedData) {
+  renderCategorizedTables(categorizedData, "판매 가격");
+}
+
+// 구매 섹션 카테고리별 테이블 렌더링 (밀키 등)
+function renderBuyTables(categorizedData) {
+  renderCategorizedTables(categorizedData, "구매 가격");
+}
+
+// 요리 섹션 카테고리별 테이블 렌더링
+// table.js에서 재사용할 수 있도록 별칭을 노출
+window.__renderCookingTablesFromScript = function renderCookingTables(
+  categorizedData
+) {
+  const container = document.querySelector(".table-container");
+  container.innerHTML = "";
+
+  Object.keys(categorizedData).forEach((category) => {
+    const products = categorizedData[category];
+
+    // 카테고리 제목
+    const categoryTitle = document.createElement("h3");
+    categoryTitle.className = "process-category-title";
+
+    // 이미지 이름 추출
+    const imageName = category;
+    const fileName = imageName.replace(/\//g, ":");
+
+    // 카테고리 이미지 추가
+    const categoryImage = document.createElement("img");
+    categoryImage.src = `img/npcs/${fileName}.png`;
+    categoryImage.alt = imageName;
+    categoryImage.className = "npc-icon";
+    categoryImage.style.cursor = "pointer";
+    categoryImage.onerror = function () {
+      this.style.display = "none";
+    };
+
+    categoryImage.addEventListener("click", () => {
+      showNpcModal(categoryImage.src, imageName);
+    });
+
+    categoryTitle.appendChild(categoryImage);
+
+    const categoryText = document.createElement("span");
+    categoryText.textContent = category;
+    categoryTitle.appendChild(categoryText);
+
+    container.appendChild(categoryTitle);
+
+    // 요리 전용 테이블 생성
+    const table = document.createElement("table");
+    table.className = "cooking-table";
+    table.innerHTML = `
+      <thead>
+        <tr>
+          <th>
+            <button
+              id="toggleAllIcon"
+              class="toggle-all-icon"
+              title="전체 열기/닫기"
+              aria-label="전체 열기/닫기"
+            >
+              <span class="row-toggle" aria-hidden="true">▶</span>
+            </button>
+            <span>요리명</span>
+          </th>
+          <th>가격 범위</th>
+          <th>원재료 비용</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    `;
+
+    const tbody = table.querySelector("tbody");
+
+    products.forEach((product) => {
+      const searchTerm = (floatingSearchInput.value || "").toLowerCase().trim();
+      const recipeText = product.recipe || product.ingredients || "";
+      const nameMatch = (product.name || "").toLowerCase().includes(searchTerm);
+      const shouldExpand =
+        !!searchTerm &&
+        (recipeText.toLowerCase().includes(searchTerm) || nameMatch);
+      const toggleIcon = recipeText
+        ? `<span class="row-toggle ${
+            shouldExpand ? "expanded" : ""
+          }" aria-hidden="true">▶</span>`
+        : "";
+
+      const row = document.createElement("tr");
+      if (recipeText) row.classList.add("collapsible");
+
+      const itemImage = product.image
+        ? `<img src="${product.image}" alt="${product.name}" class="cooking-item-image" />`
+        : "";
+      const priceDisplay = product.price.includes("-")
+        ? product.price.replace(/-/g, " - ")
+        : product.price;
+
+      const costInfo = computeTotalIngredientCost(recipeText);
+      const suffix = costInfo.unknownCount > 0 ? " (일부 제외)" : "";
+      const costCellHtml = `<td class="price-cost">${formatNumber(
+        costInfo.total
+      )} G${suffix}</td>`;
+
+      row.innerHTML = `
+        <td>${toggleIcon}${itemImage}${product.name}</td>
+        <td class="price">${priceDisplay}</td>
+        ${costCellHtml}
+      `;
+
+      row.draggable = true;
+      row.addEventListener("dragstart", (e) => {
+        // 드롭 존 위치 업데이트 및 표시
+        updateDropZonePosition();
+        const dropZone = document.getElementById("todoDropZone");
+        const sidebarPanel = document.querySelector(".sidebar-panel");
+        if (dropZone) {
+          dropZone.classList.add("active");
+        }
+        if (sidebarPanel) {
+          sidebarPanel.classList.add("dragging-active");
+        }
+
+        const parts = [product.name];
+        if (product.price) parts.push(product.price);
+        if (recipeText) parts.push(recipeText);
+        e.dataTransfer.setData("text/plain", parts.join("\n"));
+        e.dataTransfer.effectAllowed = "copy";
+        row.classList.add("dragging");
+      });
+
+      row.addEventListener("dragend", () => {
+        row.classList.remove("dragging");
+      });
+
+      tbody.appendChild(row);
+
+      // 재료 행 추가
+      if (recipeText) {
+        const ingredientsRow = document.createElement("tr");
+        ingredientsRow.classList.add("ingredients-row");
+        if (!shouldExpand) ingredientsRow.classList.add("collapsed");
+
+        ingredientsRow.innerHTML = `
+          <td colspan="3" class="ingredients-display">${formatIngredients(
+            recipeText
+          )}</td>
+        `;
+
+        ingredientsRow.draggable = true;
+        ingredientsRow.addEventListener("dragstart", (e) => {
+          // 드롭 존 위치 업데이트 및 표시
+          updateDropZonePosition();
+          const dropZone = document.getElementById("todoDropZone");
+          const sidebarPanel = document.querySelector(".sidebar-panel");
+          if (dropZone) {
+            dropZone.classList.add("active");
+          }
+          if (sidebarPanel) {
+            sidebarPanel.classList.add("dragging-active");
+          }
+
+          const parts = [product.name];
+          if (product.price) parts.push(product.price);
+          if (recipeText) parts.push(recipeText);
+          e.dataTransfer.setData("text/plain", parts.join("\n"));
+          e.dataTransfer.effectAllowed = "copy";
+          ingredientsRow.classList.add("dragging");
+        });
+
+        ingredientsRow.addEventListener("dragend", () => {
+          ingredientsRow.classList.remove("dragging");
+        });
+
+        tbody.appendChild(ingredientsRow);
+      }
+    });
+
+    container.appendChild(table);
+  });
+
+  // 테이블 렌더링 후 전체 열기/닫기 버튼에 이벤트 리스너 추가
+  const toggleAllIcons = container.querySelectorAll(".toggle-all-icon");
+  toggleAllIcons.forEach((icon) => {
+    icon.addEventListener("click", (e) => {
+      e.stopPropagation(); // 이벤트 전파 방지
+      toggleAllIngredients();
+    });
+  });
+};
+// 전역에서 기존 이름으로도 접근 가능하도록 래핑
+function renderCookingTables(categorizedData) {
+  return window.__renderCookingTablesFromScript(categorizedData);
+}
+
+// 강화 섹션 테이블 렌더링 (3컬럼: 품목, 필요재료, 필요골드)
+function renderEnhancementTables(productsArray) {
+  const container = document.querySelector(".table-container");
+  container.innerHTML = "";
+
+  const category = "세레니티 - 강화 - 로니";
+
+  // 카테고리 제목
+  const categoryTitle = document.createElement("h3");
+  categoryTitle.className = "process-category-title";
+
+  // 이미지 이름 추출
+  const imageName = "로니";
+  const fileName = imageName.replace(/\//g, ":");
+
+  // 카테고리 이미지 추가
+  const categoryImage = document.createElement("img");
+  categoryImage.src = `img/npcs/${fileName}.png`;
+  categoryImage.alt = imageName;
+  categoryImage.className = "npc-icon";
+  categoryImage.style.cursor = "pointer";
+  categoryImage.onerror = function () {
+    this.style.display = "none";
+  };
+
+  categoryImage.addEventListener("click", () => {
+    showNpcModal(categoryImage.src, imageName);
+  });
+
+  categoryTitle.appendChild(categoryImage);
+
+  const categoryText = document.createElement("span");
+  categoryText.textContent = category;
+  categoryTitle.appendChild(categoryText);
+
+  container.appendChild(categoryTitle);
+
+  // 강화 전용 3컬럼 테이블 생성
+  const table = document.createElement("table");
+  table.className = "enhancement-table";
+  table.innerHTML = `
+    <thead>
+      <tr>
+        <th>품목</th>
+        <th>필요 재료</th>
+        <th>필요 골드</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  `;
+
+  const tbody = table.querySelector("tbody");
+
+  productsArray.forEach((product) => {
+    const row = document.createElement("tr");
+    const itemNameHtml = `${product.name}${
+      product.probability ? ` (${product.probability})` : ""
+    }`;
+    const recipeCell = product.recipe || "-";
+    const priceCell = product.price || "-";
+
+    row.innerHTML = `
+      <td>${itemNameHtml}</td>
+      <td class="price">${recipeCell}</td>
+      <td class="price">${priceCell}</td>
+    `;
+
+    row.draggable = true;
+    row.addEventListener("dragstart", (e) => {
+      // 드롭 존 위치 업데이트 및 표시
+      updateDropZonePosition();
+      const dropZone = document.getElementById("todoDropZone");
+      const sidebarPanel = document.querySelector(".sidebar-panel");
+      if (dropZone) {
+        dropZone.classList.add("active");
+      }
+      if (sidebarPanel) {
+        sidebarPanel.classList.add("dragging-active");
+      }
+
+      const parts = [product.name];
+      if (product.recipe) parts.push(product.recipe);
+      if (product.price) parts.push("비용 " + product.price);
+      e.dataTransfer.setData("text/plain", parts.join("\n"));
+      e.dataTransfer.effectAllowed = "copy";
+      row.classList.add("dragging");
+    });
+
+    row.addEventListener("dragend", () => {
+      row.classList.remove("dragging");
+    });
+
+    tbody.appendChild(row);
+  });
+
+  container.appendChild(table);
+}
+
 // 테이블 렌더링 함수
 function renderTable(productsToShow) {
-  tableBody.innerHTML = "";
+  // 야생 지역이고 카테고리별 데이터인 경우
+  if (
+    currentRegion === "wild" &&
+    typeof productsToShow === "object" &&
+    !Array.isArray(productsToShow)
+  ) {
+    renderWildTables(productsToShow);
+    return;
+  }
 
-  // 요리 탭일 때 테이블에 cooking-table 클래스 추가/제거
+  // 요리 섹션이고 카테고리별 데이터인 경우
+  if (
+    currentRegion === "grindel" &&
+    currentSection === "cooking" &&
+    typeof productsToShow === "object" &&
+    !Array.isArray(productsToShow)
+  ) {
+    renderCookingTables(productsToShow);
+    return;
+  }
+
+  // 그린델 판매/구매가 카테고리 객체인 경우 전용 렌더러 사용
+  if (
+    currentRegion === "grindel" &&
+    currentSection === "sell" &&
+    typeof productsToShow === "object" &&
+    !Array.isArray(productsToShow)
+  ) {
+    renderSellTables(productsToShow);
+    return;
+  }
+
+  if (
+    currentRegion === "grindel" &&
+    currentSection === "buy" &&
+    typeof productsToShow === "object" &&
+    !Array.isArray(productsToShow)
+  ) {
+    renderBuyTables(productsToShow);
+    return;
+  }
+
+  // 가공 섹션이고 카테고리별 데이터인 경우
+  if (
+    currentRegion === "grindel" &&
+    currentSection === "process" &&
+    typeof productsToShow === "object" &&
+    !Array.isArray(productsToShow)
+  ) {
+    renderProcessTables(productsToShow);
+    return;
+  }
+
+  // 강화 섹션인 경우 카테고리별 렌더링 사용
+  if (
+    currentRegion === "grindel" &&
+    currentSection === "enhancement" &&
+    Array.isArray(productsToShow)
+  ) {
+    renderEnhancementTables(productsToShow);
+    return;
+  }
+
+  // 가공 섹션이 아닐 때 원래 테이블 구조 복원
+  const container = document.querySelector(".table-container");
+  const existingTable = document.getElementById("productTable");
+
+  if (!existingTable) {
+    // 테이블 구조가 없으면 복원
+    container.innerHTML = `
+      <table id="productTable">
+        <thead>
+          <tr>
+            <th id="itemHeader">
+              <button
+                id="toggleAllIcon"
+                class="toggle-all-icon"
+                title="전체 열기/닫기"
+                aria-label="전체 열기/닫기"
+                style="display: none"
+              >
+                <span class="row-toggle" aria-hidden="true">▶</span>
+              </button>
+              <span id="itemHeaderText">품목</span>
+            </th>
+            <th id="priceHeader">판매 가격</th>
+            <th id="costHeader" style="display: none">원재료 비용</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+        </tbody>
+      </table>
+    `;
+
+    // 전역 참조 업데이트
+    const toggleAllIcon = document.getElementById("toggleAllIcon");
+    if (toggleAllIcon) {
+      toggleAllIcon.addEventListener("click", toggleAllIngredients);
+    }
+  }
+
+  const tbody = document.getElementById("tableBody");
+  tbody.innerHTML = "";
+
+  // 요리/강화 탭일 때 테이블에 클래스 추가/제거
   const productTable = document.getElementById("productTable");
   if (currentRegion === "grindel" && currentSection === "cooking") {
     productTable.classList.add("cooking-table");
+    productTable.classList.remove("enhancement-table");
+  } else if (currentRegion === "grindel" && currentSection === "enhancement") {
+    productTable.classList.add("enhancement-table");
+    productTable.classList.remove("cooking-table");
   } else {
     productTable.classList.remove("cooking-table");
+    productTable.classList.remove("enhancement-table");
   }
 
-  if (productsToShow.length === 0) {
+  if (!productsToShow || productsToShow.length === 0) {
     const colspan =
-      currentRegion === "grindel" && currentSection === "cooking" ? 3 : 2;
-    tableBody.innerHTML = `<tr><td colspan="${colspan}" class="no-results">검색 결과가 없습니다.</td></tr>`;
+      (currentRegion === "grindel" && currentSection === "cooking") ||
+      (currentRegion === "grindel" && currentSection === "enhancement")
+        ? 3
+        : 2;
+    tbody.innerHTML = `<tr><td colspan="${colspan}" class="no-results">검색 결과가 없습니다.</td></tr>`;
     return;
   }
 
   productsToShow.forEach((product) => {
     const row = document.createElement("tr");
     let priceDisplay = product.price;
+
+    // 섹션별 표시 문자열 보정 (recipe/price 구조 대응)
+    if (currentRegion === "grindel" && currentSection === "process") {
+      // 가공 탭은 재료 문자열만 표시
+      priceDisplay = product.recipe || product.price || "-";
+    } else if (
+      currentRegion === "grindel" &&
+      currentSection === "enhancement"
+    ) {
+      // 강화 탭 본문은 재료만 표시 (가격은 하단 별도 행)
+      priceDisplay = product.recipe || "-";
+    }
 
     // 요리 섹션일 경우 가격 범위에 공백 추가
     if (
@@ -389,42 +1358,41 @@ function renderTable(productsToShow) {
       priceDisplay = priceDisplay.replace(/-/g, " - ");
     }
 
-    // 강화 섹션일 경우 확률 정보 추가
-    if (
-      currentRegion === "grindel" &&
-      currentSection === "enhancement" &&
-      product.probability
-    ) {
-      priceDisplay += ` (${product.probability})`;
-    }
+    // 확률은 단계명 옆에만 표기하도록 변경 (본문에는 추가하지 않음)
 
-    // 원재료 비용 계산 (요리 섹션에서만)
+    // 원재료 비용 계산 (요리 아이템만)
     let costCellHtml = "";
-    if (
-      currentRegion === "grindel" &&
-      currentSection === "cooking" &&
-      product.ingredients
-    ) {
-      const costInfo = computeTotalIngredientCost(product.ingredients);
+    const isCookingForCost =
+      (currentRegion === "grindel" && currentSection === "cooking") ||
+      product.itemType === "cooking";
+    if (isCookingForCost && (product.recipe || product.ingredients)) {
+      const recipeText = product.recipe || product.ingredients;
+      const costInfo = computeTotalIngredientCost(recipeText);
       const suffix = costInfo.unknownCount > 0 ? " (일부 제외)" : "";
       costCellHtml = `<td class="price-cost">${formatNumber(
         costInfo.total
       )} G${suffix}</td>`;
     }
 
-    if (currentRegion === "grindel" && currentSection === "cooking") {
-      // 검색 중이고 재료 키워드가 포함된 경우 펼쳐진 상태로 표시
+    // 요리 아이템 체크: currentSection이 cooking이거나 itemType이 cooking인 경우
+    const isCookingItem =
+      (currentRegion === "grindel" && currentSection === "cooking") ||
+      product.itemType === "cooking";
+
+    if (isCookingItem) {
+      // 검색 중이면 이름 또는 재료 매치 시 자동 펼침
       const searchTerm = (floatingSearchInput.value || "").toLowerCase().trim();
-      const isIngredientSearch =
-        searchTerm &&
-        product.ingredients &&
-        product.ingredients.toLowerCase().includes(searchTerm);
-      const toggleIcon = product.ingredients
+      const recipeText = product.recipe || product.ingredients || "";
+      const nameMatch = (product.name || "").toLowerCase().includes(searchTerm);
+      const shouldExpand =
+        !!searchTerm &&
+        (recipeText.toLowerCase().includes(searchTerm) || nameMatch);
+      const toggleIcon = recipeText
         ? `<span class="row-toggle ${
-            isIngredientSearch ? "expanded" : ""
+            shouldExpand ? "expanded" : ""
           }" aria-hidden="true">▶</span>`
         : "";
-      if (product.ingredients) {
+      if (recipeText) {
         row.classList.add("collapsible");
       }
       const itemImage = product.image
@@ -434,6 +1402,22 @@ function renderTable(productsToShow) {
                 <td>${toggleIcon}${itemImage}${product.name}</td>
                 <td class="price">${priceDisplay}</td>
                 ${costCellHtml}
+            `;
+    } else if (
+      currentRegion === "grindel" &&
+      currentSection === "enhancement"
+    ) {
+      // 강화 탭: 3컬럼 (품목, 필요재료, 필요골드)
+      const itemNameHtml = `${product.name}${
+        product.probability ? ` (${product.probability})` : ""
+      }`;
+      const recipeCell = priceDisplay; // recipe가 priceDisplay에 들어있음
+      const priceCell = product.price || "-";
+
+      row.innerHTML = `
+                <td>${itemNameHtml}</td>
+                <td class="price">${recipeCell}</td>
+                <td class="price">${priceCell}</td>
             `;
     } else {
       // 컬렉션북 아이템인지 확인하고 체크박스 추가
@@ -464,29 +1448,129 @@ function renderTable(productsToShow) {
       row.classList.add("collection-checked-row");
     }
 
-    tableBody.appendChild(row);
+    // 드래그 가능하도록 설정
+    row.draggable = true;
+    row.addEventListener("dragstart", (e) => {
+      let dragText = product.name;
 
-    // 재료 정보는 기존처럼 아래에 한 줄 표시 (요리 아이템이면 모든 탭에서 표시)
-    if (product.ingredients) {
+      // 드롭 존 위치 업데이트 및 표시
+      updateDropZonePosition();
+      const dropZone = document.getElementById("todoDropZone");
+      const sidebarPanel = document.querySelector(".sidebar-panel");
+      if (dropZone) {
+        dropZone.classList.add("active");
+      }
+      if (sidebarPanel) {
+        sidebarPanel.classList.add("dragging-active");
+      }
+
+      // 강화 탭: name, recipe, price를 줄바꿈으로 구분
+      if (currentRegion === "grindel" && currentSection === "enhancement") {
+        const parts = [product.name];
+        if (product.recipe) parts.push(product.recipe);
+        if (product.price) parts.push("비용 " + product.price);
+        dragText = parts.join("\n");
+      }
+      // 요리 탭: name, price, recipe를 줄바꿈으로 구분
+      else if (currentRegion === "grindel" && currentSection === "cooking") {
+        const parts = [product.name];
+        if (product.price) parts.push(product.price);
+        if (product.recipe || product.ingredients) {
+          parts.push(product.recipe || product.ingredients);
+        }
+        dragText = parts.join("\n");
+      }
+      // 가공 탭: name, recipe를 줄바꿈으로 구분
+      else if (currentRegion === "grindel" && currentSection === "process") {
+        const parts = [product.name];
+        if (product.recipe) parts.push(product.recipe);
+        dragText = parts.join("\n");
+      }
+      // 야생을 제외한 나머지 탭
+      else if (currentRegion !== "wild") {
+        if (product.recipe || product.ingredients) {
+          const recipeText = product.recipe || product.ingredients;
+          dragText = `${product.name}\n${recipeText}`;
+        } else {
+          // 제품에 ingredients가 없을 경우 상세 사전에서 레시피 사용
+          const detail = ingredientDetails && ingredientDetails[product.name];
+          const recipeText =
+            detail && detail.recipe ? String(detail.recipe).trim() : "";
+          if (recipeText) {
+            dragText = `${product.name}\n${recipeText}`;
+          }
+        }
+      }
+
+      e.dataTransfer.setData("text/plain", dragText);
+      e.dataTransfer.effectAllowed = "copy";
+      row.classList.add("dragging");
+    });
+
+    row.addEventListener("dragend", (e) => {
+      row.classList.remove("dragging");
+    });
+
+    tbody.appendChild(row);
+
+    // 하위 행 표시
+    // - 요리: 재료 포맷 표시
+    const isCookingForIngredients =
+      (currentRegion === "grindel" && currentSection === "cooking") ||
+      product.itemType === "cooking";
+
+    if (isCookingForIngredients && (product.recipe || product.ingredients)) {
       const ingredientsRow = document.createElement("tr");
-      const colSpan =
-        currentRegion === "grindel" && currentSection === "cooking" ? 3 : 2;
+      const colSpan = isCookingForIngredients ? 3 : 2;
       ingredientsRow.classList.add("ingredients-row");
 
-      // 검색 중이고 재료 키워드가 포함된 경우 펼쳐진 상태로 표시
+      // 검색 중이면 이름 또는 재료 매치 시 자동 펼침
       const searchTerm = (floatingSearchInput.value || "").toLowerCase().trim();
-      const isIngredientSearch =
-        searchTerm && product.ingredients.toLowerCase().includes(searchTerm);
+      const recipeText = product.recipe || product.ingredients || "";
+      const nameMatch = (product.name || "").toLowerCase().includes(searchTerm);
+      const shouldExpand =
+        !!searchTerm &&
+        (recipeText.toLowerCase().includes(searchTerm) || nameMatch);
 
-      if (currentSection === "cooking" && !isIngredientSearch) {
+      if (isCookingForIngredients && !shouldExpand) {
         ingredientsRow.classList.add("collapsed");
       }
+
       ingredientsRow.innerHTML = `
                 <td colspan="${colSpan}" class="ingredients-display">${formatIngredients(
-        product.ingredients
+        recipeText
       )}</td>
             `;
-      tableBody.appendChild(ingredientsRow);
+
+      // 재료 행도 드래그 가능하도록 설정
+      ingredientsRow.draggable = true;
+      ingredientsRow.addEventListener("dragstart", (e) => {
+        // 드롭 존 위치 업데이트 및 표시
+        updateDropZonePosition();
+        const dropZone = document.getElementById("todoDropZone");
+        const sidebarPanel = document.querySelector(".sidebar-panel");
+        if (dropZone) {
+          dropZone.classList.add("active");
+        }
+        if (sidebarPanel) {
+          sidebarPanel.classList.add("dragging-active");
+        }
+
+        const parts = [product.name];
+        if (product.price) parts.push(product.price);
+        if (recipeText) parts.push(recipeText);
+        const dragText = parts.join("\n");
+
+        e.dataTransfer.setData("text/plain", dragText);
+        e.dataTransfer.effectAllowed = "copy";
+        ingredientsRow.classList.add("dragging");
+      });
+
+      ingredientsRow.addEventListener("dragend", (e) => {
+        ingredientsRow.classList.remove("dragging");
+      });
+
+      tbody.appendChild(ingredientsRow);
 
       // 원재료 비용 합계 표시
       // (요청에 따라 재료 아래 별도 행 표시는 제거되었습니다)
@@ -617,6 +1701,7 @@ function computeTotalIngredientCost(ingredientsText) {
       unknownCount++;
       return;
     }
+    // cost 형식 예: "8×7G = 56G" 또는 "1×1G = 1G" 등
     const costMatch = detail.cost && detail.cost.match(/=\s*([\d,]+)G/);
     if (costMatch) {
       const unit = parseInt(costMatch[1].replace(/,/g, ""), 10);
@@ -632,8 +1717,8 @@ function formatNumber(n) {
   return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-// 검색 함수
-function searchProducts() {
+// 검색 함수는 search.js로 이동
+/* function searchProducts() {
   const searchTerm = (floatingSearchInput.value || "").toLowerCase().trim();
 
   if (searchTerm === "") {
@@ -667,49 +1752,144 @@ function searchProducts() {
     })),
   ];
 
-  const allCookingItems = regionData.grindel.cooking;
-
-  if (currentRegion === "wild") {
-    allProducts = [
-      ...regionData.wild,
-      ...allCookingItems,
-      ...allCollectionItems,
-    ];
-  } else if (currentRegion === "grindel") {
-    // 그린델 지역의 모든 섹션에서 검색 + 컬랙션북
-    allProducts = [
-      ...regionData.grindel.sell,
-      ...regionData.grindel.buy,
-      ...regionData.grindel.process,
-      ...regionData.grindel.cooking,
-      ...regionData.grindel.enhancement,
-      ...allCollectionItems,
-    ];
-  } else if (currentRegion === "collection") {
-    // 컬랙션북 지역의 모든 섹션에서 검색 + 요리
-    allProducts = [...allCookingItems, ...allCollectionItems];
-  } else {
-    // 모든 지역에서 검색
-    allProducts = [
-      ...regionData.wild,
-      ...regionData.grindel.sell,
-      ...regionData.grindel.buy,
-      ...regionData.grindel.process,
-      ...regionData.grindel.cooking,
-      ...regionData.grindel.enhancement,
-      ...allCollectionItems,
-    ];
+  // 요리 아이템 평탄화 (타입 및 카테고리 정보 추가)
+  const allCookingItems = [];
+  if (
+    regionData.grindel.cooking &&
+    typeof regionData.grindel.cooking === "object"
+  ) {
+    Object.entries(regionData.grindel.cooking).forEach(
+      ([categoryName, category]) => {
+        const itemsWithType = category.map((item) => ({
+          ...item,
+          itemType: "cooking",
+          categoryName: categoryName,
+        }));
+        allCookingItems.push(...itemsWithType);
+      }
+    );
   }
+
+  // 야생 지역 아이템 평탄화 (카테고리 정보 추가)
+  const wildItems = [];
+  if (regionData.wild && typeof regionData.wild === "object") {
+    Object.entries(regionData.wild).forEach(([categoryName, category]) => {
+      const itemsWithCategory = category.map((item) => ({
+        ...item,
+        categoryName: categoryName,
+      }));
+      wildItems.push(...itemsWithCategory);
+    });
+  }
+
+  // 가공 아이템 평탄화 (카테고리 정보 추가)
+  const processItemsWithCategory = [];
+  if (
+    regionData.grindel.process &&
+    typeof regionData.grindel.process === "object"
+  ) {
+    Object.entries(regionData.grindel.process).forEach(
+      ([categoryName, category]) => {
+        const itemsWithCategory = category.map((item) => ({
+          ...item,
+          categoryName: categoryName,
+        }));
+        processItemsWithCategory.push(...itemsWithCategory);
+      }
+    );
+  }
+
+  // 판매 아이템 (카테고리 구조 또는 배열 모두 지원)
+  const sellItems = [];
+  if (regionData.grindel?.sell) {
+    if (Array.isArray(regionData.grindel.sell)) {
+      sellItems.push(
+        ...regionData.grindel.sell.map((item) => ({
+          ...item,
+          categoryName: "세레니티 - 판매",
+        }))
+      );
+    } else {
+      Object.entries(regionData.grindel.sell).forEach(([subCategory, arr]) => {
+        sellItems.push(
+          ...arr.map((item) => ({
+            ...item,
+            categoryName: `세레니티 - 판매 - ${subCategory}`,
+          }))
+        );
+      });
+    }
+  }
+
+  // 구매 아이템 (카테고리 구조 또는 배열 모두 지원)
+  const buyItems = [];
+  if (regionData.grindel?.buy) {
+    if (Array.isArray(regionData.grindel.buy)) {
+      buyItems.push(
+        ...regionData.grindel.buy.map((item) => ({
+          ...item,
+          categoryName: "세레니티 - 구매",
+        }))
+      );
+    } else {
+      Object.entries(regionData.grindel.buy).forEach(([subCategory, arr]) => {
+        buyItems.push(
+          ...arr.map((item) => ({
+            ...item,
+            categoryName: `세레니티 - 구매 - ${subCategory}`,
+          }))
+        );
+      });
+    }
+  }
+
+  // 강화 아이템 (카테고리 정보 추가)
+  const enhancementItems = (regionData.grindel?.enhancement || []).map(
+    (item) => ({
+      ...item,
+      categoryName: "세레니티 - 강화 - 로니",
+    })
+  );
+
+  // 모든 지역에서 항상 모든 섹션 검색
+  allProducts = [
+    ...wildItems,
+    ...sellItems,
+    ...buyItems,
+    ...processItemsWithCategory,
+    ...allCookingItems,
+    ...enhancementItems,
+    ...allCollectionItems,
+  ];
+
+  console.log("검색어:", searchTerm);
+  console.log("전체 상품 수:", allProducts.length);
+  console.log("판매 아이템:", sellItems.length);
+  console.log("구매 아이템:", buyItems.length);
+  console.log("가공 아이템:", processItemsWithCategory.length);
+  console.log("요리 아이템:", allCookingItems.length);
+  console.log("강화 아이템:", enhancementItems.length);
+  console.log("야생 아이템:", wildItems.length);
+  console.log("컬렉션 아이템:", allCollectionItems.length);
 
   const filteredProducts = allProducts.filter((product) => {
     const nameMatch = product.name.toLowerCase().includes(searchTerm);
-    const ingredientsMatch =
-      product.ingredients &&
-      product.ingredients.toLowerCase().includes(searchTerm);
-    const priceMatch =
-      product.price && product.price.toLowerCase().includes(searchTerm);
+    const recipeText = (
+      product.recipe ||
+      product.ingredients ||
+      ""
+    ).toLowerCase();
+    const ingredientsMatch = recipeText.includes(searchTerm);
+    const priceText = String(product.price || "").toLowerCase();
+    const priceMatch = priceText.includes(searchTerm);
     return nameMatch || ingredientsMatch || priceMatch;
   });
+
+  console.log("필터링된 상품 수:", filteredProducts.length);
+  console.log(
+    "필터링된 상품들:",
+    filteredProducts.map((p) => p.name)
+  );
 
   // 컬랙션북 아이템이 검색 결과에 있는지 확인
   const hasCollectionItems = filteredProducts.some(
@@ -717,8 +1897,38 @@ function searchProducts() {
   );
   collectionInfo.style.display = hasCollectionItems ? "block" : "none";
 
-  renderTable(filteredProducts);
-}
+  // 카테고리가 있는 아이템들을 그룹화
+  const hasCategorizedItems = filteredProducts.some(
+    (item) => item.categoryName
+  );
+
+  if (hasCategorizedItems) {
+    // 카테고리별로 그룹화
+    const categorized = {};
+    const uncategorized = [];
+
+    filteredProducts.forEach((item) => {
+      if (item.categoryName) {
+        if (!categorized[item.categoryName]) {
+          categorized[item.categoryName] = [];
+        }
+        categorized[item.categoryName].push(item);
+      } else {
+        uncategorized.push(item);
+      }
+    });
+
+    // 카테고리가 있으면 카테고리별로 렌더링, 없으면 일반 렌더링
+    if (Object.keys(categorized).length > 0) {
+      // 검색 결과임을 표시하기 위한 플래그 추가
+      renderTableWithCategories(categorized, uncategorized, true);
+    } else {
+      renderTable(filteredProducts);
+    }
+  } else {
+    renderTable(filteredProducts);
+  }
+} */
 
 // 현재 선택된 지역과 섹션의 데이터를 가져오는 함수
 function getCurrentProducts() {
@@ -762,33 +1972,48 @@ function updateHeader(isSearching = false) {
     hideCollectionProgress();
   }
 
+  // DOM 요소를 다시 찾기 (가공 섹션 이후 재생성될 수 있음)
+  const currentCostHeader = document.getElementById("costHeader");
+  const currentToggleAllIcon = document.getElementById("toggleAllIcon");
+  const currentPriceHeader = document.getElementById("priceHeader");
+  const currentItemHeaderText = document.getElementById("itemHeaderText");
+
   // 원재료 비용 헤더 토글 + 헤더 토글 아이콘 표시
   if (currentRegion === "grindel" && currentSection === "cooking") {
-    if (costHeader) costHeader.style.display = "";
-    if (toggleAllIcon) toggleAllIcon.style.display = "";
+    if (currentCostHeader) currentCostHeader.style.display = "";
+    if (currentToggleAllIcon) currentToggleAllIcon.style.display = "";
+  } else if (currentRegion === "grindel" && currentSection === "enhancement") {
+    // 강화 탭은 3컬럼: 품목, 필요재료, 필요골드
+    if (currentCostHeader) {
+      currentCostHeader.style.display = "";
+      currentCostHeader.textContent = "필요 골드";
+    }
+    if (currentToggleAllIcon) currentToggleAllIcon.style.display = "none";
   } else {
-    if (costHeader) costHeader.style.display = "none";
-    if (toggleAllIcon) toggleAllIcon.style.display = "none";
+    if (currentCostHeader) currentCostHeader.style.display = "none";
+    if (currentToggleAllIcon) currentToggleAllIcon.style.display = "none";
   }
 
   if (isSearching) {
-    priceHeader.textContent = "내용";
-    if (itemHeaderText) itemHeaderText.textContent = "품목";
+    if (currentPriceHeader) currentPriceHeader.textContent = "내용";
+    if (currentItemHeaderText) currentItemHeaderText.textContent = "품목";
   } else if (currentRegion === "grindel") {
-    priceHeader.textContent = headers[currentSection] || "가격";
+    if (currentPriceHeader)
+      currentPriceHeader.textContent = headers[currentSection] || "가격";
     if (currentSection === "cooking") {
-      if (itemHeaderText) itemHeaderText.textContent = "요리명";
+      if (currentItemHeaderText) currentItemHeaderText.textContent = "요리명";
     } else if (currentSection === "enhancement") {
-      if (itemHeaderText) itemHeaderText.textContent = "강화 단계";
+      if (currentItemHeaderText) currentItemHeaderText.textContent = "품목";
+      if (currentPriceHeader) currentPriceHeader.textContent = "필요 재료";
     } else {
-      if (itemHeaderText) itemHeaderText.textContent = "품목";
+      if (currentItemHeaderText) currentItemHeaderText.textContent = "품목";
     }
   } else if (currentRegion === "collection") {
-    priceHeader.textContent = "달성 개수";
-    if (itemHeaderText) itemHeaderText.textContent = "종류";
+    if (currentPriceHeader) currentPriceHeader.textContent = "달성 개수";
+    if (currentItemHeaderText) currentItemHeaderText.textContent = "종류";
   } else {
-    priceHeader.textContent = "판매 가격";
-    if (itemHeaderText) itemHeaderText.textContent = "품목";
+    if (currentPriceHeader) currentPriceHeader.textContent = "판매 가격";
+    if (currentItemHeaderText) currentItemHeaderText.textContent = "품목";
   }
 }
 
@@ -890,8 +2115,8 @@ function switchSection(section) {
   renderTable(getCurrentProducts());
 }
 
-// 이벤트 리스너
-floatingSearchInput.addEventListener("input", searchProducts);
+// 이벤트 리스너 (search.js 로드 이후에 등록)
+// 전역에서 바로 등록하지 않고 초기화 시점에 안전하게 등록
 
 // 탭 버튼 이벤트 리스너
 tabButtons.forEach((button) => {
@@ -914,6 +2139,11 @@ function initializeApp() {
 
   // 컬렉션북 체크 상태 로드
   loadCollectionCheckedItems();
+
+  // To-Do List 초기화
+  loadTodoList();
+  renderTodoList();
+  initializeDragAndDrop();
 
   updateHeader();
   renderTable(getCurrentProducts());
@@ -945,43 +2175,79 @@ function initializeApp() {
   if (closeCalculator) {
     closeCalculator.addEventListener("click", closeCalculatorModal);
   }
-  
-  // 계산기 모달 배경 클릭 시 닫기
-   if (calculatorModal) {
-     calculatorModal.addEventListener("click", (e) => {
-       // 내부 calculator-content 클릭은 무시
-       if (e.target === calculatorModal) {
-         closeCalculatorModal();
-       }
-     });
-   }
 
-  // ESC 키로 계산기 모달 닫기
+  // To-Do List 이벤트
+  const todoInput = document.getElementById("todoInput");
+  const addTodoBtn = document.getElementById("addTodoBtn");
+  const clearTodoBtn = document.getElementById("clearTodoBtn");
+
+  if (todoInput && addTodoBtn) {
+    addTodoBtn.addEventListener("click", () => {
+      addTodoItem(todoInput.value);
+      todoInput.value = "";
+    });
+
+    todoInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        addTodoItem(todoInput.value);
+        todoInput.value = "";
+      }
+    });
+  }
+
+  if (clearTodoBtn) {
+    clearTodoBtn.addEventListener("click", clearTodoList);
+  }
+
+  // 계산기 모달 배경 클릭 시 닫기
+  if (calculatorModal) {
+    calculatorModal.addEventListener("click", (e) => {
+      // 내부 calculator-content 클릭은 무시
+      if (e.target === calculatorModal) {
+        closeCalculatorModal();
+      }
+    });
+  }
+
+  // 검색 입력 이벤트 (search.js의 searchProducts가 로드되어 있음)
+  if (floatingSearchInput && typeof searchProducts === "function") {
+    floatingSearchInput.addEventListener("input", searchProducts);
+  }
+
+  // ESC 키로 모달 닫기
   document.addEventListener("keydown", (e) => {
-    if (
-      e.key === "Escape" &&
-      calculatorModal &&
-      calculatorModal.classList.contains("show")
-    ) {
-      closeCalculatorModal();
+    if (e.key === "Escape") {
+      // NPC 모달 닫기
+      const npcModal = document.getElementById("npcModal");
+      if (npcModal && npcModal.classList.contains("show")) {
+        closeNpcModal();
+      }
+      // 계산기 모달 닫기
+      else if (calculatorModal && calculatorModal.classList.contains("show")) {
+        closeCalculatorModal();
+      }
     }
   });
 
   // 요리 탭 재료 접기/펼치기 위임 클릭 핸들러
-  tableBody.addEventListener("click", (e) => {
-    if (currentRegion !== "grindel" || currentSection !== "cooking") return;
-    // tr.collapsible 또는 그 내부 클릭 시 처리
-    let targetRow = e.target.closest("tr");
-    if (!targetRow || !targetRow.classList.contains("collapsible")) return;
-    const nextRow = targetRow.nextElementSibling;
-    if (!nextRow || !nextRow.classList.contains("ingredients-row")) return;
-    nextRow.classList.toggle("collapsed");
-    // 토글 아이콘 회전
-    const icon = targetRow.querySelector(".row-toggle");
-    if (icon) icon.classList.toggle("expanded");
-    // 전체 버튼 상태 업데이트
-    updateToggleAllButton();
-  });
+  const tableContainer = document.querySelector(".table-container");
+  if (tableContainer) {
+    tableContainer.addEventListener("click", (e) => {
+      if (currentRegion !== "grindel" || currentSection !== "cooking") return;
+      // tr.collapsible 또는 그 내부 클릭 시 처리
+      let targetRow = e.target.closest("tr");
+      if (!targetRow || !targetRow.classList.contains("collapsible")) return;
+      const nextRow = targetRow.nextElementSibling;
+      if (!nextRow || !nextRow.classList.contains("ingredients-row")) return;
+      nextRow.classList.toggle("collapsed");
+      // 토글 아이콘 회전
+      const icon = targetRow.querySelector(".row-toggle");
+      if (icon) icon.classList.toggle("expanded");
+      // 전체 버튼 상태 업데이트
+      updateToggleAllButton();
+    });
+  }
 }
 
 // 페이지 로드 시 데이터 로드 시작
@@ -1066,24 +2332,68 @@ function toggleAllIngredients() {
 
 // 전체 토글 버튼 상태 업데이트
 function updateToggleAllButton() {
-  if (
-    !toggleAllIcon ||
-    currentRegion !== "grindel" ||
-    currentSection !== "cooking"
-  )
-    return;
+  if (currentRegion !== "grindel" || currentSection !== "cooking") return;
+
+  const currentToggleAllIcon = document.getElementById("toggleAllIcon");
+  if (!currentToggleAllIcon) return;
+
   const ingredientsRows = document.querySelectorAll(".ingredients-row");
   if (ingredientsRows.length === 0) return;
   const allCollapsed = Array.from(ingredientsRows).every((row) =>
     row.classList.contains("collapsed")
   );
-  const icon = toggleAllIcon.querySelector(".row-toggle");
+  const icon = currentToggleAllIcon.querySelector(".row-toggle");
   if (icon) {
     if (allCollapsed) {
       icon.classList.remove("expanded");
     } else {
       icon.classList.add("expanded");
     }
+  }
+}
+
+// NPC 모달 관련 함수들
+function showNpcModal(imageSrc, npcName) {
+  // 기존 모달이 있으면 제거
+  let existingModal = document.getElementById("npcModal");
+  if (existingModal) {
+    existingModal.remove();
+  }
+
+  // 모달 생성
+  const modal = document.createElement("div");
+  modal.id = "npcModal";
+  modal.className = "npc-modal";
+  modal.innerHTML = `
+    <div class="npc-modal-content">
+      <button class="npc-modal-close" onclick="closeNpcModal()">&times;</button>
+      <img src="${imageSrc}" alt="${npcName}" class="npc-modal-image" />
+      <div class="npc-modal-name">${npcName}</div>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+
+  // 모달 표시
+  setTimeout(() => {
+    modal.classList.add("show");
+  }, 10);
+
+  // 배경 클릭 시 닫기
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      closeNpcModal();
+    }
+  });
+}
+
+function closeNpcModal() {
+  const modal = document.getElementById("npcModal");
+  if (modal) {
+    modal.classList.remove("show");
+    setTimeout(() => {
+      modal.remove();
+    }, 300);
   }
 }
 
@@ -1104,7 +2414,19 @@ function renderCalculator() {
   if (!calculatorBody || !regionData.grindel || !regionData.grindel.cooking)
     return;
 
-  const cookingItems = regionData.grindel.cooking;
+  // 요리 아이템 평탄화 (카테고리 구조인 경우)
+  let cookingItems = [];
+  if (
+    typeof regionData.grindel.cooking === "object" &&
+    !Array.isArray(regionData.grindel.cooking)
+  ) {
+    Object.values(regionData.grindel.cooking).forEach((category) => {
+      cookingItems.push(...category);
+    });
+  } else {
+    cookingItems = regionData.grindel.cooking;
+  }
+
   calculatorBody.innerHTML = "";
 
   // 가격 저장소 UI + 요리 선택 버튼들
@@ -1229,9 +2551,10 @@ function showCalculationArea(index, item) {
   const minPrice = priceMatch ? parseInt(priceMatch[1].replace(/,/g, "")) : 0;
   const maxPrice = priceMatch ? parseInt(priceMatch[2].replace(/,/g, "")) : 0;
 
-  // 제작비용 계산
-  const costInfo = item.ingredients
-    ? computeTotalIngredientCost(item.ingredients)
+  // 제작비용 계산 (recipe 또는 ingredients 필드 사용)
+  const recipeText = item.recipe || item.ingredients || "";
+  const costInfo = recipeText
+    ? computeTotalIngredientCost(recipeText)
     : { total: 0 };
 
   // 선택된 요리 정보 표시
@@ -1307,6 +2630,14 @@ function showCalculationArea(index, item) {
   });
 
   calculationArea.style.display = "block";
+
+  // 계산 영역으로 부드럽게 스크롤
+  setTimeout(() => {
+    calculationArea.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  }, 100);
 }
 
 function hideCalculationArea() {
