@@ -255,23 +255,69 @@ function getDragAfterElement(y) {
 // 드롭다운 메뉴 토글
 function toggleTodoMenu(id) {
   const dropdown = document.getElementById(`dropdown-${id}`);
+  const todoItem = document.querySelector(`[data-todo-id="${id}"]`);
   const allDropdowns = document.querySelectorAll(".todo-dropdown");
 
   // 다른 드롭다운 닫기
   allDropdowns.forEach((d) => {
     if (d.id !== `dropdown-${id}`) {
       d.classList.remove("show");
+
+      // show-above 클래스는 트랜지션 후에 제거
+      if (d.classList.contains("show-above")) {
+        setTimeout(() => {
+          d.classList.remove("show-above");
+        }, 200);
+      }
     }
   });
 
   // 현재 드롭다운 토글
-  dropdown.classList.toggle("show");
+  const isShowing = dropdown.classList.contains("show");
+
+  if (!isShowing) {
+    // 드롭다운 위치 계산 (아래쪽 공간이 부족하면 위로 표시)
+    const todoItemRect = todoItem.getBoundingClientRect();
+    const sidebarInner = document.querySelector(".sidebar-inner");
+    const sidebarRect = sidebarInner.getBoundingClientRect();
+    const dropdownHeight = 88; // 드롭다운 예상 높이
+
+    // 사이드바 하단으로부터 얼마나 떨어져 있는지 계산
+    const spaceBelow = sidebarRect.bottom - todoItemRect.bottom;
+
+    // 아래쪽 공간이 부족하면 위쪽에 표시
+    if (spaceBelow < dropdownHeight + 10) {
+      dropdown.classList.add("show-above");
+    } else {
+      dropdown.classList.remove("show-above");
+    }
+
+    dropdown.classList.add("show");
+  } else {
+    dropdown.classList.remove("show");
+
+    // show-above 클래스는 트랜지션 후에 제거
+    if (dropdown.classList.contains("show-above")) {
+      setTimeout(() => {
+        dropdown.classList.remove("show-above");
+      }, 200);
+    }
+  }
 }
 
 // 모든 드롭다운 닫기
 function closeAllDropdowns() {
   const allDropdowns = document.querySelectorAll(".todo-dropdown");
-  allDropdowns.forEach((d) => d.classList.remove("show"));
+  allDropdowns.forEach((d) => {
+    d.classList.remove("show");
+
+    // show-above 클래스는 트랜지션 후에 제거
+    if (d.classList.contains("show-above")) {
+      setTimeout(() => {
+        d.classList.remove("show-above");
+      }, 200); // 트랜지션 시간과 동일
+    }
+  });
 }
 
 // 수정 핸들러
@@ -285,3 +331,21 @@ function handleDelete(id) {
   closeAllDropdowns();
   deleteTodoItem(id);
 }
+
+// 스크롤 시 드롭다운 닫기
+document.addEventListener("DOMContentLoaded", () => {
+  const sidebarInner = document.querySelector(".sidebar-inner");
+  if (sidebarInner) {
+    sidebarInner.addEventListener("scroll", closeAllDropdowns);
+  }
+
+  // 외부 클릭 시 드롭다운 닫기
+  document.addEventListener("click", (e) => {
+    if (
+      !e.target.closest(".todo-menu-btn") &&
+      !e.target.closest(".todo-dropdown")
+    ) {
+      closeAllDropdowns();
+    }
+  });
+});

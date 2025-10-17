@@ -63,6 +63,7 @@ body.dark-theme .brand-sub {
   max-width: 100%;
   max-height: auto;
   backdrop-filter: blur(10px);
+  overflow: visible;
 }
 
 .todo-header {
@@ -150,37 +151,18 @@ body.dark-theme .todo-input-container textarea {
   padding: 0;
   margin: 0;
   max-height: calc(100vh - 200px);
-  overflow-y: hidden;
-  overflow-x: hidden;
+  overflow-y: auto;
+  overflow-x: visible;
   display: flex;
   flex-direction: column;
   gap: 8px;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
 }
 
-/* 스크롤바 스타일링 */
+/* 스크롤바 완전히 숨기기 */
 .todo-list::-webkit-scrollbar {
-  width: 6px;
-}
-
-.todo-list::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.todo-list::-webkit-scrollbar-thumb {
-  background: #ddd;
-  border-radius: 3px;
-}
-
-.todo-list::-webkit-scrollbar-thumb:hover {
-  background: #bbb;
-}
-
-body.dark-theme .todo-list::-webkit-scrollbar-thumb {
-  background: #555;
-}
-
-body.dark-theme .todo-list::-webkit-scrollbar-thumb:hover {
-  background: #666;
+  display: none; /* Chrome, Safari, Opera */
 }
 
 .todo-item {
@@ -195,6 +177,7 @@ body.dark-theme .todo-list::-webkit-scrollbar-thumb:hover {
   border-radius: 8px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   cursor: move;
+  overflow: visible;
 }
 
 .todo-item.dragging {
@@ -312,20 +295,41 @@ body.dark-theme .todo-item.completed-item .todo-menu-btn:hover {
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   min-width: 120px;
-  z-index: 1000;
+  z-index: 9999;
   opacity: 0;
   visibility: hidden;
   transform: translateY(-10px) scale(0.95);
-  transition: all 0.2s ease;
+  transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
   overflow: hidden;
   backdrop-filter: blur(10px);
   border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
+/* 드롭다운이 위쪽으로 표시될 때 */
+.todo-dropdown.show-above {
+  top: auto;
+  bottom: 100%;
+  margin-top: 0;
+  margin-bottom: 4px;
+}
+
+/* 드롭다운 보이기 - 일반 */
 .todo-dropdown.show {
   opacity: 1;
   visibility: visible;
   transform: translateY(0) scale(1);
+}
+
+/* 드롭다운 보이기 - 위로 표시될 때 */
+.todo-dropdown.show-above.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+/* 드롭다운 숨기기 - 위로 표시될 때 */
+.todo-dropdown.show-above:not(.show) {
+  transform: translateY(10px) scale(0.95);
 }
 
 body.dark-theme .todo-dropdown {
