@@ -684,6 +684,7 @@ body.dark-theme .price-timer.fixed {
 }
 
 .timer-container {
+  position: relative;
   display: flex;
   align-items: center;
   background-color: #e3f2fd;
@@ -781,6 +782,64 @@ body.dark-theme .timer-container {
   background-color: #263238;
   color: #e5e5e5;
   border: 1px solid #455a64;
+}
+
+/* 버전 배지 스타일 */
+.version-badge {
+  display: none;
+  position: fixed;
+  top: 70px;
+  right: calc(50% - 330px);
+  padding: 6px 12px;
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(40, 167, 69, 0.4);
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  z-index: 1001;
+}
+
+/* 고정 상태일 때만 버전 배지 표시 */
+.price-timer.fixed ~ .container .version-badge,
+.price-timer.fixed .version-badge {
+  display: block;
+  animation: fadeInSlide 0.4s ease;
+}
+
+@keyframes fadeInSlide {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+body.dark-theme .version-badge {
+  background: linear-gradient(135deg, #2d7a3e 0%, #1a6d35 100%);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* 사이드바가 숨겨지는 화면에서 버전 배지 위치 조정 */
+@media (max-width: 1100px) {
+  .version-badge {
+    right: 10px !important;
+  }
+}
+
+/* 모바일에서 버전 배지 크기 및 위치 조정 */
+@media (max-width: 768px) {
+  .version-badge {
+    top: 60px;
+    right: 10px !important;
+    font-size: 9px;
+    padding: 4px 8px;
+  }
 }
 
 .timer-icon {
