@@ -945,7 +945,16 @@ function initializeApp() {
   if (closeCalculator) {
     closeCalculator.addEventListener("click", closeCalculatorModal);
   }
-  // 계산기 모달은 빈 공간 클릭으로 닫히지 않음 (X 버튼과 ESC 키로만 닫힘)
+  
+  // 계산기 모달 배경 클릭 시 닫기
+   if (calculatorModal) {
+     calculatorModal.addEventListener("click", (e) => {
+       // 내부 calculator-content 클릭은 무시
+       if (e.target === calculatorModal) {
+         closeCalculatorModal();
+       }
+     });
+   }
 
   // ESC 키로 계산기 모달 닫기
   document.addEventListener("keydown", (e) => {
