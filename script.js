@@ -1688,12 +1688,17 @@ function formatIngredients(ingredientsText) {
 }
 
 // 비용 합계 계산
-function computeTotalIngredientCost(ingredientsText) {
+function computeTotalIngredientCost(ingredientsText, options = {}) {
   let total = 0;
   let unknownCount = 0;
+  const { excludeBases = false } = options;
+  const baseNames = new Set(["토마토 베이스", "양파 베이스", "마늘 베이스"]);
   const parts = ingredientsText.split("+").map((p) => p.trim());
   parts.forEach((part) => {
     const name = part.replace(/\s*\d+개.*$/, "").trim();
+    if (excludeBases && baseNames.has(name)) {
+      return; // 씨앗비용 사용 시 베이스 재료는 비용 제외
+    }
     const qtyMatch = part.match(/(\d+)개/);
     const qty = qtyMatch ? parseInt(qtyMatch[1], 10) : 1;
     const detail = ingredientDetails[name];
@@ -2561,7 +2566,7 @@ function showCalculationArea(index, item) {
   const itemImage = item.image
     ? `<img src="${item.image}" alt="${item.name}" class="calculator-item-image" />`
     : "";
-  selectedItemInfo.innerHTML = `
+  selectedItemInfo.innerHTML = /* html */ `
     <div class="item-header">
       <div class="item-title">
         ${itemImage}
@@ -2586,22 +2591,34 @@ function showCalculationArea(index, item) {
     </div>
   `;
 
-  // 입력 필드 (가격 저장소 자동 반영)
-  calculationInputs.innerHTML = `
+  // 입력 필드 (가격 저장소 자동 반영) + 씨앗비용 토글/입력
+  calculationInputs.innerHTML = /* html */ `
+    <div class="seed-toggle">
+      <label class="seed-checkbox">
+        <input type="checkbox" id="useSeedCost" />
+        <span class="seed-checkmark"></span>
+        요리 베이스 비용 커스텀
+    </div>
     <div class="input-row">
       <div class="input-group">
         <label>현재 가격 (G)</label>
         <input type="number" id="currentPrice" placeholder="현재 가격 입력" min="0" />
       </div>
       <div class="input-group">
-        <label>갯수</label>
-        <input type="number" id="quantity" placeholder="갯수 입력" min="0" />
+        <label>요리 갯수</label>
+        <input type="number" id="quantity" placeholder="요리 갯수 입력" min="0" />
+      </div>
+    </div>
+    <div class="input-row seed-row" id="seedRow" style="display:none">
+      <div class="input-group">
+        <label>베이스 비용 (G)</label>
+        <input type="number" id="seedCost" placeholder="요리 1개당 총 베이스 비용 입력" min="0" />
       </div>
     </div>
   `;
 
   // 계산 결과 영역
-  calculationResults.innerHTML = `
+  calculationResults.innerHTML = /* html */ `
     <div class="results-grid">
       <div class="result-item cost-breakdown" id="costBreakdown">
         원재료 비용: -
@@ -2615,6 +2632,9 @@ function showCalculationArea(index, item) {
   // 이벤트 리스너 추가
   const currentPriceInput = document.getElementById("currentPrice");
   const quantityInput = document.getElementById("quantity");
+  const useSeedCost = document.getElementById("useSeedCost");
+  const seedRow = document.getElementById("seedRow");
+  const seedCostInput = document.getElementById("seedCost");
 
   // 저장된 가격 자동 반영
   loadCookingPrices();
@@ -2625,9 +2645,21 @@ function showCalculationArea(index, item) {
 
   [currentPriceInput, quantityInput].forEach((input) => {
     input.addEventListener("input", () => {
-      calculateResults(index, item, minPrice, maxPrice, costInfo.total);
+      calculateResults(index, item, minPrice, maxPrice, recipeText);
     });
   });
+
+  if (useSeedCost) {
+    useSeedCost.addEventListener("change", () => {
+      if (seedRow) seedRow.style.display = useSeedCost.checked ? "" : "none";
+      calculateResults(index, item, minPrice, maxPrice, recipeText);
+    });
+  }
+  if (seedCostInput) {
+    seedCostInput.addEventListener("input", () => {
+      calculateResults(index, item, minPrice, maxPrice, recipeText);
+    });
+  }
 
   calculationArea.style.display = "block";
 
@@ -2647,7 +2679,7 @@ function hideCalculationArea() {
   }
 }
 
-function calculateResults(index, item, minPrice, maxPrice, costPerItem) {
+function calculateResults(index, item, minPrice, maxPrice, recipeText) {
   const currentPriceInput = document.getElementById("currentPrice");
   const quantityInput = document.getElementById("quantity");
   const comparisonAmount = document
@@ -2655,6 +2687,8 @@ function calculateResults(index, item, minPrice, maxPrice, costPerItem) {
     ?.querySelector(".comparison-amount");
   const costBreakdown = document.getElementById("costBreakdown");
   const profitCalculation = document.getElementById("profitCalculation");
+  const useSeed = document.getElementById("useSeedCost")?.checked;
+  const seedCost = parseFloat(document.getElementById("seedCost")?.value) || 0;
 
   if (
     !currentPriceInput ||
@@ -2666,6 +2700,12 @@ function calculateResults(index, item, minPrice, maxPrice, costPerItem) {
 
   const currentPrice = parseFloat(currentPriceInput.value) || 0;
   const quantity = parseInt(quantityInput.value) || 0;
+
+  // 재료 비용(개당) 계산: 씨앗비용 체크 시 베이스 재료 제외 + 씨앗비용 추가
+  const costInfoNow = recipeText
+    ? computeTotalIngredientCost(recipeText, { excludeBases: !!useSeed })
+    : { total: 0 };
+  const perItemCost = costInfoNow.total + (useSeed ? seedCost : 0);
 
   // 가격 비교 계산 (상단으로 이동)
   if (currentPrice > 0 && minPrice > 0 && comparisonAmount) {
@@ -2693,7 +2733,7 @@ function calculateResults(index, item, minPrice, maxPrice, costPerItem) {
 
   // 제작비용 표시
   if (quantity > 0) {
-    const totalCost = costPerItem * quantity;
+    const totalCost = perItemCost * quantity;
     costBreakdown.textContent = `제작비용: -${formatNumber(totalCost)}G`;
   } else {
     costBreakdown.textContent = "제작비용: -";
@@ -2702,7 +2742,7 @@ function calculateResults(index, item, minPrice, maxPrice, costPerItem) {
   // 수익 계산
   if (currentPrice > 0 && quantity > 0) {
     const totalRevenue = currentPrice * quantity;
-    const totalCost = costPerItem * quantity;
+    const totalCost = perItemCost * quantity;
     const profit = totalRevenue - totalCost;
 
     profitCalculation.textContent = `예상 수익: ${formatNumber(profit)}G`;
@@ -2719,5 +2759,13 @@ function calculateResults(index, item, minPrice, maxPrice, costPerItem) {
     profitCalculation.textContent = "예상 수익: -";
     profitCalculation.style.background = "";
     profitCalculation.style.color = "";
+  }
+
+  // 상단 선택된 요리 정보의 개당 제작비용 갱신
+  const costAmountEl = document
+    .getElementById("selectedItemInfo")
+    ?.querySelector(".cost-amount");
+  if (costAmountEl) {
+    costAmountEl.textContent = `${formatNumber(perItemCost)}G`;
   }
 }
