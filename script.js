@@ -2769,3 +2769,8 @@ function calculateResults(index, item, minPrice, maxPrice, recipeText) {
     costAmountEl.textContent = `${formatNumber(perItemCost)}G`;
   }
 }
+
+// 쿠키 삭제 함수
+function deleteCookie(name) {
+  document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;`;
+}
