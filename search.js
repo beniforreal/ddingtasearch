@@ -124,9 +124,26 @@ function searchProducts() {
   const enhancementItems = (regionData.grindel?.enhancement || []).map(
     (item) => ({
       ...item,
-      categoryName: "세레니티 - 강화",
+      categoryName: "세레니티 - 강화 - 로니",
     })
   );
+
+  // 도구 강화 (세이지 괭이, 세이지 곡괭이)
+  const toolEnhancementItems = [];
+  if (regionData.grindel?.toolEnhancement) {
+    regionData.grindel.toolEnhancement.forEach((tool) => {
+      tool.rows.forEach((rowData, index) => {
+        toolEnhancementItems.push({
+          name: `${tool.name} ${rowData[0]}`,
+          price: rowData.slice(1).join(" / "),
+          categoryName: `세레니티 - 강화 - ${tool.name}`,
+          isToolEnhancement: true,
+          toolName: tool.name,
+          rowData: rowData,
+        });
+      });
+    });
+  }
 
   allProducts = [
     ...wildItems,
@@ -135,6 +152,7 @@ function searchProducts() {
     ...processItemsWithCategory,
     ...allCookingItems,
     ...enhancementItems,
+    ...toolEnhancementItems,
     ...allCollectionItems,
   ];
 

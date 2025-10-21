@@ -1132,14 +1132,40 @@ table {
   white-space: nowrap;
 }
 
+/* 도구 강화 테이블 전용 스타일 */
+.tool-enhancement-table {
+  table-layout: auto;
+  width: 100% !important;
+}
+
+.tool-enhancement-table td,
+.tool-enhancement-table th {
+  text-align: center;
+  padding: 12px 8px;
+  white-space: nowrap;
+  width: auto !important;
+}
+
+.tool-enhancement-table td:first-child,
+.tool-enhancement-table th:first-child {
+  text-align: left;
+  font-weight: 600;
+  white-space: nowrap;
+  width: auto !important;
+}
+
 /* 일반 테이블 레이아웃 (가공 등) */
-table:not(.cooking-table):not(.enhancement-table) td:first-child,
-table:not(.cooking-table):not(.enhancement-table) th:first-child {
+table:not(.cooking-table):not(.enhancement-table):not(.tool-enhancement-table)
+  td:first-child,
+table:not(.cooking-table):not(.enhancement-table):not(.tool-enhancement-table)
+  th:first-child {
   width: 50%;
 }
 
-table:not(.cooking-table):not(.enhancement-table) td:not(:first-child),
-table:not(.cooking-table):not(.enhancement-table) th:not(:first-child) {
+table:not(.cooking-table):not(.enhancement-table):not(.tool-enhancement-table)
+  td:not(:first-child),
+table:not(.cooking-table):not(.enhancement-table):not(.tool-enhancement-table)
+  th:not(:first-child) {
   width: 50%;
 }
 
@@ -1679,6 +1705,17 @@ body.dark-theme .collection-info {
   .price-cost {
     width: 120px;
   }
+
+  /* 도구 강화 테이블 */
+  .tool-enhancement-table {
+    width: 100% !important;
+  }
+
+  .tool-enhancement-table td,
+  .tool-enhancement-table th {
+    white-space: nowrap;
+    width: auto !important;
+  }
 }
 
 .cooking-info {
@@ -2050,14 +2087,31 @@ body.dark-theme .footer-search input {
     white-space: nowrap;
   }
 
+  /* 도구 강화 테이블 */
+  .tool-enhancement-table {
+    width: 100% !important;
+  }
+
+  .tool-enhancement-table td,
+  .tool-enhancement-table th {
+    font-size: 11px;
+    padding: 6px 3px;
+    white-space: nowrap;
+    width: auto !important;
+  }
+
   /* 일반 테이블 레이아웃 */
-  table:not(.cooking-table):not(.enhancement-table) td:first-child,
-  table:not(.cooking-table):not(.enhancement-table) th:first-child {
+  table:not(.cooking-table):not(.enhancement-table):not(.tool-enhancement-table)
+    td:first-child,
+  table:not(.cooking-table):not(.enhancement-table):not(.tool-enhancement-table)
+    th:first-child {
     width: 50%;
   }
 
-  table:not(.cooking-table):not(.enhancement-table) td:not(:first-child),
-  table:not(.cooking-table):not(.enhancement-table) th:not(:first-child) {
+  table:not(.cooking-table):not(.enhancement-table):not(.tool-enhancement-table)
+    td:not(:first-child),
+  table:not(.cooking-table):not(.enhancement-table):not(.tool-enhancement-table)
+    th:not(:first-child) {
     width: 50%;
   }
 
@@ -2168,14 +2222,31 @@ body.dark-theme .footer-search input {
     white-space: nowrap;
   }
 
+  /* 도구 강화 테이블 */
+  .tool-enhancement-table {
+    width: 100% !important;
+  }
+
+  .tool-enhancement-table td,
+  .tool-enhancement-table th {
+    font-size: 10px;
+    padding: 5px 2px;
+    white-space: nowrap;
+    width: auto !important;
+  }
+
   /* 일반 테이블 레이아웃 */
-  table:not(.cooking-table):not(.enhancement-table) td:first-child,
-  table:not(.cooking-table):not(.enhancement-table) th:first-child {
+  table:not(.cooking-table):not(.enhancement-table):not(.tool-enhancement-table)
+    td:first-child,
+  table:not(.cooking-table):not(.enhancement-table):not(.tool-enhancement-table)
+    th:first-child {
     width: 50%;
   }
 
-  table:not(.cooking-table):not(.enhancement-table) td:not(:first-child),
-  table:not(.cooking-table):not(.enhancement-table) th:not(:first-child) {
+  table:not(.cooking-table):not(.enhancement-table):not(.tool-enhancement-table)
+    td:not(:first-child),
+  table:not(.cooking-table):not(.enhancement-table):not(.tool-enhancement-table)
+    th:not(:first-child) {
     width: 50%;
   }
 

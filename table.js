@@ -14,7 +14,7 @@ function renderTableWithCategories(
 
     const firstItem = products[0];
     const isCooking = firstItem.itemType === "cooking";
-    const isEnhancement = category === "세레니티 - 강화 - 로니";
+    const isEnhancement = category.startsWith("세레니티 - 강화");
 
     const categoryTitle = document.createElement("h3");
     categoryTitle.className = "process-category-title";
@@ -28,7 +28,15 @@ function renderTableWithCategories(
     const fileName = imageName.replace(/\//g, ":");
 
     const categoryImage = document.createElement("img");
-    categoryImage.src = `img/npcs/${fileName}.png`;
+    // 도구 강화인 경우 img/ 폴더, 그 외에는 img/npcs/ 폴더
+    const isToolEnhancement = category.startsWith("세레니티 - 강화 - 세이지");
+    // 도구 강화인 경우 공백 제거
+    const imageFileName = isToolEnhancement
+      ? fileName.replace(/\s+/g, "")
+      : fileName;
+    categoryImage.src = isToolEnhancement
+      ? `img/${imageFileName}.png`
+      : `img/npcs/${fileName}.png`;
     categoryImage.alt = imageName;
     categoryImage.className = "npc-icon";
     categoryImage.style.cursor = "pointer";
@@ -67,17 +75,56 @@ function renderTableWithCategories(
         <tbody></tbody>
       `;
     } else if (isEnhancement) {
-      table.className = "enhancement-table";
-      table.innerHTML = `
-        <thead>
-          <tr>
-            <th>품목</th>
-            <th>필요 재료</th>
-            <th>필요 골드</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      `;
+      // 도구 강화 아이템이 있는지 확인
+      const hasToolEnhancement = products.some((p) => p.isToolEnhancement);
+
+      if (hasToolEnhancement) {
+        // 도구 강화 테이블
+        table.className = "tool-enhancement-table";
+        const toolItem = products.find((p) => p.isToolEnhancement);
+        const toolData = regionData.grindel?.toolEnhancement?.find(
+          (t) => t.name === toolItem.toolName
+        );
+
+        if (toolData && toolData.headers) {
+          const thead = document.createElement("thead");
+          const headerRow = document.createElement("tr");
+          toolData.headers.forEach((header) => {
+            const th = document.createElement("th");
+            th.textContent = header;
+            headerRow.appendChild(th);
+          });
+          thead.appendChild(headerRow);
+          table.appendChild(thead);
+
+          const tbody = document.createElement("tbody");
+          table.appendChild(tbody);
+        } else {
+          table.innerHTML = `
+            <thead>
+              <tr>
+                <th>품목</th>
+                <th>필요 재료</th>
+                <th>필요 골드</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          `;
+        }
+      } else {
+        // 일반 강화 테이블
+        table.className = "enhancement-table";
+        table.innerHTML = `
+          <thead>
+            <tr>
+              <th>품목</th>
+              <th>필요 재료</th>
+              <th>필요 골드</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        `;
+      }
     } else {
       table.innerHTML = `
         <thead>
@@ -191,16 +238,28 @@ function renderTableWithCategories(
         }
       } else if (isEnhancement) {
         const row = document.createElement("tr");
-        const itemNameHtml = `${product.name}${
-          product.probability ? ` (${product.probability})` : ""
-        }`;
-        const recipeCell = product.recipe || "-";
-        const priceCell = product.price || "-";
-        row.innerHTML = `
-          <td>${itemNameHtml}</td>
-          <td class="price">${recipeCell}</td>
-          <td class="price">${priceCell}</td>
-        `;
+
+        // 도구 강화 아이템인 경우 (검색 결과에서)
+        if (product.isToolEnhancement && product.rowData) {
+          product.rowData.forEach((cellData) => {
+            const td = document.createElement("td");
+            td.textContent = cellData;
+            row.appendChild(td);
+          });
+        } else {
+          // 일반 강화 아이템
+          const itemNameHtml = `${product.name}${
+            product.probability ? ` (${product.probability})` : ""
+          }`;
+          const recipeCell = product.recipe || "-";
+          const priceCell = product.price || "-";
+          row.innerHTML = `
+            <td>${itemNameHtml}</td>
+            <td class="price">${recipeCell}</td>
+            <td class="price">${priceCell}</td>
+          `;
+        }
+
         row.draggable = true;
         row.addEventListener("dragstart", (e) => {
           // 드롭 존 표시
@@ -213,10 +272,16 @@ function renderTableWithCategories(
             sidebarPanel.classList.add("dragging-active");
           }
 
-          const parts = [product.name];
-          if (product.recipe) parts.push(product.recipe);
-          if (product.price) parts.push("비용 " + product.price);
-          e.dataTransfer.setData("text/plain", parts.join("\n"));
+          let dragText;
+          if (product.isToolEnhancement && product.rowData) {
+            dragText = `${product.toolName} - ${product.rowData.join(" / ")}`;
+          } else {
+            const parts = [product.name];
+            if (product.recipe) parts.push(product.recipe);
+            if (product.price) parts.push("비용 " + product.price);
+            dragText = parts.join("\n");
+          }
+          e.dataTransfer.setData("text/plain", dragText);
           e.dataTransfer.effectAllowed = "copy";
           row.classList.add("dragging");
         });
@@ -292,7 +357,15 @@ function renderCategorizedTables(categorizedData, priceHeaderText = "재료") {
     const fileName = imageName.replace(/\//g, ":");
 
     const categoryImage = document.createElement("img");
-    categoryImage.src = `img/npcs/${fileName}.png`;
+    // 도구 강화인 경우 img/ 폴더, 그 외에는 img/npcs/ 폴더
+    const isToolEnhancement = category.startsWith("세레니티 - 강화 - 세이지");
+    // 도구 강화인 경우 공백 제거
+    const imageFileName = isToolEnhancement
+      ? fileName.replace(/\s+/g, "")
+      : fileName;
+    categoryImage.src = isToolEnhancement
+      ? `img/${imageFileName}.png`
+      : `img/npcs/${fileName}.png`;
     categoryImage.alt = imageName;
     categoryImage.className = "npc-icon";
     categoryImage.style.cursor = "pointer";

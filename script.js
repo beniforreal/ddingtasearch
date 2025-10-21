@@ -544,7 +544,7 @@ function renderTableWithCategories(
     // 첫 번째 아이템으로 타입 판단
     const firstItem = products[0];
     const isCooking = firstItem.itemType === "cooking";
-    const isEnhancement = category === "세레니티 - 강화 - 로니";
+    const isEnhancement = category.startsWith("세레니티 - 강화");
 
     // 카테고리 제목
     const categoryTitle = document.createElement("h3");
@@ -560,7 +560,15 @@ function renderTableWithCategories(
 
     // 카테고리 이미지 추가
     const categoryImage = document.createElement("img");
-    categoryImage.src = `img/npcs/${fileName}.png`;
+    // 도구 강화인 경우 img/ 폴더, 그 외에는 img/npcs/ 폴더
+    const isToolEnhancement = category.startsWith("세레니티 - 강화 - 세이지");
+    // 도구 강화인 경우 공백 제거
+    const imageFileName = isToolEnhancement
+      ? fileName.replace(/\s+/g, "")
+      : fileName;
+    categoryImage.src = isToolEnhancement
+      ? `img/${imageFileName}.png`
+      : `img/npcs/${fileName}.png`;
     categoryImage.alt = imageName;
     categoryImage.className = "npc-icon";
     categoryImage.style.cursor = "pointer";
@@ -605,17 +613,56 @@ function renderTableWithCategories(
         <tbody></tbody>
       `;
     } else if (isEnhancement) {
-      table.className = "enhancement-table";
-      table.innerHTML = `
-        <thead>
-          <tr>
-            <th>품목</th>
-            <th>필요 재료</th>
-            <th>필요 골드</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      `;
+      // 도구 강화 아이템이 있는지 확인
+      const hasToolEnhancement = products.some((p) => p.isToolEnhancement);
+
+      if (hasToolEnhancement) {
+        // 도구 강화 테이블
+        table.className = "tool-enhancement-table";
+        const toolItem = products.find((p) => p.isToolEnhancement);
+        const toolData = regionData.grindel?.toolEnhancement?.find(
+          (t) => t.name === toolItem.toolName
+        );
+
+        if (toolData && toolData.headers) {
+          const thead = document.createElement("thead");
+          const headerRow = document.createElement("tr");
+          toolData.headers.forEach((header) => {
+            const th = document.createElement("th");
+            th.textContent = header;
+            headerRow.appendChild(th);
+          });
+          thead.appendChild(headerRow);
+          table.appendChild(thead);
+
+          const tbody = document.createElement("tbody");
+          table.appendChild(tbody);
+        } else {
+          table.innerHTML = `
+            <thead>
+              <tr>
+                <th>품목</th>
+                <th>필요 재료</th>
+                <th>필요 골드</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          `;
+        }
+      } else {
+        // 일반 강화 테이블
+        table.className = "enhancement-table";
+        table.innerHTML = `
+          <thead>
+            <tr>
+              <th>품목</th>
+              <th>필요 재료</th>
+              <th>필요 골드</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        `;
+      }
     } else {
       table.innerHTML = `
         <thead>
@@ -720,19 +767,30 @@ function renderTableWithCategories(
           tbody.appendChild(ingredientsRow);
         }
       } else if (isEnhancement) {
-        // 강화 아이템 렌더링 (3컬럼)
+        // 강화 아이템 렌더링
         const row = document.createElement("tr");
-        const itemNameHtml = `${product.name}${
-          product.probability ? ` (${product.probability})` : ""
-        }`;
-        const recipeCell = product.recipe || "-";
-        const priceCell = product.price || "-";
 
-        row.innerHTML = `
-          <td>${itemNameHtml}</td>
-          <td class="price">${recipeCell}</td>
-          <td class="price">${priceCell}</td>
-        `;
+        // 도구 강화 아이템인 경우 (검색 결과에서)
+        if (product.isToolEnhancement && product.rowData) {
+          product.rowData.forEach((cellData) => {
+            const td = document.createElement("td");
+            td.textContent = cellData;
+            row.appendChild(td);
+          });
+        } else {
+          // 일반 강화 아이템
+          const itemNameHtml = `${product.name}${
+            product.probability ? ` (${product.probability})` : ""
+          }`;
+          const recipeCell = product.recipe || "-";
+          const priceCell = product.price || "-";
+
+          row.innerHTML = `
+            <td>${itemNameHtml}</td>
+            <td class="price">${recipeCell}</td>
+            <td class="price">${priceCell}</td>
+          `;
+        }
 
         row.draggable = true;
         row.addEventListener("dragstart", (e) => {
@@ -747,10 +805,16 @@ function renderTableWithCategories(
             sidebarPanel.classList.add("dragging-active");
           }
 
-          const parts = [product.name];
-          if (product.recipe) parts.push(product.recipe);
-          if (product.price) parts.push("비용 " + product.price);
-          e.dataTransfer.setData("text/plain", parts.join("\n"));
+          let dragText;
+          if (product.isToolEnhancement && product.rowData) {
+            dragText = `${product.toolName} - ${product.rowData.join(" / ")}`;
+          } else {
+            const parts = [product.name];
+            if (product.recipe) parts.push(product.recipe);
+            if (product.price) parts.push("비용 " + product.price);
+            dragText = parts.join("\n");
+          }
+          e.dataTransfer.setData("text/plain", dragText);
           e.dataTransfer.effectAllowed = "copy";
           row.classList.add("dragging");
         });
@@ -831,7 +895,15 @@ function renderCategorizedTables(categorizedData, priceHeaderText = "재료") {
 
     // 카테고리 이미지 추가
     const categoryImage = document.createElement("img");
-    categoryImage.src = `img/npcs/${fileName}.png`;
+    // 도구 강화인 경우 img/ 폴더, 그 외에는 img/npcs/ 폴더
+    const isToolEnhancement = category.startsWith("세레니티 - 강화 - 세이지");
+    // 도구 강화인 경우 공백 제거
+    const imageFileName = isToolEnhancement
+      ? fileName.replace(/\s+/g, "")
+      : fileName;
+    categoryImage.src = isToolEnhancement
+      ? `img/${imageFileName}.png`
+      : `img/npcs/${fileName}.png`;
     categoryImage.alt = imageName;
     categoryImage.className = "npc-icon";
     categoryImage.style.cursor = "pointer";
@@ -1202,6 +1274,91 @@ function renderEnhancementTables(productsArray) {
   });
 
   container.appendChild(table);
+
+  // 도구 강화 테이블 렌더링 (세이지 괭이, 세이지 곡괭이)
+  if (regionData.grindel?.toolEnhancement) {
+    regionData.grindel.toolEnhancement.forEach((tool) => {
+      // 도구 제목
+      const toolTitle = document.createElement("h3");
+      toolTitle.className = "process-category-title";
+
+      // 도구 이미지 추가
+      const toolImage = document.createElement("img");
+      // 공백 제거하여 파일명과 매칭
+      const toolImageName = tool.name.replace(/\s+/g, "");
+      toolImage.src = `img/${toolImageName}.png`;
+      toolImage.alt = tool.name;
+      toolImage.className = "npc-icon";
+      toolImage.style.cursor = "pointer";
+      toolImage.onerror = function () {
+        this.style.display = "none";
+      };
+
+      // 클릭 시 큰 이미지 모달 표시
+      toolImage.addEventListener("click", () => {
+        showNpcModal(toolImage.src, tool.name);
+      });
+
+      toolTitle.appendChild(toolImage);
+
+      // 도구 이름 텍스트 추가
+      const toolText = document.createElement("span");
+      toolText.textContent = tool.name;
+      toolTitle.appendChild(toolText);
+
+      container.appendChild(toolTitle);
+
+      // 표 형태의 테이블 생성
+      const toolTable = document.createElement("table");
+      toolTable.className = "tool-enhancement-table";
+
+      // 헤더 생성
+      const thead = document.createElement("thead");
+      const headerRow = document.createElement("tr");
+      tool.headers.forEach((header) => {
+        const th = document.createElement("th");
+        th.textContent = header;
+        headerRow.appendChild(th);
+      });
+      thead.appendChild(headerRow);
+      toolTable.appendChild(thead);
+
+      // 바디 생성
+      const toolTbody = document.createElement("tbody");
+      tool.rows.forEach((rowData) => {
+        const row = document.createElement("tr");
+        rowData.forEach((cellData) => {
+          const td = document.createElement("td");
+          td.textContent = cellData;
+          row.appendChild(td);
+        });
+
+        // 드래그 기능 추가
+        row.draggable = true;
+        row.addEventListener("dragstart", (e) => {
+          updateDropZonePosition();
+          const dropZone = document.getElementById("todoDropZone");
+          const sidebarPanel = document.querySelector(".sidebar-panel");
+          if (dropZone) dropZone.classList.add("active");
+          if (sidebarPanel) sidebarPanel.classList.add("dragging-active");
+
+          const dragText = `${tool.name} - ${rowData.join(" / ")}`;
+          e.dataTransfer.setData("text/plain", dragText);
+          e.dataTransfer.effectAllowed = "copy";
+          row.classList.add("dragging");
+        });
+
+        row.addEventListener("dragend", () => {
+          row.classList.remove("dragging");
+        });
+
+        toolTbody.appendChild(row);
+      });
+      toolTable.appendChild(toolTbody);
+
+      container.appendChild(toolTable);
+    });
+  }
 }
 
 // 테이블 렌더링 함수
