@@ -1599,14 +1599,14 @@ body.dark-theme .ingredients-display {
   transform: translateX(-50%);
   background-color: #003483;
   color: white;
-  padding: 12px 16px;
+  padding: 6px 6px;
   border-radius: 8px;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 500;
   z-index: 1000;
   backdrop-filter: blur(10px);
   margin-bottom: 8px;
-  min-width: 200px;
+  min-width: 140px;
   max-width: 350px;
   white-space: pre-line;
   line-height: 1.6;
@@ -1635,6 +1635,40 @@ body.dark-theme .ing[data-tooltip]:hover::after {
 
 body.dark-theme .ing[data-tooltip]:hover::before {
   border-top-color: #111;
+}
+
+/* 작은 화면에서 툴팁 조정 */
+@media (max-width: 768px) {
+  .ing[data-tooltip]:hover::after {
+    left: auto;
+    right: 0;
+    transform: none;
+    max-width: calc(100vw - 40px);
+    min-width: 120px;
+    font-size: 11px;
+    padding: 5px 5px;
+    margin-right: 10px;
+  }
+
+  .ing[data-tooltip]:hover::before {
+    left: auto;
+    right: 20px;
+    transform: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .ing[data-tooltip]:hover::after {
+    max-width: calc(100vw - 30px);
+    min-width: 80px;
+    font-size: 10px;
+    padding: 4px 4px;
+    margin-right: 5px;
+  }
+
+  .ing[data-tooltip]:hover::before {
+    right: 15px;
+  }
 }
 
 /* 검색 시 컬렉션북 파란색 스타일 제거됨 */
