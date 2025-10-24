@@ -1,0 +1,704 @@
+{
+  "expertise": [
+    {
+      "icon": "✨",
+      "name": "[아일랜드] 재배학개론",
+      "levels": [
+        {
+          "level": 1,
+          "description": "아일랜드에서 채집 시 오르는 경험치가 1% 증가합니다.",
+          "skillPoints": "1 Point",
+          "gold": "5,000 G",
+          "abilityStone": "3개",
+          "probability": "100%"
+        },
+        {
+          "level": 2,
+          "description": "아일랜드에서 채집 시 오르는 경험치가 2% 증가합니다.",
+          "skillPoints": "2 Point",
+          "gold": "10,000 G",
+          "abilityStone": "6개",
+          "probability": "80%"
+        },
+        {
+          "level": 3,
+          "description": "아일랜드에서 채집 시 오르는 경험치가 3% 증가합니다.",
+          "skillPoints": "3 Point",
+          "gold": "25,000 G",
+          "abilityStone": "9개",
+          "probability": "50%"
+        },
+        {
+          "level": 4,
+          "description": "아일랜드에서 채집 시 오르는 경험치가 5% 증가합니다.",
+          "skillPoints": "4 Point",
+          "gold": "60,000 G",
+          "abilityStone": "12개",
+          "probability": "30%"
+        },
+        {
+          "level": 5,
+          "description": "아일랜드에서 채집 시 오르는 경험치가 7% 증가합니다.",
+          "skillPoints": "5 Point",
+          "gold": "150,000 G",
+          "abilityStone": "15개",
+          "probability": "20%"
+        },
+        {
+          "level": 6,
+          "description": "아일랜드에서 채집 시 오르는 경험치가 9% 증가합니다.",
+          "skillPoints": "6 Point",
+          "gold": "380,000 G",
+          "abilityStone": "18개",
+          "probability": "10%"
+        },
+        {
+          "level": 7,
+          "description": "아일랜드에서 채집 시 오르는 경험치가 15% 증가합니다.",
+          "skillPoints": "10 Point",
+          "gold": "1,000,000 G",
+          "abilityStone": "30개",
+          "probability": "5%"
+        }
+      ]
+    },
+    {
+      "icon": "🪓",
+      "name": "[야생] 난 아직 베고파",
+      "levels": [
+        {
+          "level": 1,
+          "description": "야생에서 원목 벌목 시 3% 확률로 원목 1개를 추가 드롭합니다.",
+          "skillPoints": "1 Point",
+          "gold": "5,000 G",
+          "abilityStone": "3개",
+          "probability": "100%"
+        },
+        {
+          "level": 2,
+          "description": "야생에서 원목 벌목 시 5% 확률로 원목 1개를 추가 드롭합니다.",
+          "skillPoints": "2 Point",
+          "gold": "30,000 G",
+          "abilityStone": "6개",
+          "probability": "70%"
+        },
+        {
+          "level": 3,
+          "description": "야생에서 원목 벌목 시 7% 확률로 원목 2개를 추가 드롭합니다.",
+          "skillPoints": "3 Point",
+          "gold": "180,000 G",
+          "abilityStone": "9개",
+          "probability": "30%"
+        },
+        {
+          "level": 4,
+          "description": "야생에서 원목 벌목 시 10% 확률로 원목 2개를 추가 드롭합니다.",
+          "skillPoints": "5 Point",
+          "gold": "500,000 G",
+          "abilityStone": "15개",
+          "probability": "10%"
+        }
+      ]
+    },
+    {
+      "icon": "🍇",
+      "name": "[아일랜드] 후르츠 파티",
+      "levels": [
+        {
+          "level": 1,
+          "description": "아일랜드에서 과일 채집 시 1% 확률로 과일 1개를 추가 드롭합니다.",
+          "skillPoints": "1 Point",
+          "gold": "5,000 G",
+          "abilityStone": "3개",
+          "probability": "100%"
+        },
+        {
+          "level": 2,
+          "description": "아일랜드에서 과일 채집 시 3% 확률로 과일 1개를 추가 드롭합니다.",
+          "skillPoints": "2 Point",
+          "gold": "20,000 G",
+          "abilityStone": "6개",
+          "probability": "70%"
+        },
+        {
+          "level": 3,
+          "description": "아일랜드에서 과일 채집 시 5% 확률로 과일 1개를 추가 드롭합니다.",
+          "skillPoints": "3 Point",
+          "gold": "85,000 G",
+          "abilityStone": "9개",
+          "probability": "50%"
+        },
+        {
+          "level": 4,
+          "description": "아일랜드에서 과일 채집 시 7% 확률로 과일 2개를 추가 드롭합니다.",
+          "skillPoints": "4 Point",
+          "gold": "250,000 G",
+          "abilityStone": "12개",
+          "probability": "20%"
+        },
+        {
+          "level": 5,
+          "description": "아일랜드에서 과일 채집 시 10% 확률로 과일 2개를 추가 드롭합니다.",
+          "skillPoints": "5 Point",
+          "gold": "500,000 G",
+          "abilityStone": "15개",
+          "probability": "10%"
+        }
+      ]
+    },
+    {
+      "icon": "🔥",
+      "name": "[아일랜드] 불 더 올려!",
+      "levels": [
+        {
+          "level": 1,
+          "description": "요리 제작 시간이 3% 감소합니다. 제작 시작 시 자동 적용됩니다.",
+          "skillPoints": "1 Point",
+          "gold": "5,000 G",
+          "abilityStone": "3개",
+          "probability": "100%"
+        },
+        {
+          "level": 2,
+          "description": "요리 제작 시간이 5% 감소합니다. 제작 시작 시 자동 적용됩니다.",
+          "skillPoints": "3 Point",
+          "gold": "50,000 G",
+          "abilityStone": "9개",
+          "probability": "50%"
+        },
+        {
+          "level": 3,
+          "description": "요리 제작 시간이 7% 감소합니다. 제작 시작 시 자동 적용됩니다.",
+          "skillPoints": "5 Point",
+          "gold": "500,000 G",
+          "abilityStone": "15개",
+          "probability": "10%"
+        }
+      ]
+    },
+    {
+      "icon": "☘️",
+      "name": "[아일랜드] 자연이 주는 선물",
+      "levels": [
+        {
+          "level": 1,
+          "description": "아일랜드에서 채집 시 1% 확률로 씨앗 1개를 추가 드롭합니다.",
+          "skillPoints": "1 Point",
+          "gold": "5,000 G",
+          "abilityStone": "3개",
+          "probability": "100%"
+        },
+        {
+          "level": 2,
+          "description": "아일랜드에서 채집 시 2% 확률로 씨앗 1개를 추가 드롭합니다.",
+          "skillPoints": "2 Point",
+          "gold": "8,000 G",
+          "abilityStone": "6개",
+          "probability": "80%"
+        },
+        {
+          "level": 3,
+          "description": "아일랜드에서 채집 시 3% 확률로 씨앗 1개를 추가 드롭합니다.",
+          "skillPoints": "3 Point",
+          "gold": "15,000 G",
+          "abilityStone": "9개",
+          "probability": "65%"
+        },
+        {
+          "level": 4,
+          "description": "아일랜드에서 채집 시 4% 확률로 씨앗 1개를 추가 드롭합니다.",
+          "skillPoints": "4 Point",
+          "gold": "28,000 G",
+          "abilityStone": "12개",
+          "probability": "50%"
+        },
+        {
+          "level": 5,
+          "description": "아일랜드에서 채집 시 5% 확률로 씨앗 1개를 추가 드롭합니다.",
+          "skillPoints": "5 Point",
+          "gold": "52,000 G",
+          "abilityStone": "15개",
+          "probability": "30%"
+        },
+        {
+          "level": 6,
+          "description": "아일랜드에서 채집 시 6% 확률로 씨앗 1개를 추가 드롭합니다.",
+          "skillPoints": "6 Point",
+          "gold": "95,000 G",
+          "abilityStone": "18개",
+          "probability": "20%"
+        },
+        {
+          "level": 7,
+          "description": "아일랜드에서 채집 시 7% 확률로 씨앗 1개를 추가 드롭합니다.",
+          "skillPoints": "7 Point",
+          "gold": "175,000 G",
+          "abilityStone": "21개",
+          "probability": "15%"
+        },
+        {
+          "level": 8,
+          "description": "아일랜드에서 채집 시 8% 확률로 씨앗 2개를 추가 드롭합니다.",
+          "skillPoints": "9 Point",
+          "gold": "320,000 G",
+          "abilityStone": "27개",
+          "probability": "10%"
+        },
+        {
+          "level": 9,
+          "description": "아일랜드에서 채집 시 9% 확률로 씨앗 2개를 추가 드롭합니다.",
+          "skillPoints": "9 Point",
+          "gold": "580,000 G",
+          "abilityStone": "27개",
+          "probability": "7%"
+        },
+        {
+          "level": 10,
+          "description": "아일랜드에서 채집 시 10% 확률로 씨앗 3개를 추가 드롭합니다.",
+          "skillPoints": "10 Point",
+          "gold": "1,000,000 G",
+          "abilityStone": "30개",
+          "probability": "5%"
+        }
+      ]
+    },
+    {
+      "icon": "🌾",
+      "name": "[마을] 오늘도 풍년이다!",
+      "levels": [
+        {
+          "level": 1,
+          "description": "수확 시 1% 확률로 아일랜드 농작물 1개를 추가 드롭합니다.",
+          "skillPoints": "1 Point",
+          "gold": "5,000 G",
+          "abilityStone": "3개",
+          "probability": "100%"
+        },
+        {
+          "level": 2,
+          "description": "수확 시 2% 확률로 아일랜드 농작물 1개를 추가 드롭합니다.",
+          "skillPoints": "2 Point",
+          "gold": "10,000 G",
+          "abilityStone": "6개",
+          "probability": "70%"
+        },
+        {
+          "level": 3,
+          "description": "수확 시 3% 확률로 아일랜드 농작물 1개를 추가 드롭합니다.",
+          "skillPoints": "3 Point",
+          "gold": "25,000 G",
+          "abilityStone": "9개",
+          "probability": "50%"
+        },
+        {
+          "level": 4,
+          "description": "수확 시 4% 확률로 아일랜드 농작물 1개를 추가 드롭합니다.",
+          "skillPoints": "4 Point",
+          "gold": "60,000 G",
+          "abilityStone": "12개",
+          "probability": "30%"
+        },
+        {
+          "level": 5,
+          "description": "수확 시 5% 확률로 아일랜드 농작물 2개를 추가 드롭합니다.",
+          "skillPoints": "7 Point",
+          "gold": "150,000 G",
+          "abilityStone": "21개",
+          "probability": "15%"
+        },
+        {
+          "level": 6,
+          "description": "수확 시 7% 확률로 아일랜드 농작물 2개를 추가 드롭합니다.",
+          "skillPoints": "8 Point",
+          "gold": "380,000 G",
+          "abilityStone": "24개",
+          "probability": "5%"
+        },
+        {
+          "level": 7,
+          "description": "수확 시 10% 확률로 아일랜드 농작물 3개를 추가 드롭합니다.",
+          "skillPoints": "10 Point",
+          "gold": "1,000,000 G",
+          "abilityStone": "30개",
+          "probability": "1%"
+        }
+      ]
+    },
+    {
+      "icon": "🍉",
+      "name": "[아일랜드] 쓸어담는 맛",
+      "levels": [
+        {
+          "level": 1,
+          "description": "1초 간 과일을 한 번에 채집합니다. 손으로 쉬프트 우클릭하여 발동합니다.",
+          "skillPoints": "1 Point",
+          "gold": "5,000 G",
+          "abilityStone": "3개",
+          "probability": "100%"
+        },
+        {
+          "level": 2,
+          "description": "1.5초 간 과일을 한 번에 캘 수 있습니다. 손으로 쉬프트 우클릭하여 발동합니다.",
+          "skillPoints": "2 Point",
+          "gold": "20,000 G",
+          "abilityStone": "6개",
+          "probability": "70%"
+        },
+        {
+          "level": 3,
+          "description": "2초 간 과일을 한 번에 캘 수 있습니다. 손으로 쉬프트 우클릭하여 발동합니다.",
+          "skillPoints": "3 Point",
+          "gold": "85,000 G",
+          "abilityStone": "9개",
+          "probability": "50%"
+        },
+        {
+          "level": 4,
+          "description": "2.5초 간 과일을 한 번에 캘 수 있습니다. 손으로 쉬프트 우클릭하여 발동합니다.",
+          "skillPoints": "4 Point",
+          "gold": "250,000 G",
+          "abilityStone": "12개",
+          "probability": "30%"
+        },
+        {
+          "level": 5,
+          "description": "3초 간 과일을 한 번에 캘 수 있습니다. 손으로 쉬프트 우클릭하여 발동합니다.",
+          "skillPoints": "5 Point",
+          "gold": "500,000 G",
+          "abilityStone": "15개",
+          "probability": "10%"
+        }
+      ]
+    },
+    {
+      "icon": "🥘",
+      "name": "[아일랜드] 한 솥 가득",
+      "levels": [
+        {
+          "level": 1,
+          "description": "음식을 한 번에 27세트 판매 시 1%의 보너스가 들어옵니다.",
+          "skillPoints": "1 Point",
+          "gold": "5,000 G",
+          "abilityStone": "3개",
+          "probability": "100%"
+        },
+        {
+          "level": 2,
+          "description": "음식을 한 번에 27세트 판매 시 2%의 보너스가 들어옵니다.",
+          "skillPoints": "3 Point",
+          "gold": "25,000 G",
+          "abilityStone": "9개",
+          "probability": "10%"
+        },
+        {
+          "level": 3,
+          "description": "음식을 한 번에 27세트 판매 시 3%의 보너스가 들어옵니다.",
+          "skillPoints": "5 Point",
+          "gold": "120,000 G",
+          "abilityStone": "15개",
+          "probability": "5%"
+        },
+        {
+          "level": 4,
+          "description": "음식을 한 번에 27세트 판매 시 4%의 보너스가 들어옵니다.",
+          "skillPoints": "7 Point",
+          "gold": "570,000 G",
+          "abilityStone": "21개",
+          "probability": "3%"
+        },
+        {
+          "level": 5,
+          "description": "음식을 한 번에 27세트 판매 시 7%의 보너스가 들어옵니다.",
+          "skillPoints": "10 Point",
+          "gold": "1,000,000 G",
+          "abilityStone": "30개",
+          "probability": "1%"
+        }
+      ]
+    },
+    {
+      "icon": "💰",
+      "name": "[아일랜드] 돈 좀 벌어볼까?",
+      "levels": [
+        {
+          "level": 1,
+          "description": "요리 판매가가 1% 증가합니다. 판매 시 자동으로 계산됩니다.",
+          "skillPoints": "1 Point",
+          "gold": "5,000 G",
+          "abilityStone": "3개",
+          "probability": "100%"
+        },
+        {
+          "level": 2,
+          "description": "요리 판매가가 2% 증가합니다. 판매 시 자동으로 계산됩니다.",
+          "skillPoints": "2 Point",
+          "gold": "8,000 G",
+          "abilityStone": "6개",
+          "probability": "60%"
+        },
+        {
+          "level": 3,
+          "description": "요리 판매가가 3% 증가합니다. 판매 시 자동으로 계산됩니다.",
+          "skillPoints": "3 Point",
+          "gold": "15,000 G",
+          "abilityStone": "9개",
+          "probability": "30%"
+        },
+        {
+          "level": 4,
+          "description": "요리 판매가가 4% 증가합니다. 판매 시 자동으로 계산됩니다.",
+          "skillPoints": "4 Point",
+          "gold": "28,000 G",
+          "abilityStone": "12개",
+          "probability": "25%"
+        },
+        {
+          "level": 5,
+          "description": "요리 판매가가 5% 증가합니다. 판매 시 자동으로 계산됩니다.",
+          "skillPoints": "5 Point",
+          "gold": "52,000 G",
+          "abilityStone": "15개",
+          "probability": "20%"
+        },
+        {
+          "level": 6,
+          "description": "요리 판매가가 6% 증가합니다. 판매 시 자동으로 계산됩니다.",
+          "skillPoints": "6 Point",
+          "gold": "95,000 G",
+          "abilityStone": "18개",
+          "probability": "15%"
+        },
+        {
+          "level": 7,
+          "description": "요리 판매가가 7% 증가합니다. 판매 시 자동으로 계산됩니다.",
+          "skillPoints": "7 Point",
+          "gold": "175,000 G",
+          "abilityStone": "21개",
+          "probability": "10%"
+        },
+        {
+          "level": 8,
+          "description": "요리 판매가가 8% 증가합니다. 판매 시 자동으로 계산됩니다.",
+          "skillPoints": "8 Point",
+          "gold": "320,000 G",
+          "abilityStone": "24개",
+          "probability": "5%"
+        },
+        {
+          "level": 9,
+          "description": "요리 판매가가 9% 증가합니다. 판매 시 자동으로 계산됩니다.",
+          "skillPoints": "9 Point",
+          "gold": "580,000 G",
+          "abilityStone": "27개",
+          "probability": "3%"
+        },
+        {
+          "level": 10,
+          "description": "요리 판매가가 15% 증가합니다. 판매 시 자동으로 계산됩니다.",
+          "skillPoints": "10 Point",
+          "gold": "1,000,000 G",
+          "abilityStone": "30개",
+          "probability": "1%"
+        }
+      ]
+    },
+    {
+      "icon": "👑",
+      "name": "[마을] 왕 크니까 왕 좋아",
+      "levels": [
+        {
+          "level": 1,
+          "description": "마을에서 수확 시 대왕 작물이 등장할 확률이 0.04%로 증가합니다.",
+          "skillPoints": "1 Point",
+          "gold": "5,000 G",
+          "abilityStone": "3개",
+          "probability": "100%"
+        },
+        {
+          "level": 2,
+          "description": "마을에서 수확 시 대왕 작물이 등장할 확률이 0.06%로 증가합니다.",
+          "skillPoints": "3 Point",
+          "gold": "30,000 G",
+          "abilityStone": "9개",
+          "probability": "70%"
+        },
+        {
+          "level": 3,
+          "description": "마을에서 수확 시 대왕 작물이 등장할 확률이 0.08%로 증가합니다.",
+          "skillPoints": "7 Point",
+          "gold": "180,000 G",
+          "abilityStone": "21개",
+          "probability": "50%"
+        },
+        {
+          "level": 4,
+          "description": "마을에서 수확 시 대왕 작물이 등장할 확률이 0.1%로 증가합니다.",
+          "skillPoints": "10 Point",
+          "gold": "500,000 G",
+          "abilityStone": "30개",
+          "probability": "10%"
+        }
+      ]
+    },
+    {
+      "icon": "🌱",
+      "name": "[마을] 씨앗은 덤이야",
+      "levels": [
+        {
+          "level": 1,
+          "description": "마을에서 아일랜드 작물 수확 시 1% 확률로 씨앗을 드롭합니다.",
+          "skillPoints": "1 Point",
+          "gold": "5,000 G",
+          "abilityStone": "3개",
+          "probability": "100%"
+        },
+        {
+          "level": 2,
+          "description": "마을에서 아일랜드 작물 수확 시 2% 확률로 씨앗을 드롭합니다.",
+          "skillPoints": "2 Point",
+          "gold": "8,000 G",
+          "abilityStone": "6개",
+          "probability": "70%"
+        },
+        {
+          "level": 3,
+          "description": "마을에서 아일랜드 작물 수확 시 3% 확률로 씨앗을 드롭합니다.",
+          "skillPoints": "3 Point",
+          "gold": "15,000 G",
+          "abilityStone": "9개",
+          "probability": "60%"
+        },
+        {
+          "level": 4,
+          "description": "마을에서 아일랜드 작물 수확 시 4% 확률로 씨앗을 드롭합니다.",
+          "skillPoints": "4 Point",
+          "gold": "28,000 G",
+          "abilityStone": "12개",
+          "probability": "50%"
+        },
+        {
+          "level": 5,
+          "description": "마을에서 아일랜드 작물 수확 시 5% 확률로 씨앗을 드롭합니다.",
+          "skillPoints": "5 Point",
+          "gold": "52,000 G",
+          "abilityStone": "15개",
+          "probability": "30%"
+        },
+        {
+          "level": 6,
+          "description": "마을에서 아일랜드 작물 수확 시 6% 확률로 씨앗을 드롭합니다.",
+          "skillPoints": "6 Point",
+          "gold": "95,000 G",
+          "abilityStone": "18개",
+          "probability": "20%"
+        },
+        {
+          "level": 7,
+          "description": "마을에서 아일랜드 작물 수확 시 7% 확률로 씨앗을 드롭합니다.",
+          "skillPoints": "7 Point",
+          "gold": "175,000 G",
+          "abilityStone": "21개",
+          "probability": "10%"
+        },
+        {
+          "level": 8,
+          "description": "마을에서 아일랜드 작물 수확 시 8% 확률로 씨앗을 드롭합니다.",
+          "skillPoints": "8 Point",
+          "gold": "320,000 G",
+          "abilityStone": "24개",
+          "probability": "5%"
+        },
+        {
+          "level": 9,
+          "description": "마을에서 아일랜드 작물 수확 시 9% 확률로 씨앗을 드롭합니다.",
+          "skillPoints": "9 Point",
+          "gold": "580,000 G",
+          "abilityStone": "27개",
+          "probability": "3%"
+        },
+        {
+          "level": 10,
+          "description": "마을에서 아일랜드 작물 수확 시 15% 확률로 씨앗을 드롭합니다.",
+          "skillPoints": "10 Point",
+          "gold": "1,000,000 G",
+          "abilityStone": "30개",
+          "probability": "1%"
+        }
+      ]
+    },
+    {
+      "icon": "🫘",
+      "name": "[마을] 씨앗 장전 완료!",
+      "levels": [
+        {
+          "level": 1,
+          "description": "아일랜드 씨앗을 2x2 땅에 심습니다. 씨앗을 들고 쉬프트 우클릭합니다.",
+          "skillPoints": "7 Point",
+          "gold": "700,000 G",
+          "abilityStone": "21개",
+          "probability": "5%"
+        },
+        {
+          "level": 2,
+          "description": "아일랜드 씨앗을 3x3 땅에 심습니다. 씨앗을 들고 쉬프트 우클릭합니다.",
+          "skillPoints": "10 Point",
+          "gold": "1,000,000 G",
+          "abilityStone": "30개",
+          "probability": "1%"
+        }
+      ]
+    },
+    {
+      "icon": "🧊",
+      "name": "[아일랜드] 신선함 유지 기술",
+      "levels": [
+        {
+          "level": 1,
+          "description": "농작물, 베이스 그리고 요리의 유통기한이 3일로 증가합니다.",
+          "skillPoints": "5 Point",
+          "gold": "500,000 G",
+          "abilityStone": "15개",
+          "probability": "5%"
+        },
+        {
+          "level": 2,
+          "description": "농작물, 베이스 그리고 요리의 유통기한이 4일로 증가합니다.",
+          "skillPoints": "7 Point",
+          "gold": "700,000 G",
+          "abilityStone": "21개",
+          "probability": "3%"
+        },
+        {
+          "level": 3,
+          "description": "농작물, 베이스 그리고 요리의 유통기한이 5일로 증가합니다.",
+          "skillPoints": "10 Point",
+          "gold": "1,000,000 G",
+          "abilityStone": "30개",
+          "probability": "1%"
+        }
+      ]
+    },
+    {
+      "icon": "🪴",
+      "name": "[마을] 수확은 한방에!",
+      "levels": [
+        {
+          "level": 1,
+          "description": "아일랜드 농작물을 2x2 캡니다. 아일랜드 괭이를 들고 좌클릭합니다.",
+          "skillPoints": "7 Point",
+          "gold": "700,000 G",
+          "abilityStone": "21개",
+          "probability": "5%"
+        },
+        {
+          "level": 2,
+          "description": "아일랜드 농작물을 3x3 캡니다. 아일랜드 괭이를 들고 좌클릭합니다.",
+          "skillPoints": "10 Point",
+          "gold": "1,000,000 G",
+          "abilityStone": "30개",
+          "probability": "1%"
+        }
+      ]
+    }
+  ]
+}

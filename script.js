@@ -1,6 +1,7 @@
 // 지역별 상품 데이터 (JSON에서 로드)
 let regionData = {};
 let ingredientDetails = {};
+let expertiseData = {};
 
 // DOM 요소들
 const floatingSearchInput = document.getElementById("floatingSearchInput");
@@ -1773,13 +1774,16 @@ function detectBrowserAndApplyTheme() {
 // JSON 데이터 로드 함수
 async function loadData() {
   try {
-    const [regionResponse, ingredientResponse] = await Promise.all([
-      fetch("data/regionData.json"),
-      fetch("data/ingredientDetails.json"),
-    ]);
+    const [regionResponse, ingredientResponse, expertiseResponse] =
+      await Promise.all([
+        fetch("data/regionData.json"),
+        fetch("data/ingredientDetails.json"),
+        fetch("data/expertise.json"),
+      ]);
 
     regionData = await regionResponse.json();
     ingredientDetails = await ingredientResponse.json();
+    expertiseData = await expertiseResponse.json();
 
     // 데이터 로드 완료 후 초기화
     initializeApp();
@@ -2191,7 +2195,7 @@ function switchRegion(region) {
     }
   });
 
-  // 그린델 또는 컬랙션북 지역일 때 섹션 탭 표시
+  // 그린델 또는 컬랙션북 또는 전문가 지역일 때 섹션 탭 표시
   if (region === "grindel") {
     sectionTabs.style.display = "flex";
     currentSection = "sell";
@@ -2202,6 +2206,10 @@ function switchRegion(region) {
     currentSection = "blocks";
     showCollectionSections();
     updateSectionButtons();
+  } else if (region === "expertise") {
+    sectionTabs.style.display = "none";
+    renderExpertise();
+    return;
   } else {
     sectionTabs.style.display = "none";
   }
@@ -2930,4 +2938,73 @@ function calculateResults(index, item, minPrice, maxPrice, recipeText) {
 // 쿠키 삭제 함수
 function deleteCookie(name) {
   document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;`;
+}
+
+// 전문가 렌더링 함수
+function renderExpertise() {
+  const container = document.querySelector(".table-container");
+  if (!container) return;
+
+  // 헤더 및 범례 숨기기
+  if (cookingLegend) cookingLegend.style.display = "none";
+  if (collectionInfo) collectionInfo.style.display = "none";
+
+  container.innerHTML = "";
+
+  if (!expertiseData.expertise || expertiseData.expertise.length === 0) {
+    container.innerHTML = "<p class='no-results'>전문가 데이터가 없습니다.</p>";
+    return;
+  }
+
+  // 각 전문가 스킬 렌더링
+  expertiseData.expertise.forEach((skill) => {
+    // 스킬 제목
+    const skillTitle = document.createElement("h3");
+    skillTitle.className = "expertise-skill-title";
+    skillTitle.innerHTML = `${skill.icon} ${skill.name}`;
+    container.appendChild(skillTitle);
+
+    // 레벨 테이블
+    const table = document.createElement("table");
+    table.className = "expertise-table";
+    table.innerHTML = `
+      <thead>
+        <tr>
+          <th>레벨</th>
+          <th>요구 스킬 포인트</th>
+          <th>필요 골드</th>
+          <th>필요 어빌리티 스톤</th>
+          <th>확률</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    `;
+
+    const tbody = table.querySelector("tbody");
+
+    skill.levels.forEach((level) => {
+      // 메인 행
+      const row = document.createElement("tr");
+      row.classList.add("expertise-row");
+
+      row.innerHTML = `
+        <td class="expertise-level">${level.level} LV</td>
+        <td class="expertise-points">${level.skillPoints}</td>
+        <td class="price">${level.gold}</td>
+        <td class="expertise-stone">${level.abilityStone}</td>
+        <td class="expertise-probability">${level.probability}</td>
+      `;
+      tbody.appendChild(row);
+
+      // 효과 상세 행 (항상 표시)
+      const descriptionRow = document.createElement("tr");
+      descriptionRow.classList.add("expertise-description-row");
+      descriptionRow.innerHTML = `
+        <td colspan="5" class="expertise-description-display">${level.description}</td>
+      `;
+      tbody.appendChild(descriptionRow);
+    });
+
+    container.appendChild(table);
+  });
 }

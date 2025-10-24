@@ -1,0 +1,397 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Noto Sans KR", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  padding: 20px;
+  color: #333;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+h1 {
+  text-align: center;
+  color: white;
+  margin-bottom: 30px;
+  font-size: 2.5rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* 아이템 선택 */
+.item-selector {
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.item-selector h2 {
+  margin-bottom: 15px;
+  color: #667eea;
+  font-size: 1.3rem;
+}
+
+.item-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.item-btn {
+  flex: 1;
+  max-width: 200px;
+  padding: 15px;
+  background: #f8f9fa;
+  border: 3px solid transparent;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.item-btn img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+}
+
+.item-btn span {
+  font-weight: 600;
+  color: #333;
+}
+
+.item-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.item-btn.active {
+  border-color: #667eea;
+  background: linear-gradient(135deg, #667eea15, #764ba215);
+}
+
+/* 강화 영역 */
+.enhancement-area {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  margin-bottom: 20px;
+}
+
+.item-display {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.item-image-container {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 15px;
+}
+
+#currentItemImage {
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
+}
+
+.enhancement-level {
+  position: absolute;
+  bottom: -10px;
+  right: -10px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 1.2rem;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+#currentItemName {
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.enhancement-info {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.info-row:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  font-weight: 600;
+  color: #666;
+}
+
+.info-value {
+  font-weight: 700;
+  color: #333;
+}
+
+.success-rate {
+  color: #667eea;
+  font-size: 1.1rem;
+}
+
+.enhance-btn,
+.reset-btn {
+  width: 100%;
+  padding: 18px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-bottom: 10px;
+}
+
+.enhance-btn {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+}
+
+.enhance-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+}
+
+.enhance-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.reset-btn {
+  background: #6c757d;
+  color: white;
+}
+
+.reset-btn:hover {
+  background: #5a6268;
+}
+
+/* 결과 오버레이 */
+.result-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s;
+}
+
+.result-overlay.show {
+  display: flex;
+}
+
+.result-content {
+  text-align: center;
+}
+
+.result-effect {
+  font-size: 8rem;
+  margin-bottom: 20px;
+  animation: bounceIn 0.6s;
+}
+
+.result-message {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: white;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+  animation: fadeInUp 0.6s 0.3s both;
+}
+
+.result-message.success {
+  color: #4ade80;
+}
+
+.result-message.failure {
+  color: #ef4444;
+}
+
+/* 강화 기록 */
+.history {
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.history h3 {
+  margin-bottom: 15px;
+  color: #667eea;
+}
+
+.history-list {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.no-history {
+  text-align: center;
+  color: #999;
+  padding: 20px;
+}
+
+.history-item {
+  padding: 10px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.history-item.success {
+  background: #d1fae5;
+  border-left: 4px solid #4ade80;
+}
+
+.history-item.failure {
+  background: #fee2e2;
+  border-left: 4px solid #ef4444;
+}
+
+.history-item-text {
+  font-size: 0.95rem;
+}
+
+.history-item-badge {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: bold;
+}
+
+.history-item.success .history-item-badge {
+  background: #4ade80;
+  color: white;
+}
+
+.history-item.failure .history-item-badge {
+  background: #ef4444;
+  color: white;
+}
+
+/* 애니메이션 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translateX(-10px);
+  }
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translateX(10px);
+  }
+}
+
+@keyframes glow {
+  0%,
+  100% {
+    filter: brightness(1) drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
+  }
+  50% {
+    filter: brightness(1.5) drop-shadow(0 0 30px rgba(102, 126, 234, 0.8));
+  }
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2rem;
+  }
+
+  .item-buttons {
+    flex-direction: column;
+  }
+
+  .item-btn {
+    max-width: 100%;
+  }
+
+  .result-effect {
+    font-size: 5rem;
+  }
+
+  .result-message {
+    font-size: 1.8rem;
+  }
+}

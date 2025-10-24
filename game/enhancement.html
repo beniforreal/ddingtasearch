@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>강화 시뮬레이터 - 띵타</title>
+    <link rel="stylesheet" href="enhancement.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>🔨 강화 시뮬레이터</h1>
+
+      <div class="item-selector">
+        <h2>아이템 선택</h2>
+        <div class="item-buttons">
+          <button class="item-btn active" data-item="세이지곡괭이">
+            <img src="../img/세이지곡괭이.png" alt="세이지 곡괭이" />
+            <span>세이지 곡괭이</span>
+          </button>
+          <button class="item-btn" data-item="세이지괭이">
+            <img src="../img/세이지괭이.png" alt="세이지 괭이" />
+            <span>세이지 괭이</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="enhancement-area">
+        <div class="item-display">
+          <div class="item-image-container">
+            <img
+              id="currentItemImage"
+              src="../img/세이지곡괭이.png"
+              alt="세이지 곡괭이"
+            />
+            <div class="enhancement-level" id="enhancementLevel">+0</div>
+          </div>
+          <h3 id="currentItemName">세이지 곡괭이</h3>
+        </div>
+
+        <div class="enhancement-info">
+          <div class="info-row">
+            <span class="info-label">현재 강화:</span>
+            <span class="info-value" id="currentLevel">0강</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">다음 강화:</span>
+            <span class="info-value" id="nextLevel">1강</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">강화 비용:</span>
+            <span class="info-value" id="enhancementCost">5,000G</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">성공 확률:</span>
+            <span class="info-value success-rate" id="successRate">90%</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">총 사용 비용:</span>
+            <span class="info-value" id="totalCost">0G</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">시도 횟수:</span>
+            <span class="info-value" id="attemptCount">0회</span>
+          </div>
+        </div>
+
+        <button class="enhance-btn" id="enhanceBtn">강화하기</button>
+        <button class="reset-btn" id="resetBtn">초기화</button>
+      </div>
+
+      <div class="result-overlay" id="resultOverlay">
+        <div class="result-content">
+          <div class="result-effect" id="resultEffect"></div>
+          <div class="result-message" id="resultMessage"></div>
+        </div>
+      </div>
+
+      <div class="history">
+        <h3>강화 기록</h3>
+        <div class="history-list" id="historyList">
+          <p class="no-history">강화 기록이 없습니다.</p>
+        </div>
+      </div>
+    </div>
+
+    <script src="enhancement.js"></script>
+  </body>
+</html>
