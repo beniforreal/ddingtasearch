@@ -1,5 +1,5 @@
 {
-  "expertise": [
+  "gatheringExpertise": [
     {
       "icon": "✨",
       "name": "[아일랜드] 재배학개론",
@@ -693,6 +693,604 @@
         {
           "level": 2,
           "description": "아일랜드 농작물을 3x3 캡니다. 아일랜드 괭이를 들고 좌클릭합니다.",
+          "skillPoints": "10 Point",
+          "gold": "1,000,000 G",
+          "abilityStone": "30개",
+          "probability": "1%"
+        }
+      ]
+    }
+  ],
+  "miningExpertise": [
+    {
+      "icon": "✨",
+      "name": "[아일랜드] 채광학개론",
+      "levels": [
+        {
+          "level": 1,
+          "description": "아일랜드에서 채광 시 오르는 경험치가 1% 증가합니다.",
+          "skillPoints": "1 Point",
+          "gold": "5,000 G",
+          "abilityStone": "3개",
+          "probability": "100%"
+        },
+        {
+          "level": 2,
+          "description": "아일랜드에서 채광 시 오르는 경험치가 2% 증가합니다.",
+          "skillPoints": "2 Point",
+          "gold": "10,000 G",
+          "abilityStone": "6개",
+          "probability": "80%"
+        },
+        {
+          "level": 3,
+          "description": "아일랜드에서 채광 시 오르는 경험치가 3% 증가합니다.",
+          "skillPoints": "3 Point",
+          "gold": "25,000 G",
+          "abilityStone": "9개",
+          "probability": "50%"
+        },
+        {
+          "level": 4,
+          "description": "아일랜드에서 채광 시 오르는 경험치가 5% 증가합니다.",
+          "skillPoints": "4 Point",
+          "gold": "60,000 G",
+          "abilityStone": "12개",
+          "probability": "30%"
+        },
+        {
+          "level": 5,
+          "description": "아일랜드에서 채광 시 오르는 경험치가 7% 증가합니다.",
+          "skillPoints": "5 Point",
+          "gold": "150,000 G",
+          "abilityStone": "15개",
+          "probability": "20%"
+        },
+        {
+          "level": 6,
+          "description": "아일랜드에서 채광 시 오르는 경험치가 9% 증가합니다.",
+          "skillPoints": "6 Point",
+          "gold": "380,000 G",
+          "abilityStone": "18개",
+          "probability": "10%"
+        },
+        {
+          "level": 7,
+          "description": "아일랜드에서 채광 시 오르는 경험치가 15% 증가합니다.",
+          "skillPoints": "10 Point",
+          "gold": "1,000,000 G",
+          "abilityStone": "30개",
+          "probability": "5%"
+        }
+      ]
+    },
+    {
+      "icon": "🪨",
+      "name": "[야생] 춤추는 광석",
+      "levels": [
+        {
+          "level": 1,
+          "description": "야생에서 채광 시 광석 골렘이 등장할 확률이 0.8%로 증가합니다.",
+          "skillPoints": "1 Point",
+          "gold": "5,000 G",
+          "abilityStone": "3개",
+          "probability": "100%"
+        },
+        {
+          "level": 2,
+          "description": "야생에서 채광 시 광석 골렘이 등장할 확률이 1%로 증가합니다.",
+          "skillPoints": "2 Point",
+          "gold": "10,000 G",
+          "abilityStone": "6개",
+          "probability": "80%"
+        },
+        {
+          "level": 3,
+          "description": "야생에서 채광 시 광석 골렘이 등장할 확률이 1.2%로 증가합니다.",
+          "skillPoints": "3 Point",
+          "gold": "25,000 G",
+          "abilityStone": "9개",
+          "probability": "50%"
+        },
+        {
+          "level": 4,
+          "description": "야생에서 채광 시 광석 골렘이 등장할 확률이 1.4%로 증가합니다.",
+          "skillPoints": "4 Point",
+          "gold": "60,000 G",
+          "abilityStone": "12개",
+          "probability": "30%"
+        },
+        {
+          "level": 5,
+          "description": "야생에서 채광 시 광석 골렘이 등장할 확률이 1.6%로 증가합니다.",
+          "skillPoints": "5 Point",
+          "gold": "150,000 G",
+          "abilityStone": "15개",
+          "probability": "20%"
+        },
+        {
+          "level": 6,
+          "description": "야생에서 채광 시 광석 골렘이 등장할 확률이 1.8%로 증가합니다.",
+          "skillPoints": "6 Point",
+          "gold": "380,000 G",
+          "abilityStone": "18개",
+          "probability": "10%"
+        },
+        {
+          "level": 7,
+          "description": "야생에서 채광 시 광석 골렘이 등장할 확률이 3%로 증가합니다.",
+          "skillPoints": "10 Point",
+          "gold": "1,000,000 G",
+          "abilityStone": "30개",
+          "probability": "5%"
+        }
+      ]
+    },
+    {
+      "icon": "💫",
+      "name": "[아일랜드] 코비타임",
+      "levels": [
+        {
+          "level": 1,
+          "description": "아일랜드에서 채광 시 코비가 등장할 확률이 1%로 증가합니다.",
+          "skillPoints": "1 Point",
+          "gold": "5,000 G",
+          "abilityStone": "3개",
+          "probability": "100%"
+        },
+        {
+          "level": 2,
+          "description": "아일랜드에서 채광 시 코비가 등장할 확률이 1.5%로 증가합니다.",
+          "skillPoints": "2 Point",
+          "gold": "10,000 G",
+          "abilityStone": "6개",
+          "probability": "80%"
+        },
+        {
+          "level": 3,
+          "description": "아일랜드에서 채광 시 코비가 등장할 확률이 2%로 증가합니다.",
+          "skillPoints": "3 Point",
+          "gold": "25,000 G",
+          "abilityStone": "9개",
+          "probability": "50%"
+        },
+        {
+          "level": 4,
+          "description": "아일랜드에서 채광 시 코비가 등장할 확률이 2.5%로 증가합니다.",
+          "skillPoints": "4 Point",
+          "gold": "60,000 G",
+          "abilityStone": "12개",
+          "probability": "30%"
+        },
+        {
+          "level": 5,
+          "description": "아일랜드에서 채광 시 코비가 등장할 확률이 3%로 증가합니다.",
+          "skillPoints": "5 Point",
+          "gold": "150,000 G",
+          "abilityStone": "15개",
+          "probability": "20%"
+        },
+        {
+          "level": 6,
+          "description": "아일랜드에서 채광 시 코비가 등장할 확률이 3.5%로 증가합니다.",
+          "skillPoints": "6 Point",
+          "gold": "380,000 G",
+          "abilityStone": "18개",
+          "probability": "10%"
+        },
+        {
+          "level": 7,
+          "description": "아일랜드에서 채광 시 코비가 등장할 확률이 8%로 증가합니다.",
+          "skillPoints": "10 Point",
+          "gold": "1,000,000 G",
+          "abilityStone": "30개",
+          "probability": "5%"
+        }
+      ]
+    },
+    {
+      "icon": "🔩",
+      "name": "[아일랜드] 주괴 좀 사주괴",
+      "levels": [
+        {
+          "level": 1,
+          "description": "주괴의 판매가가 1% 증가합니다. 판매 시 자동으로 계산됩니다.",
+          "skillPoints": "1 Point",
+          "gold": "5,000 G",
+          "abilityStone": "3개",
+          "probability": "100%"
+        },
+        {
+          "level": 2,
+          "description": "주괴의 판매가가 2% 증가합니다. 판매 시 자동으로 계산됩니다.",
+          "skillPoints": "3 Point",
+          "gold": "25,000 G",
+          "abilityStone": "9개",
+          "probability": "70%"
+        },
+        {
+          "level": 3,
+          "description": "주괴의 판매가가 3% 증가합니다. 판매 시 자동으로 계산됩니다.",
+          "skillPoints": "5 Point",
+          "gold": "120,000 G",
+          "abilityStone": "15개",
+          "probability": "50%"
+        },
+        {
+          "level": 4,
+          "description": "주괴의 판매가가 4% 증가합니다. 판매 시 자동으로 계산됩니다.",
+          "skillPoints": "7 Point",
+          "gold": "570,000 G",
+          "abilityStone": "21개",
+          "probability": "10%"
+        },
+        {
+          "level": 5,
+          "description": "주괴의 판매가가 10% 증가합니다. 판매 시 자동으로 계산됩니다.",
+          "skillPoints": "10 Point",
+          "gold": "1,000,000 G",
+          "abilityStone": "30개",
+          "probability": "5%"
+        }
+      ]
+    },
+    {
+      "icon": "💎",
+      "name": "[아일랜드] 반짝임의 시작",
+      "levels": [
+        {
+          "level": 1,
+          "description": "아일랜드에서 채광 시 1% 확률로 광석에 맞는 보석을 1개를 드롭합니다.",
+          "skillPoints": "1 Point",
+          "gold": "5,000 G",
+          "abilityStone": "3개",
+          "probability": "100%"
+        },
+        {
+          "level": 2,
+          "description": "아일랜드에서 채광 시 5% 확률로 광석에 맞는 보석을 1개를 드롭합니다.",
+          "skillPoints": "3 Point",
+          "gold": "50,000 G",
+          "abilityStone": "9개",
+          "probability": "50%"
+        },
+        {
+          "level": 3,
+          "description": "아일랜드에서 채광 시 7% 확률로 광석에 맞는 보석을 2개를 드롭합니다.",
+          "skillPoints": "5 Point",
+          "gold": "500,000 G",
+          "abilityStone": "15개",
+          "probability": "10%"
+        }
+      ]
+    },
+    {
+      "icon": "🔥",
+      "name": "[아일랜드] 초고속 용광로",
+      "levels": [
+        {
+          "level": 1,
+          "description": "주괴 제련 시간이 3% 감소합니다. 제작 시작 시 자동 적용됩니다.",
+          "skillPoints": "1 Point",
+          "gold": "5,000 G",
+          "abilityStone": "3개",
+          "probability": "100%"
+        },
+        {
+          "level": 2,
+          "description": "주괴 제련 시간이 5% 감소합니다. 제작 시작 시 자동 적용됩니다.",
+          "skillPoints": "3 Point",
+          "gold": "50,000 G",
+          "abilityStone": "9개",
+          "probability": "50%"
+        },
+        {
+          "level": 3,
+          "description": "주괴 제련 시간이 7% 감소합니다. 제작 시작 시 자동 적용됩니다.",
+          "skillPoints": "5 Point",
+          "gold": "500,000 G",
+          "abilityStone": "15개",
+          "probability": "10%"
+        }
+      ]
+    },
+    {
+      "icon": "⛏️",
+      "name": "[아일랜드] 쓸어담는 광질",
+      "levels": [
+        {
+          "level": 1,
+          "description": "3초 간 광석을 한 번에 캡니다. 곡괭이를 들고 쉬프트 우클릭합니다.",
+          "skillPoints": "1 Point",
+          "gold": "5,000 G",
+          "abilityStone": "3개",
+          "probability": "100%"
+        },
+        {
+          "level": 2,
+          "description": "4초 간 광석을 한 번에 캡니다. 곡괭이를 들고 쉬프트 우클릭합니다.",
+          "skillPoints": "2 Point",
+          "gold": "20,000 G",
+          "abilityStone": "6개",
+          "probability": "70%"
+        },
+        {
+          "level": 3,
+          "description": "5초 간 광석을 한 번에 캡니다. 곡괭이를 들고 쉬프트 우클릭합니다.",
+          "skillPoints": "3 Point",
+          "gold": "85,000 G",
+          "abilityStone": "9개",
+          "probability": "50%"
+        },
+        {
+          "level": 4,
+          "description": "7초 간 광석을 한 번에 캡니다. 곡괭이를 들고 쉬프트 우클릭합니다.",
+          "skillPoints": "4 Point",
+          "gold": "250,000 G",
+          "abilityStone": "12개",
+          "probability": "20%"
+        },
+        {
+          "level": 5,
+          "description": "10초 간 광석을 한 번에 캡니다. 곡괭이를 들고 쉬프트 우클릭합니다.",
+          "skillPoints": "5 Point",
+          "gold": "500,000 G",
+          "abilityStone": "15개",
+          "probability": "10%"
+        }
+      ]
+    },
+    {
+      "icon": "🍀",
+      "name": "[아일랜드] 럭키 히트",
+      "levels": [
+        {
+          "level": 1,
+          "description": "아일랜드에서 채광 시 1% 확률로 광석 1개를 추가 드롭합니다.",
+          "skillPoints": "1 Point",
+          "gold": "5,000 G",
+          "abilityStone": "3개",
+          "probability": "100%"
+        },
+        {
+          "level": 2,
+          "description": "아일랜드에서 채광 시 2% 확률로 광석 1개를 추가 드롭합니다.",
+          "skillPoints": "2 Point",
+          "gold": "8,000 G",
+          "abilityStone": "6개",
+          "probability": "80%"
+        },
+        {
+          "level": 3,
+          "description": "아일랜드에서 채광 시 3% 확률로 광석 1개를 추가 드롭합니다.",
+          "skillPoints": "3 Point",
+          "gold": "15,000 G",
+          "abilityStone": "9개",
+          "probability": "70%"
+        },
+        {
+          "level": 4,
+          "description": "아일랜드에서 채광 시 4% 확률로 광석 1개를 추가 드롭합니다.",
+          "skillPoints": "4 Point",
+          "gold": "28,000 G",
+          "abilityStone": "12개",
+          "probability": "50%"
+        },
+        {
+          "level": 5,
+          "description": "아일랜드에서 채광 시 5% 확률로 광석 1개를 추가 드롭합니다.",
+          "skillPoints": "5 Point",
+          "gold": "52,000 G",
+          "abilityStone": "15개",
+          "probability": "30%"
+        },
+        {
+          "level": 6,
+          "description": "아일랜드에서 채광 시 6% 확률로 광석 1개를 추가 드롭합니다.",
+          "skillPoints": "6 Point",
+          "gold": "95,000 G",
+          "abilityStone": "18개",
+          "probability": "20%"
+        },
+        {
+          "level": 7,
+          "description": "아일랜드에서 채광 시 7% 확률로 광석 1개를 추가 드롭합니다.",
+          "skillPoints": "7 Point",
+          "gold": "175,000 G",
+          "abilityStone": "21개",
+          "probability": "15%"
+        },
+        {
+          "level": 8,
+          "description": "아일랜드에서 채광 시 8% 확률로 광석 2개를 추가 드롭합니다.",
+          "skillPoints": "8 Point",
+          "gold": "320,000 G",
+          "abilityStone": "24개",
+          "probability": "10%"
+        },
+        {
+          "level": 9,
+          "description": "아일랜드에서 채광 시 9% 확률로 광석 2개를 추가 드롭합니다.",
+          "skillPoints": "9 Point",
+          "gold": "580,000 G",
+          "abilityStone": "27개",
+          "probability": "7%"
+        },
+        {
+          "level": 10,
+          "description": "아일랜드에서 채광 시 10% 확률로 광석 3개를 추가 드롭합니다.",
+          "skillPoints": "10 Point",
+          "gold": "1,000,000 G",
+          "abilityStone": "30개",
+          "probability": "5%"
+        }
+      ]
+    },
+    {
+      "icon": "🐦‍🔥",
+      "name": "[아일랜드] 불붙은 곡괭이",
+      "levels": [
+        {
+          "level": 1,
+          "description": "채광 시 1% 확률로 광석이 주괴 1개로 제련되어 드롭합니다.",
+          "skillPoints": "1 Point",
+          "gold": "5,000 G",
+          "abilityStone": "3개",
+          "probability": "100%"
+        },
+        {
+          "level": 2,
+          "description": "채광 시 2% 확률로 광석이 주괴 1개로 제련되어 드롭합니다.",
+          "skillPoints": "2 Point",
+          "gold": "8,000 G",
+          "abilityStone": "6개",
+          "probability": "80%"
+        },
+        {
+          "level": 3,
+          "description": "채광 시 3% 확률로 광석이 주괴 1개로 제련되어 드롭합니다.",
+          "skillPoints": "3 Point",
+          "gold": "15,000 G",
+          "abilityStone": "9개",
+          "probability": "70%"
+        },
+        {
+          "level": 4,
+          "description": "채광 시 4% 확률로 광석이 주괴 1개로 제련되어 드롭합니다.",
+          "skillPoints": "4 Point",
+          "gold": "28,000 G",
+          "abilityStone": "12개",
+          "probability": "60%"
+        },
+        {
+          "level": 5,
+          "description": "채광 시 5% 확률로 광석이 주괴 1개로 제련되어 드롭합니다.",
+          "skillPoints": "5 Point",
+          "gold": "52,000 G",
+          "abilityStone": "15개",
+          "probability": "50%"
+        },
+        {
+          "level": 6,
+          "description": "채광 시 6% 확률로 광석이 주괴 1개로 제련되어 드롭합니다.",
+          "skillPoints": "6 Point",
+          "gold": "95,000 G",
+          "abilityStone": "18개",
+          "probability": "40%"
+        },
+        {
+          "level": 7,
+          "description": "채광 시 7% 확률로 광석이 주괴 1개로 제련되어 드롭합니다.",
+          "skillPoints": "7 Point",
+          "gold": "175,000 G",
+          "abilityStone": "21개",
+          "probability": "30%"
+        },
+        {
+          "level": 8,
+          "description": "채광 시 8% 확률로 광석이 주괴 1개로 제련되어 드롭합니다.",
+          "skillPoints": "8 Point",
+          "gold": "320,000 G",
+          "abilityStone": "24개",
+          "probability": "10%"
+        },
+        {
+          "level": 9,
+          "description": "채광 시 9% 확률로 광석이 주괴 1개로 제련되어 드롭합니다.",
+          "skillPoints": "9 Point",
+          "gold": "580,000 G",
+          "abilityStone": "27개",
+          "probability": "5%"
+        },
+        {
+          "level": 10,
+          "description": "채광 시 15% 확률로 광석이 주괴 2개로 제련되어 드롭합니다.",
+          "skillPoints": "10 Point",
+          "gold": "1,000,000 G",
+          "abilityStone": "30개",
+          "probability": "1%"
+        }
+      ]
+    },
+    {
+      "icon": "⛏️",
+      "name": "[야생] 곡괭이 나가신다!",
+      "levels": [
+        {
+          "level": 1,
+          "description": "3초 간 3x3 범위를 부실 수 있습니다.",
+          "skillPoints": "1 Point",
+          "gold": "5,000 G",
+          "abilityStone": "3개",
+          "probability": "100%"
+        },
+        {
+          "level": 2,
+          "description": "5초 간 3x3 범위를 부실 수 있습니다.",
+          "skillPoints": "2 Point",
+          "gold": "8,000 G",
+          "abilityStone": "6개",
+          "probability": "80%"
+        },
+        {
+          "level": 3,
+          "description": "10초 간 3x3 범위를 부실 수 있습니다.",
+          "skillPoints": "3 Point",
+          "gold": "15,000 G",
+          "abilityStone": "9개",
+          "probability": "70%"
+        },
+        {
+          "level": 4,
+          "description": "12초 간 3x3 범위를 부실 수 있습니다.",
+          "skillPoints": "4 Point",
+          "gold": "28,000 G",
+          "abilityStone": "12개",
+          "probability": "60%"
+        },
+        {
+          "level": 5,
+          "description": "15초 간 3x3 범위를 부실 수 있습니다.",
+          "skillPoints": "5 Point",
+          "gold": "52,000 G",
+          "abilityStone": "15개",
+          "probability": "50%"
+        },
+        {
+          "level": 6,
+          "description": "17초 간 3x3 범위를 부실 수 있습니다.",
+          "skillPoints": "6 Point",
+          "gold": "95,000 G",
+          "abilityStone": "18개",
+          "probability": "40%"
+        },
+        {
+          "level": 7,
+          "description": "20초 간 3x3 범위를 부실 수 있습니다.",
+          "skillPoints": "7 Point",
+          "gold": "175,000 G",
+          "abilityStone": "21개",
+          "probability": "30%"
+        },
+        {
+          "level": 8,
+          "description": "25초 간 3x3 범위를 부실 수 있습니다.",
+          "skillPoints": "8 Point",
+          "gold": "320,000 G",
+          "abilityStone": "24개",
+          "probability": "10%"
+        },
+        {
+          "level": 9,
+          "description": "30초 간 3x3 범위를 부실 수 있습니다.",
+          "skillPoints": "9 Point",
+          "gold": "580,000 G",
+          "abilityStone": "27개",
+          "probability": "5%"
+        },
+        {
+          "level": 10,
+          "description": "60초 간 3x3 범위를 부실 수 있습니다.",
           "skillPoints": "10 Point",
           "gold": "1,000,000 G",
           "abilityStone": "30개",

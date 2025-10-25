@@ -2207,7 +2207,10 @@ function switchRegion(region) {
     showCollectionSections();
     updateSectionButtons();
   } else if (region === "expertise") {
-    sectionTabs.style.display = "none";
+    sectionTabs.style.display = "flex";
+    currentSection = "gathering";
+    showExpertiseSections();
+    updateSectionButtons();
     renderExpertise();
     return;
   } else {
@@ -2267,10 +2270,31 @@ function showCollectionSections() {
   });
 }
 
+// 전문가 섹션 표시 함수
+function showExpertiseSections() {
+  sectionButtons.forEach((button) => {
+    const section = button.dataset.section;
+    if (["gathering", "mining"].includes(section)) {
+      button.style.display = "block";
+    } else {
+      button.style.display = "none";
+    }
+  });
+}
+
 // 섹션 전환 함수
 function switchSection(section) {
   currentSection = section;
   updateSectionButtons();
+
+  // 전문가 섹션일 때
+  if (
+    currentRegion === "expertise" &&
+    ["gathering", "mining"].includes(section)
+  ) {
+    renderExpertise();
+    return;
+  }
 
   // 요리 섹션 정보 박스 토글
   if (currentRegion === "grindel" && section === "cooking") {
@@ -2951,13 +2975,26 @@ function renderExpertise() {
 
   container.innerHTML = "";
 
-  if (!expertiseData.expertise || expertiseData.expertise.length === 0) {
+  // 채집 전문가와 채광 전문가 배열 가져오기
+  const gatheringExpertise = expertiseData.gatheringExpertise || [];
+  const miningExpertise = expertiseData.miningExpertise || [];
+
+  if (gatheringExpertise.length === 0 && miningExpertise.length === 0) {
     container.innerHTML = "<p class='no-results'>전문가 데이터가 없습니다.</p>";
     return;
   }
 
+  // 현재 선택된 섹션에 따라 렌더링
+  if (currentSection === "gathering" && gatheringExpertise.length > 0) {
+    renderExpertiseSection(gatheringExpertise, container);
+  } else if (currentSection === "mining" && miningExpertise.length > 0) {
+    renderExpertiseSection(miningExpertise, container);
+  }
+}
+
+function renderExpertiseSection(expertiseArray, container) {
   // 각 전문가 스킬 렌더링
-  expertiseData.expertise.forEach((skill) => {
+  expertiseArray.forEach((skill) => {
     // 스킬 제목
     const skillTitle = document.createElement("h3");
     skillTitle.className = "expertise-skill-title";
