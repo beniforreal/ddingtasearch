@@ -34,7 +34,7 @@
           </div> -->
           <div id="priceTimer" class="price-timer">
             <div class="timer-container">
-              <span class="version-badge">v0.3.4</span>
+              <span class="version-badge">v0.4.0</span>
               <span class="timer-icon">⏰</span>
               <span class="timer-text">다음 요리 가격 변동까지:</span>
               <span id="timerDisplay" class="timer-display timer-left"
@@ -181,6 +181,17 @@
                 class="calculator-icon"
               />
             </button>
+            <button
+              id="cookingTimerBtn"
+              class="cooking-timer-btn"
+              title="쿠킹 타이머"
+            >
+              <img
+                src="img/icons8-timer-48.png"
+                alt="쿠킹 타이머"
+                class="cooking-timer-icon"
+              />
+            </button>
           </div>
         </div>
 
@@ -193,6 +204,19 @@
             </div>
             <div class="calculator-body" id="calculatorBody">
               <!-- 계산기 내용이 여기에 동적으로 추가됩니다 -->
+            </div>
+          </div>
+        </div>
+
+        <!-- 쿠킹 타이머 모달 -->
+        <div id="cookingTimerModal" class="cooking-timer-modal">
+          <div class="cooking-timer-content">
+            <div class="cooking-timer-header">
+              <h3>쿠킹 타이머</h3>
+              <button id="closeCookingTimer" class="close-btn">×</button>
+            </div>
+            <div class="cooking-timer-body" id="cookingTimerBody">
+              <!-- 쿠킹 타이머 내용이 여기에 동적으로 추가됩니다 -->
             </div>
           </div>
         </div>
@@ -249,5 +273,6 @@
     <script src="search.js"></script>
     <script src="todo.js"></script>
     <script src="notice.js"></script>
+    <script src="cookingTimer.js"></script>
   </body>
 </html>

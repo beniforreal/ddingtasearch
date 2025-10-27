@@ -1,0 +1,20 @@
+{
+  "cooking": {
+    "defaultTime": 30,
+    "description": "요리 시간 (개당 30초)"
+  },
+  "bundle": {
+    "defaultTime": 3,
+    "description": "묶음 시간 (개당 3초)"
+  },
+  "processing": {
+    "defaultTime": 15,
+    "description": "가공 시간 (개당 15초)",
+    "items": {
+      "요리용 소금": 15,
+      "치즈 조각": 15,
+      "버터 조각": 15,
+      "밀가루 반죽": 15
+    }
+  }
+}

@@ -2064,6 +2064,46 @@ body.dark-theme .calculator-btn:hover .calculator-icon {
   opacity: 0.8;
 }
 
+.cooking-timer-btn {
+  width: auto;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  padding: 8px;
+  border-radius: 50%;
+}
+
+.cooking-timer-icon {
+  width: 48px;
+  height: 48px;
+  transition: all 0.2s ease;
+}
+
+.cooking-timer-btn:hover {
+  transform: scale(1.05);
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.cooking-timer-btn:hover .cooking-timer-icon {
+  opacity: 0.8;
+}
+
+body.dark-theme .cooking-timer-btn {
+  background: transparent;
+}
+
+body.dark-theme .cooking-timer-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-theme .cooking-timer-btn:hover .cooking-timer-icon {
+  opacity: 0.8;
+}
+
 body.dark-theme .footer-search input {
   background: #2a2a2a;
   color: #e5e5e5;
@@ -2394,15 +2434,33 @@ body.dark-theme .footer-search input {
 .calculator-content {
   background: white;
   border-radius: 15px;
-  width: 90%;
-  max-width: 600px;
+  width: 100%;
+  max-width: 1000px;
   max-height: 90vh;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
+.calculator-header {
+  flex-shrink: 0;
+}
+
+.calculator-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  padding: 20px;
+}
+
+.calculator-body::-webkit-scrollbar {
+  display: none;
+}
+
 body.dark-theme .calculator-content {
-  background: #1e1e1e;
+  background: #2a2a2a;
   color: #e5e5e5;
 }
 
@@ -2415,6 +2473,7 @@ body.dark-theme .calculator-content {
 }
 
 body.dark-theme .calculator-header {
+  background: #2a2a2a;
   border-bottom-color: #444;
 }
 
@@ -2454,8 +2513,51 @@ body.dark-theme .close-btn:hover {
   color: #e5e5e5;
 }
 
-.calculator-body {
-  padding: 20px;
+.calculator-sections {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #e2e8f0;
+  justify-content: center;
+}
+
+body.dark-theme .calculator-sections {
+  background: #2a2a2a;
+  border-bottom-color: #444;
+}
+
+.calculator-section-btn {
+  padding: 10px 16px;
+  border: none;
+  background: transparent;
+  color: #64748b;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.calculator-section-btn:hover {
+  color: #334155;
+}
+
+.calculator-section-btn.active {
+  color: #2563eb;
+  border-bottom-color: #2563eb;
+}
+
+body.dark-theme .calculator-section-btn {
+  color: #94a3b8;
+}
+
+body.dark-theme .calculator-section-btn:hover {
+  color: #e2e8f0;
+}
+
+body.dark-theme .calculator-section-btn.active {
+  color: #60a5fa;
+  border-bottom-color: #60a5fa;
 }
 
 /* 요리 선택기 */
@@ -2471,29 +2573,55 @@ body.dark-theme .close-btn:hover {
 
 /* ===== Price Vault (요리 가격 저장소) ===== */
 .price-vault {
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  margin: 20px;
+  padding: 30px;
+  background: linear-gradient(180deg, #ffffff, #f7fafc);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.price-vault::-webkit-scrollbar {
+  display: none;
+}
+body.dark-theme .price-vault {
+  background: #2a2a2a;
+  border-color: #334155;
 }
 
 .price-vault .vault-header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   margin-bottom: 16px;
 }
 
 .price-vault .vault-title {
-  font-size: 14px;
-  font-weight: 700;
-  color: #334155;
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: 0.2px;
+  color: #0f172a;
+}
+
+body.dark-theme .price-vault .vault-title {
+  color: #e5e5e5;
 }
 
 .price-vault .vault-clear {
-  border: 0;
-  background: #ef4444;
-  color: #ffffff;
+  padding: 6px 12px;
   font-size: 12px;
-  border-radius: 10px;
-  padding: 6px 10px;
+  font-weight: 700;
+  background: #f44336;
+  color: white;
+  border: none;
+  border-radius: 6px;
   cursor: pointer;
+  transition: background 0.2s;
 }
 
 .price-vault .vault-clear:hover {
@@ -2502,114 +2630,246 @@ body.dark-theme .close-btn:hover {
 
 .price-vault .vault-inputs {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 6px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  overflow-y: auto;
+  padding-right: 2px;
 }
 
-.vault-card {
-  background: white;
-  border: 1px solid #ddd;
+@media (max-width: 1024px) {
+  .price-vault .vault-inputs {
+    grid-template-columns: 1fr;
+  }
+}
+
+.vault-group {
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 12px 12px 6px;
+  background: linear-gradient(180deg, #fcfdff, #f8fbff);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+body.dark-theme .vault-group {
+  background: #2a2a2a;
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+
+.vault-group.common {
+  box-shadow: 0 0 0 1px rgba(241, 194, 86, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.vault-group.normal {
+  box-shadow: 0 0 0 1px rgba(73, 214, 122, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.vault-group.rare {
+  box-shadow: 0 0 0 1px rgba(122, 177, 255, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.vault-group.epic {
+  box-shadow: 0 0 0 1px rgba(255, 123, 132, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.vault-group h3 {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 10px;
+  color: #0f172a;
+}
+
+body.dark-theme .vault-group h3 {
+  color: #e5e5e5;
+}
+
+.grade-badge {
+  position: relative;
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 10px;
+  font-weight: 900;
+  font-size: 12px;
+  letter-spacing: 0.6px;
+  line-height: 1;
+  color: #fff;
+  overflow: hidden;
+  text-transform: uppercase;
+  box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.18);
+}
+
+.grade-badge::before {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  color: transparent;
+  -webkit-text-stroke: 1px #0a1220;
+  z-index: -1;
+}
+
+.grade-badge.COMMON {
+  background: linear-gradient(180deg, #f1c256, #c5962e);
+}
+
+.grade-badge.NORMAL {
+  background: linear-gradient(180deg, #49d67a, #2ca257);
+}
+
+.grade-badge.RARE {
+  background: linear-gradient(180deg, #7ab1ff, #3f86ff);
+}
+
+.grade-badge.EPIC {
+  background: linear-gradient(180deg, #ff7b84, #d94e59);
+}
+
+.grade-badge::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 45%;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.35),
+    rgba(255, 255, 255, 0)
+  );
+  pointer-events: none;
+}
+
+.vault-input-row {
+  display: grid;
+  grid-template-columns: 1fr 160px;
+  gap: 12px;
+  align-items: center;
+  margin: 8px 0;
+}
+
+.vault-input-row label {
+  font-weight: 700;
+  font-size: 14px;
+  color: #1f2937;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  line-height: 1.35;
+}
+
+body.dark-theme .vault-input-row label {
+  color: #e5e5e5;
+}
+
+.vault-item-icon {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
   border-radius: 6px;
-  padding: 8px 6px;
+  flex-shrink: 0;
+}
+
+.vault-item-info {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 3px;
-  min-height: 45px;
-  transition: all 0.2s ease;
+  flex: 1;
+  min-width: 0;
 }
 
-.price-vault .vault-name {
-  font-size: 12px;
-  color: #333;
-  font-weight: 500;
+.vault-item-name {
+  font-weight: 800;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  text-align: center;
 }
 
-.price-vault .vault-price {
-  width: 100%;
-  padding: 10px 6px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  background: #f9f9f9;
-  color: #333;
-  font-size: 11px;
-  text-align: center;
+.vault-item-range {
+  font-weight: 600;
+  font-size: 12px;
+  color: #5a6a86;
+  margin-top: 3px;
+}
+
+body.dark-theme .vault-item-range {
+  color: #999;
+}
+
+.vault-input-row .vault-price {
+  width: 160px;
+  padding: 10px 12px;
+  font-size: 14px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #0f172a;
+  box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.06);
   -moz-appearance: textfield;
+  appearance: textfield;
 }
 
-.price-vault .vault-price::-webkit-outer-spin-button,
-.price-vault .vault-price::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-/* 반응형: 3 / 2 / 2 열 */
-@media (max-width: 1024px) {
-  .price-vault .vault-inputs {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 5px;
-  }
-}
-@media (max-width: 768px) {
-  .price-vault .vault-inputs {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 4px;
-  }
-}
-@media (max-width: 480px) {
-  .price-vault .vault-inputs {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 3px;
-  }
-
-  .vault-card {
-    min-height: 40px;
-    padding: 6px 4px;
-  }
-
-  .price-vault .vault-name {
-    font-size: 12px;
-  }
-
-  .price-vault .vault-price {
-    font-size: 12px;
-    padding: 10px 4px;
-  }
-}
-
-body.dark-theme .price-vault {
-  background: transparent;
-}
-
-body.dark-theme .price-vault .vault-title {
-  color: #e5e5e5;
-}
-
-body.dark-theme .vault-card {
-  background: #1a1a1a;
-  border-color: #555;
-}
-
-body.dark-theme .price-vault .vault-name {
-  color: #e5e5e5;
-}
-
-body.dark-theme .price-vault .vault-price {
+body.dark-theme .vault-input-row .vault-price {
   background: #2a2a2a;
-  border-color: #555;
   color: #e5e5e5;
-  -moz-appearance: textfield;
+  border-color: #555;
+  box-shadow: none;
 }
 
-body.dark-theme .price-vault .vault-price::-webkit-outer-spin-button,
-body.dark-theme .price-vault .vault-price::-webkit-inner-spin-button {
+.vault-input-row .vault-price:focus {
+  outline: none;
+  border-color: #666;
+  box-shadow: none;
+}
+
+.vault-input-row .vault-price::-webkit-outer-spin-button,
+.vault-input-row .vault-price::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.vault-input-row:hover .vault-price {
+  border-color: #2e60ff;
+  box-shadow: 0 0 0 4px rgba(46, 96, 255, 0.14);
+}
+
+@media (max-width: 768px) {
+  .vault-input-row {
+    grid-template-columns: 1fr 140px;
+    gap: 8px;
+  }
+
+  .vault-input-row .vault-price {
+    width: 140px;
+  }
+
+  .vault-item-icon {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+@media (max-width: 480px) {
+  .vault-input-row {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .vault-input-row .vault-price {
+    width: 100%;
+  }
+
+  .vault-item-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .vault-input-row label {
+    gap: 8px;
+  }
 }
 
 .selector-label {
@@ -3025,6 +3285,671 @@ body.dark-theme .cost-breakdown {
   .cooking-btn-icon {
     width: 20px;
     height: 20px;
+  }
+}
+
+/* ===== 요리 효율 랭킹 리스트 스타일 ===== */
+.cooking-list-container {
+  margin: 20px;
+  padding: 18px;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #ffffff, #f7fafc);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+body.dark-theme .cooking-list-container {
+  background: #2a2a2a;
+  border-color: #444;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.cooking-list-title {
+  font-weight: 900;
+  font-size: 22px;
+  letter-spacing: 0.2px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 2px 0 14px;
+  color: #0f172a;
+  position: relative;
+}
+
+.title-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ranking-note {
+  font-size: 12px;
+  font-weight: 400;
+  color: #6b7280;
+}
+
+body.dark-theme .ranking-note {
+  color: #999;
+}
+
+.settings-btn {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #64748b;
+}
+
+.settings-btn:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  color: #475569;
+}
+
+body.dark-theme .settings-btn {
+  background: #2a2a2a;
+  border-color: #444;
+  color: #e5e5e5;
+}
+
+body.dark-theme .settings-btn:hover {
+  background: #333;
+  border-color: #666;
+  color: #e5e5e5;
+}
+
+.settings-dropdown {
+  position: fixed;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  z-index: 9999;
+  min-width: 300px;
+  max-width: 90vw;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+}
+
+.settings-dropdown.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+body.dark-theme .settings-dropdown {
+  background: #2a2a2a;
+  border-color: #444;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.settings-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.reset-base-btn {
+  background: #fee2e2;
+  border: 1px solid #fecaca;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #991b1b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.reset-base-btn:hover {
+  background: #fecaca;
+  border-color: #f87171;
+  color: #7f1d1d;
+}
+
+body.dark-theme .reset-base-btn {
+  background: #7f1d1d;
+  border-color: #991b1b;
+  color: #fee2e2;
+}
+
+body.dark-theme .reset-base-btn:hover {
+  background: #991b1b;
+  border-color: #b91c1c;
+  color: #ffffff;
+}
+
+.settings-content {
+  padding: 16px;
+}
+
+body.dark-theme .settings-content {
+  background: #2a2a2a;
+}
+
+.settings-content h4 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+body.dark-theme .settings-content h4 {
+  color: #f1f5f9;
+}
+
+.base-price-inputs {
+  margin-bottom: 16px;
+}
+
+.base-price-inputs .input-group {
+  margin-bottom: 12px;
+}
+
+.base-price-inputs .input-group:last-child {
+  margin-bottom: 0;
+}
+
+.base-price-inputs label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #475569;
+  margin-bottom: 6px;
+}
+
+body.dark-theme .base-price-inputs label {
+  color: #aaa;
+}
+
+.base-price-inputs input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  background: #f9fafb;
+}
+
+.base-price-inputs input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  background: white;
+}
+
+body.dark-theme .base-price-inputs input {
+  background: #1a1a1a;
+  border-color: #555;
+  color: #e5e5e5;
+}
+
+body.dark-theme .base-price-inputs input:focus {
+  background: #1a1a1a;
+  border-color: #777;
+}
+
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.checkbox-item {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 14px;
+  color: #374151;
+}
+
+body.dark-theme .checkbox-item {
+  color: #e5e5e5;
+}
+
+.checkbox-item input[type="checkbox"] {
+  display: none;
+}
+
+.checkbox-item .checkmark {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #d1d5db;
+  border-radius: 4px;
+  margin-right: 8px;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+body.dark-theme .checkbox-item .checkmark {
+  border-color: #666;
+}
+
+.checkbox-item input[type="checkbox"]:checked + .checkmark {
+  background: #3b82f6;
+  border-color: #3b82f6;
+}
+
+.checkbox-item input[type="checkbox"]:checked + .checkmark::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 2px;
+  width: 4px;
+  height: 8px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+body.dark-theme .cooking-list-title {
+  color: #e5e5e5;
+}
+
+.cooking-ranking-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  padding: 2px;
+  max-height: none;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.cooking-ranking-list::-webkit-scrollbar {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .cooking-ranking-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+.cooking-ranking-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.cooking-ranking-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.cooking-ranking-list::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+body.dark-theme .cooking-ranking-list::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.cooking-rank-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 16px;
+  background: linear-gradient(180deg, #ffffff, #fbfdff);
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05),
+    0 1px 0 rgba(255, 255, 255, 0.1) inset;
+  transition: transform 0.12s ease, box-shadow 0.12s ease,
+    border-color 0.2s ease;
+  cursor: pointer;
+}
+
+body.dark-theme .cooking-rank-item {
+  background: #2a2a2a;
+  border-color: #444;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.cooking-rank-item:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-color: #cbd5e1;
+}
+
+body.dark-theme .cooking-rank-item:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  border-color: #666;
+}
+
+/* Top 3 랭킹 특별 스타일 */
+.cooking-rank-item.rank-top1 {
+  /* rank border removed */
+}
+
+.cooking-rank-item.rank-top2 {
+  /* rank border removed */
+}
+
+.cooking-rank-item.rank-top3 {
+  /* rank border removed */
+}
+
+.cooking-rank-item.rank-top1:hover {
+  /* rank border removed */
+}
+
+.cooking-rank-item.rank-top2:hover {
+  /* rank border removed */
+}
+
+.cooking-rank-item.rank-top3:hover {
+  /* rank border removed */
+}
+
+/* rank-number 스타일 제거됨 */
+
+.rank-medal {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  z-index: 1;
+}
+
+.rank-medal.gold {
+  color: #ffd700;
+}
+
+.rank-medal.silver {
+  color: #c0c0c0;
+}
+
+.rank-medal.bronze {
+  color: #cd7f32;
+}
+
+.rank-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.rank-badge-wrapper {
+  margin-bottom: 4px;
+}
+
+.rank-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.rank-header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.rank-profit {
+  font-weight: 900;
+  font-size: 18px;
+  color: #059669;
+  flex-shrink: 0;
+}
+
+.rank-item-icon {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+/* .rank-badge는 .grade-badge로 통합됨 */
+
+.rank-name {
+  font-weight: 800;
+  font-size: 16px;
+  color: #0f172a;
+}
+
+body.dark-theme .rank-name {
+  color: #eaf1ff;
+}
+
+.rank-kv {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 4px 0;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+body.dark-theme .rank-kv {
+  color: #b7c5df;
+}
+
+.rank-delta-wrapper {
+  margin: 4px 0;
+  display: block;
+}
+
+.rank-price {
+  font-weight: 800;
+  font-size: 15px;
+  color: #1f2937;
+}
+
+body.dark-theme .rank-price {
+  color: #f4dd9a;
+}
+
+body.dark-theme .rank-profit {
+  color: #39e58a;
+}
+
+.rank-profit.negative {
+  color: #dc2626;
+}
+
+body.dark-theme .rank-profit.negative {
+  color: #f87171;
+}
+
+.rank-cost {
+  font-weight: 800;
+  font-size: 15px;
+  color: #dc2626;
+}
+
+body.dark-theme .rank-cost {
+  color: #f87171;
+}
+
+.rank-range {
+  font-weight: 600;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+body.dark-theme .rank-range {
+  color: #9ca3af;
+}
+
+.rank-avg {
+  font-weight: 600;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+body.dark-theme .rank-avg {
+  color: #9ca3af;
+}
+
+.rank-delta {
+  font-weight: 700;
+  display: block;
+  font-size: 13px;
+  padding: 6px 0;
+}
+
+body.dark-theme .rank-delta {
+  /* background and border removed */
+}
+
+.rank-delta.up {
+  color: #16a34a;
+}
+
+body.dark-theme .rank-delta.up {
+  color: #39e58a;
+}
+
+.rank-delta.down {
+  color: #dc2626;
+}
+
+body.dark-theme .rank-delta.down {
+  color: #ff6b6b;
+}
+
+.rank-delta.flat {
+  color: #6b7280;
+}
+
+body.dark-theme .rank-delta.flat {
+  color: #93a1b7;
+}
+
+.rank-meta {
+  font-weight: 600;
+  font-size: 11px;
+}
+
+.rank-details {
+  margin-top: 8px;
+  padding: 8px 0;
+  font-size: 12px;
+  color: #6b7280;
+  border-top: 1px solid #f3f4f6;
+  display: block;
+}
+
+body.dark-theme .rank-details {
+  color: #a9b6ce;
+  border-top-color: #374151;
+}
+
+.rank-details .detail-row {
+  margin: 4px 0;
+}
+
+.detail-row {
+  font-size: 12px;
+}
+
+.detail-row b {
+  font-weight: 900;
+  color: #0f172a;
+}
+
+body.dark-theme .detail-row b {
+  color: #f1f6ff;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 요리 랭킹 리스트 모바일 반응형 */
+@media (max-width: 768px) {
+  .calculator-content {
+    max-width: 95%;
+    width: 95%;
+  }
+
+  .vault-input-row {
+    grid-template-columns: 1fr 140px;
+    gap: 8px;
+  }
+
+  .vault-input-row .vault-price {
+    width: 140px;
+  }
+
+  .cooking-list-title {
+    font-size: 18px;
+  }
+
+  .cooking-rank-item {
+    padding: 12px;
+  }
+
+  .rank-item-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .rank-name {
+    font-size: 14px;
+  }
+
+  .rank-kv {
+    font-size: 12px;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .vault-input-row {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .vault-input-row .vault-price {
+    width: 100%;
+  }
+
+  .cooking-list-title {
+    font-size: 16px;
+    margin-bottom: 12px;
+  }
+
+  .cooking-rank-item {
+    padding: 8px;
+  }
+
+  .rank-item-icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .rank-name {
+    font-size: 13px;
+  }
+
+  .rank-kv {
+    font-size: 11px;
+    gap: 6px;
   }
 }
 
@@ -4354,5 +5279,510 @@ body.dark-theme .expertise-probability {
     padding: 6px 10px !important;
     white-space: normal;
     line-height: 1.4;
+  }
+}
+
+/* 쿠킹 타이머 모달 */
+.cooking-timer-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  /* 드래그 방지 */
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.cooking-timer-modal.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.cooking-timer-content {
+  background: white;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  /* 드래그 방지 및 포인터 이벤트 */
+  pointer-events: auto;
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+}
+
+.cooking-timer-content::-webkit-scrollbar {
+  display: none;
+}
+
+body.dark-theme .cooking-timer-content {
+  background: #2a2a2a;
+  border: 1px solid #444;
+}
+
+.cooking-timer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid #eee;
+  background: #f8f9fa;
+  border-radius: 12px 12px 0 0;
+}
+
+body.dark-theme .cooking-timer-header {
+  background: #333;
+  border-bottom-color: #555;
+}
+
+.cooking-timer-header h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+}
+
+body.dark-theme .cooking-timer-header h3 {
+  color: #e5e5e5;
+}
+
+.cooking-timer-body {
+  padding: 24px;
+  /* 드래그 방지 */
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  /* 터치 이벤트 최적화 */
+  touch-action: manipulation;
+}
+
+.cooking-timer-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.cooking-timer-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cooking-timer-settings {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+body.dark-theme .cooking-timer-settings {
+  background: #333;
+  border-color: #555;
+}
+
+.cooking-timer-setting-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cooking-timer-setting-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  color: #333;
+  cursor: pointer;
+}
+
+body.dark-theme .cooking-timer-setting-label {
+  color: #e5e5e5;
+}
+
+.cooking-timer-setting-label input[type="checkbox"] {
+  display: none;
+}
+
+.cooking-timer-checkmark {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+body.dark-theme .cooking-timer-checkmark {
+  border-color: #666;
+}
+
+.cooking-timer-setting-label
+  input[type="checkbox"]:checked
+  + .cooking-timer-checkmark {
+  background: #007bff;
+  border-color: #007bff;
+}
+
+.cooking-timer-setting-label
+  input[type="checkbox"]:checked
+  + .cooking-timer-checkmark::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 2px;
+  width: 4px;
+  height: 8px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.cooking-timer-volume-label {
+  font-weight: 500;
+  color: #333;
+  font-size: 14px;
+}
+
+body.dark-theme .cooking-timer-volume-label {
+  color: #e5e5e5;
+}
+
+.cooking-timer-volume-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cooking-timer-volume-container input[type="range"] {
+  flex: 1;
+  height: 6px;
+  border-radius: 3px;
+  background: #ddd;
+  outline: none;
+  -webkit-appearance: none;
+}
+
+body.dark-theme .cooking-timer-volume-container input[type="range"] {
+  background: #666;
+}
+
+.cooking-timer-volume-container input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #007bff;
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-theme
+  .cooking-timer-volume-container
+  input[type="range"]::-webkit-slider-thumb {
+  border-color: #333;
+}
+
+.cooking-timer-volume-value {
+  font-size: 12px;
+  color: #666;
+  min-width: 35px;
+  text-align: right;
+}
+
+body.dark-theme .cooking-timer-volume-value {
+  color: #999;
+}
+
+.cooking-timer-test-group {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.cooking-timer-test-btn {
+  padding: 8px 16px;
+  border: 1px solid #007bff;
+  border-radius: 6px;
+  background: transparent;
+  color: #007bff;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cooking-timer-test-btn:hover {
+  background: #007bff;
+  color: white;
+}
+
+body.dark-theme .cooking-timer-test-btn {
+  border-color: #4dabf7;
+  color: #4dabf7;
+}
+
+body.dark-theme .cooking-timer-test-btn:hover {
+  background: #4dabf7;
+  color: white;
+}
+
+.cooking-timer-stop-btn {
+  padding: 8px 16px;
+  border: 1px solid #dc3545;
+  border-radius: 6px;
+  background: transparent;
+  color: #dc3545;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cooking-timer-stop-btn:hover {
+  background: #dc3545;
+  color: white;
+}
+
+body.dark-theme .cooking-timer-stop-btn {
+  border-color: #f56565;
+  color: #f56565;
+}
+
+body.dark-theme .cooking-timer-stop-btn:hover {
+  background: #f56565;
+  color: white;
+}
+
+.cooking-timer-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cooking-timer-input-group label {
+  font-weight: 500;
+  color: #333;
+  font-size: 14px;
+}
+
+body.dark-theme .cooking-timer-input-group label {
+  color: #e5e5e5;
+}
+
+.cooking-timer-input-group input {
+  padding: 12px 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  background: white;
+  color: #333;
+  transition: border-color 0.2s ease;
+  /* 드래그 방지 */
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  /* 터치 이벤트 최적화 */
+  touch-action: manipulation;
+}
+
+.cooking-timer-input-group input:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+body.dark-theme .cooking-timer-input-group input {
+  background: #1a1a1a;
+  color: #e5e5e5;
+  border-color: #555;
+}
+
+body.dark-theme .cooking-timer-input-group input:focus {
+  border-color: #666;
+}
+
+.cooking-timer-note {
+  font-size: 12px;
+  color: #666;
+  margin-top: 4px;
+}
+
+body.dark-theme .cooking-timer-note {
+  color: #999;
+}
+
+.cooking-timer-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.cooking-timer-display {
+  font-size: 48px;
+  font-weight: 700;
+  color: #333;
+  text-align: center;
+  font-family: "Courier New", monospace;
+  background: #f8f9fa;
+  padding: 20px 30px;
+  border-radius: 12px;
+  border: 2px solid #e9ecef;
+  min-width: 200px;
+}
+
+body.dark-theme .cooking-timer-display {
+  color: #e5e5e5;
+  background: #333;
+  border-color: #555;
+}
+
+.cooking-timer-buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.cooking-timer-action-btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 80px;
+}
+
+.cooking-timer-action-btn:first-child {
+  background: #28a745;
+  color: white;
+}
+
+.cooking-timer-action-btn:first-child:hover {
+  background: #218838;
+}
+
+.cooking-timer-action-btn:nth-child(2) {
+  background: #dc3545;
+  color: white;
+}
+
+.cooking-timer-action-btn:nth-child(2):hover {
+  background: #c82333;
+}
+
+.cooking-timer-action-btn:last-child {
+  background: #6c757d;
+  color: white;
+}
+
+.cooking-timer-action-btn:last-child:hover {
+  background: #5a6268;
+}
+
+body.dark-theme .cooking-timer-action-btn:first-child {
+  background: #28a745;
+}
+
+body.dark-theme .cooking-timer-action-btn:first-child:hover {
+  background: #218838;
+}
+
+body.dark-theme .cooking-timer-action-btn:nth-child(2) {
+  background: #dc3545;
+}
+
+body.dark-theme .cooking-timer-action-btn:nth-child(2):hover {
+  background: #c82333;
+}
+
+body.dark-theme .cooking-timer-action-btn:last-child {
+  background: #6c757d;
+}
+
+body.dark-theme .cooking-timer-action-btn:last-child:hover {
+  background: #5a6268;
+}
+
+.cooking-timer-alarm-btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 80px;
+  background: #ffc107;
+  color: #212529;
+}
+
+.cooking-timer-alarm-btn:hover {
+  background: #e0a800;
+  color: #212529;
+}
+
+body.dark-theme .cooking-timer-alarm-btn {
+  background: #ffc107;
+  color: #212529;
+}
+
+body.dark-theme .cooking-timer-alarm-btn:hover {
+  background: #e0a800;
+  color: #212529;
+}
+
+@media (max-width: 768px) {
+  .cooking-timer-content {
+    width: 95%;
+    max-width: none;
+  }
+
+  .cooking-timer-display {
+    font-size: 36px;
+    padding: 16px 24px;
+  }
+
+  .cooking-timer-action-btn {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+
+  .cooking-timer-settings {
+    padding: 12px;
+  }
+
+  .cooking-timer-volume-container {
+    gap: 8px;
+  }
+
+  .cooking-timer-test-btn,
+  .cooking-timer-stop-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  .cooking-timer-alarm-btn {
+    padding: 10px 20px;
+    font-size: 14px;
   }
 }

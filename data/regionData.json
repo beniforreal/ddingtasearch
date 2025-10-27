@@ -531,61 +531,71 @@
           "name": "토마토 스파게티",
           "price": "235-787 G",
           "recipe": "토마토 베이스 1개 + 호박 묶음 1개",
-          "image": "img/cookingitem/미트볼 스파게티.png"
+          "image": "img/cookingitem/미트볼 스파게티.png",
+          "grade": "COMMON"
         },
         {
           "name": "어니언 링",
           "price": "291-971 G",
           "recipe": "양파 베이스 2개 + 요리용 소금 1개",
-          "image": "img/cookingitem/어니언 링.png"
+          "image": "img/cookingitem/어니언 링.png",
+          "grade": "COMMON"
         },
         {
           "name": "갈릭 케이크",
           "price": "153-513 G",
           "recipe": "마늘 베이스 1개 + 당근 묶음 1개",
-          "image": "img/cookingitem/갈릭 코코넛 케이크.png"
+          "image": "img/cookingitem/갈릭 코코넛 케이크.png",
+          "grade": "COMMON"
         },
         {
           "name": "삼겹살 토마토 찌개",
           "price": "525-1,750 G",
           "recipe": "토마토 베이스 2개 + 비트 묶음 1개 + 요리용 소금 1개 + 익힌 돼지고기 1개 + 익힌 돼지 삼겹살 1개",
-          "image": "img/cookingitem/삼겹살 토마토 찌개.png"
+          "image": "img/cookingitem/삼겹살 토마토 찌개.png",
+          "grade": "NORMAL"
         },
         {
           "name": "삼색 아이스크림",
           "price": "613-2,044 G",
           "recipe": "양파 베이스 2개 + 수박 묶음 1개 + 코코넛 1개 + 설탕 큐브 1개 + 요리용 우유 1개",
-          "image": "img/cookingitem/삼색 아이스크림.png"
+          "image": "img/cookingitem/삼색 아이스크림.png",
+          "grade": "NORMAL"
         },
         {
           "name": "마늘 양갈비 핫도그",
           "price": "421-1,406 G",
           "recipe": "마늘 베이스 2개 + 감자 묶음 1개 + 오일 1개 + 익힌 양고기 1개 + 익힌 양 갈비살 1개",
-          "image": "img/cookingitem/마늘 양갈비 핫도그.png"
+          "image": "img/cookingitem/마늘 양갈비 핫도그.png",
+          "grade": "NORMAL"
         },
         {
           "name": "스윗 치킨 햄버거",
           "price": "775-2,586 G",
           "recipe": "토마토 베이스 1개 + 양파 베이스 1개 + 비트 묶음 1개 + 달콤한 열매 묶음 1개 + 익힌 닭 가슴살 1개 + 익힌 닭 다리살 1개",
-          "image": "img/cookingitem/스윗 치킨 햄버거.png"
+          "image": "img/cookingitem/스윗 치킨 햄버거.png",
+          "grade": "RARE"
         },
         {
           "name": "토마토 파인애플 피자",
           "price": "694-2,316 G",
           "recipe": "토마토 베이스 2개 + 마늘 베이스 2개 + 파인애플 1개 + 치즈 조각 1개 + 스테이크 1개 + 익힌 소 등심 1개",
-          "image": "img/cookingitem/토마토 파인애플 피자.png"
+          "image": "img/cookingitem/토마토 파인애플 피자.png",
+          "grade": "RARE"
         },
         {
           "name": "양파 수프",
           "price": "745-2,486 G",
           "recipe": "양파 베이스 2개 + 마늘 베이스 1개 + 감자 묶음 1개 + 코코넛 1개 + 버터 조각 1개 + 익힌 돼지 앞다리살 1개",
-          "image": "img/cookingitem/양파 수프.png"
+          "image": "img/cookingitem/양파 수프.png",
+          "grade": "RARE"
         },
         {
           "name": "토마토 라자냐",
           "price": "1,030-3,434 G",
           "recipe": "토마토 베이스 1개 + 양파 베이스 1개 + 마늘 베이스 1개 + 당근 묶음 1개 + 호박 묶음 1개 + 밀가루 반죽 1개 + 익힌 양 다리살 1개",
-          "image": "img/cookingitem/토마토 라자냐.png"
+          "image": "img/cookingitem/토마토 라자냐.png",
+          "grade": "EPIC"
         }
       ]
     },
