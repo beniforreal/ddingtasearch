@@ -2016,6 +2016,48 @@ body.dark-theme .footer-search {
   padding: 0 20px;
 }
 
+/* 쿠킹 타이머 플로팅 컨트롤 정렬 보조 */
+#cookingTimerFloating {
+  position: relative;
+}
+#cookingTimerFloatingInner {
+  position: absolute;
+  right: 0;
+  top: -56px;
+  background: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  backdrop-filter: blur(6px);
+  padding: 8px 12px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+body.dark-theme #cookingTimerFloatingInner {
+  background: rgba(30, 41, 59, 0.85);
+}
+
+#cookingTimerFloatingDisplay {
+  font-family: "Courier New", monospace;
+  font-size: 18px;
+  letter-spacing: 1px;
+  min-width: 56px;
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  #cookingTimerFloatingInner {
+    top: -50px;
+    padding: 6px 10px;
+  }
+  #cookingTimerFloatingDisplay {
+    font-size: 16px;
+    min-width: 50px;
+  }
+}
+
 .footer-search input {
   flex: 1;
   max-width: 100%;
@@ -5378,9 +5420,24 @@ body.dark-theme .cooking-timer-header h3 {
 }
 
 .cooking-timer-inputs {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px;
+  align-items: start;
+}
+
+/* 2칸: 태블릿 사이즈 */
+@media (max-width: 900px) {
+  .cooking-timer-inputs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* 1칸: 모바일 사이즈 */
+@media (max-width: 560px) {
+  .cooking-timer-inputs {
+    grid-template-columns: 1fr;
+  }
 }
 
 .cooking-timer-settings {

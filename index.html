@@ -192,6 +192,95 @@
                 class="cooking-timer-icon"
               />
             </button>
+            <!-- 쿠킹 타이머 플로팅 컨트롤 -->
+            <div
+              id="cookingTimerFloating"
+              style="display: none; position: relative"
+            >
+              <div
+                id="cookingTimerFloatingInner"
+                style="
+                  position: absolute;
+                  right: 0;
+                  top: -56px;
+                  background: rgba(0, 0, 0, 0.75);
+                  color: #fff;
+                  backdrop-filter: blur(6px);
+                  padding: 8px 12px;
+                  border-radius: 12px;
+                  display: flex;
+                  align-items: center;
+                  gap: 8px;
+                  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+                "
+              >
+                <span
+                  id="cookingTimerFloatingDisplay"
+                  style="
+                    font-family: 'Courier New', monospace;
+                    font-size: 18px;
+                    letter-spacing: 1px;
+                    min-width: 56px;
+                    text-align: center;
+                  "
+                  >00:00</span
+                >
+                <button
+                  id="cookingTimerFloatingToggle"
+                  title="일시정지/재생"
+                  style="
+                    width: 32px;
+                    height: 32px;
+                    border-radius: 50%;
+                    border: none;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background: #f59e0b;
+                    color: #1f2937;
+                    cursor: pointer;
+                  "
+                >
+                  <!-- play/pause svg는 JS에서 상태에 맞게 교체 -->
+                  <svg
+                    id="cookingTimerFloatingIcon"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path d="M8 5v14l11-7z"></path>
+                  </svg>
+                </button>
+                <button
+                  id="cookingTimerFloatingStop"
+                  title="정지"
+                  style="
+                    width: 32px;
+                    height: 32px;
+                    border-radius: 50%;
+                    border: none;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background: #ef4444;
+                    color: #fff;
+                    cursor: pointer;
+                  "
+                >
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path d="M6 6h12v12H6z"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
 
