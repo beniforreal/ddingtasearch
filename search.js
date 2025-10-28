@@ -17,18 +17,22 @@ function searchProducts() {
     ...regionData.collection.blocks.map((item) => ({
       ...item,
       isCollection: true,
+      categoryName: "컬랙션북 - 블록",
     })),
     ...regionData.collection.nature.map((item) => ({
       ...item,
       isCollection: true,
+      categoryName: "컬랙션북 - 자연",
     })),
     ...regionData.collection.loot.map((item) => ({
       ...item,
       isCollection: true,
+      categoryName: "컬랙션북 - 전리품",
     })),
     ...regionData.collection.collectibles.map((item) => ({
       ...item,
       isCollection: true,
+      categoryName: "컬랙션북 - 수집품",
     })),
   ];
 
@@ -42,7 +46,7 @@ function searchProducts() {
         const itemsWithType = category.map((item) => ({
           ...item,
           itemType: "cooking",
-          categoryName: categoryName,
+          categoryName: `세레니티 - 요리 - ${categoryName}`,
         }));
         allCookingItems.push(...itemsWithType);
       }
@@ -54,7 +58,7 @@ function searchProducts() {
     Object.entries(regionData.wild).forEach(([categoryName, category]) => {
       const itemsWithCategory = category.map((item) => ({
         ...item,
-        categoryName,
+        categoryName: `야생 - ${categoryName}`,
       }));
       wildItems.push(...itemsWithCategory);
     });
@@ -69,7 +73,7 @@ function searchProducts() {
       ([categoryName, category]) => {
         const itemsWithCategory = category.map((item) => ({
           ...item,
-          categoryName,
+          categoryName: `세레니티 - 가공 - ${categoryName}`,
         }));
         processItemsWithCategory.push(...itemsWithCategory);
       }
@@ -145,6 +149,18 @@ function searchProducts() {
     });
   }
 
+  // 전문가 데이터 추가
+  const expertiseItems = [];
+  if (regionData.expertise && typeof regionData.expertise === "object") {
+    Object.entries(regionData.expertise).forEach(([categoryName, category]) => {
+      const itemsWithCategory = category.map((item) => ({
+        ...item,
+        categoryName: `전문가 - ${categoryName}`,
+      }));
+      expertiseItems.push(...itemsWithCategory);
+    });
+  }
+
   allProducts = [
     ...wildItems,
     ...sellItems,
@@ -154,6 +170,7 @@ function searchProducts() {
     ...enhancementItems,
     ...toolEnhancementItems,
     ...allCollectionItems,
+    ...expertiseItems,
   ];
 
   const filteredProducts = allProducts.filter((product) => {
