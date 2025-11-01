@@ -9,56 +9,49 @@
           "description": "아일랜드에서 채집 시 오르는 경험치가 1% 증가합니다.",
           "skillPoints": "1 Point",
           "gold": "5,000 G",
-          "abilityStone": "3개",
-          "probability": "100%"
+          "abilityStone": "2개"
         },
         {
           "level": 2,
           "description": "아일랜드에서 채집 시 오르는 경험치가 2% 증가합니다.",
           "skillPoints": "2 Point",
           "gold": "10,000 G",
-          "abilityStone": "6개",
-          "probability": "80%"
+          "abilityStone": "4개"
         },
         {
           "level": 3,
           "description": "아일랜드에서 채집 시 오르는 경험치가 3% 증가합니다.",
-          "skillPoints": "3 Point",
+          "skillPoints": "5 Point",
           "gold": "25,000 G",
-          "abilityStone": "9개",
-          "probability": "50%"
+          "abilityStone": "10개"
         },
         {
           "level": 4,
           "description": "아일랜드에서 채집 시 오르는 경험치가 5% 증가합니다.",
-          "skillPoints": "4 Point",
-          "gold": "60,000 G",
-          "abilityStone": "12개",
-          "probability": "30%"
+          "skillPoints": "10 Point",
+          "gold": "100,000 G",
+          "abilityStone": "20개"
         },
         {
           "level": 5,
           "description": "아일랜드에서 채집 시 오르는 경험치가 7% 증가합니다.",
-          "skillPoints": "5 Point",
-          "gold": "150,000 G",
-          "abilityStone": "15개",
-          "probability": "20%"
+          "skillPoints": "25 Point",
+          "gold": "400,000 G",
+          "abilityStone": "50개"
         },
         {
           "level": 6,
           "description": "아일랜드에서 채집 시 오르는 경험치가 9% 증가합니다.",
-          "skillPoints": "6 Point",
-          "gold": "380,000 G",
-          "abilityStone": "18개",
-          "probability": "10%"
+          "skillPoints": "30 Point",
+          "gold": "2,000,000 G",
+          "abilityStone": "60개"
         },
         {
           "level": 7,
           "description": "아일랜드에서 채집 시 오르는 경험치가 15% 증가합니다.",
-          "skillPoints": "10 Point",
-          "gold": "1,000,000 G",
-          "abilityStone": "30개",
-          "probability": "5%"
+          "skillPoints": "50 Point",
+          "gold": "5,000,000 G",
+          "abilityStone": "100개"
         }
       ]
     },
@@ -68,35 +61,31 @@
       "levels": [
         {
           "level": 1,
-          "description": "야생에서 원목 벌목 시 3% 확률로 원목 1개를 추가 드롭합니다.",
+          "description": "야생에서 원목 벌목 시 10% 확률로 원목 1개를 추가 드롭합니다.",
           "skillPoints": "1 Point",
           "gold": "5,000 G",
-          "abilityStone": "3개",
-          "probability": "100%"
+          "abilityStone": "2개"
         },
         {
           "level": 2,
-          "description": "야생에서 원목 벌목 시 5% 확률로 원목 1개를 추가 드롭합니다.",
+          "description": "야생에서 원목 벌목 시 30% 확률로 원목 1개를 추가 드롭합니다.",
           "skillPoints": "2 Point",
           "gold": "30,000 G",
-          "abilityStone": "6개",
-          "probability": "70%"
+          "abilityStone": "4개"
         },
         {
           "level": 3,
-          "description": "야생에서 원목 벌목 시 7% 확률로 원목 2개를 추가 드롭합니다.",
-          "skillPoints": "3 Point",
-          "gold": "180,000 G",
-          "abilityStone": "9개",
-          "probability": "30%"
+          "description": "야생에서 원목 벌목 시 50% 확률로 원목 2개를 추가 드롭합니다.",
+          "skillPoints": "5 Point",
+          "gold": "300,000 G",
+          "abilityStone": "10개"
         },
         {
           "level": 4,
-          "description": "야생에서 원목 벌목 시 10% 확률로 원목 2개를 추가 드롭합니다.",
-          "skillPoints": "5 Point",
+          "description": "야생에서 원목 벌목 시 70% 확률로 원목 2개를 추가 드롭합니다.",
+          "skillPoints": "10 Point",
           "gold": "500,000 G",
-          "abilityStone": "15개",
-          "probability": "10%"
+          "abilityStone": "20개"
         }
       ]
     },
@@ -109,40 +98,35 @@
           "description": "아일랜드에서 과일 채집 시 1% 확률로 과일 1개를 추가 드롭합니다.",
           "skillPoints": "1 Point",
           "gold": "5,000 G",
-          "abilityStone": "3개",
-          "probability": "100%"
+          "abilityStone": "2개"
         },
         {
           "level": 2,
           "description": "아일랜드에서 과일 채집 시 3% 확률로 과일 1개를 추가 드롭합니다.",
-          "skillPoints": "2 Point",
-          "gold": "20,000 G",
-          "abilityStone": "6개",
-          "probability": "70%"
+          "skillPoints": "5 Point",
+          "gold": "300,000 G",
+          "abilityStone": "10개"
         },
         {
           "level": 3,
           "description": "아일랜드에서 과일 채집 시 5% 확률로 과일 1개를 추가 드롭합니다.",
-          "skillPoints": "3 Point",
-          "gold": "85,000 G",
-          "abilityStone": "9개",
-          "probability": "50%"
+          "skillPoints": "10 Point",
+          "gold": "50,000 G",
+          "abilityStone": "20개"
         },
         {
           "level": 4,
-          "description": "아일랜드에서 과일 채집 시 7% 확률로 과일 2개를 추가 드롭합니다.",
-          "skillPoints": "4 Point",
-          "gold": "250,000 G",
-          "abilityStone": "12개",
-          "probability": "20%"
+          "description": "아일랜드에서 과일 채집 시 10% 확률로 과일 2개를 추가 드롭합니다.",
+          "skillPoints": "20 Point",
+          "gold": "1,000,000 G",
+          "abilityStone": "40개"
         },
         {
           "level": 5,
-          "description": "아일랜드에서 과일 채집 시 10% 확률로 과일 2개를 추가 드롭합니다.",
-          "skillPoints": "5 Point",
-          "gold": "500,000 G",
-          "abilityStone": "15개",
-          "probability": "10%"
+          "description": "아일랜드에서 과일 채집 시 30% 확률로 과일 2개를 추가 드롭합니다.",
+          "skillPoints": "30 Point",
+          "gold": "3,000,000 G",
+          "abilityStone": "60개"
         }
       ]
     },
@@ -152,27 +136,24 @@
       "levels": [
         {
           "level": 1,
-          "description": "요리 제작 시간이 3% 감소합니다. 제작 시작 시 자동 적용됩니다.",
-          "skillPoints": "1 Point",
-          "gold": "5,000 G",
-          "abilityStone": "3개",
-          "probability": "100%"
+          "description": "요리 제작 시간이 10% 감소합니다. 제작 시작 시 자동 적용됩니다.",
+          "skillPoints": "10 Point",
+          "gold": "10,000 G",
+          "abilityStone": "20개"
         },
         {
           "level": 2,
-          "description": "요리 제작 시간이 5% 감소합니다. 제작 시작 시 자동 적용됩니다.",
-          "skillPoints": "3 Point",
-          "gold": "50,000 G",
-          "abilityStone": "9개",
-          "probability": "50%"
+          "description": "요리 제작 시간이 50% 감소합니다. 제작 시작 시 자동 적용됩니다.",
+          "skillPoints": "30 Point",
+          "gold": "1,000,000 G",
+          "abilityStone": "60개"
         },
         {
           "level": 3,
-          "description": "요리 제작 시간이 7% 감소합니다. 제작 시작 시 자동 적용됩니다.",
-          "skillPoints": "5 Point",
-          "gold": "500,000 G",
-          "abilityStone": "15개",
-          "probability": "10%"
+          "description": "요리 제작 시간이 70% 감소합니다. 제작 시작 시 자동 적용됩니다.",
+          "skillPoints": "50 Point",
+          "gold": "3,000,000 G",
+          "abilityStone": "100개"
         }
       ]
     },
@@ -185,80 +166,70 @@
           "description": "아일랜드에서 채집 시 1% 확률로 씨앗 1개를 추가 드롭합니다.",
           "skillPoints": "1 Point",
           "gold": "5,000 G",
-          "abilityStone": "3개",
-          "probability": "100%"
+          "abilityStone": "2개"
         },
         {
           "level": 2,
           "description": "아일랜드에서 채집 시 2% 확률로 씨앗 1개를 추가 드롭합니다.",
           "skillPoints": "2 Point",
-          "gold": "8,000 G",
-          "abilityStone": "6개",
-          "probability": "80%"
+          "gold": "10,000 G",
+          "abilityStone": "4개"
         },
         {
           "level": 3,
           "description": "아일랜드에서 채집 시 3% 확률로 씨앗 1개를 추가 드롭합니다.",
-          "skillPoints": "3 Point",
-          "gold": "15,000 G",
-          "abilityStone": "9개",
-          "probability": "65%"
+          "skillPoints": "5 Point",
+          "gold": "30,000 G",
+          "abilityStone": "10개"
         },
         {
           "level": 4,
           "description": "아일랜드에서 채집 시 4% 확률로 씨앗 1개를 추가 드롭합니다.",
-          "skillPoints": "4 Point",
-          "gold": "28,000 G",
-          "abilityStone": "12개",
-          "probability": "50%"
+          "skillPoints": "8 Point",
+          "gold": "50,000 G",
+          "abilityStone": "16개"
         },
         {
           "level": 5,
           "description": "아일랜드에서 채집 시 5% 확률로 씨앗 1개를 추가 드롭합니다.",
-          "skillPoints": "5 Point",
-          "gold": "52,000 G",
-          "abilityStone": "15개",
-          "probability": "30%"
+          "skillPoints": "15 Point",
+          "gold": "100,000 G",
+          "abilityStone": "30개"
         },
         {
           "level": 6,
           "description": "아일랜드에서 채집 시 6% 확률로 씨앗 1개를 추가 드롭합니다.",
-          "skillPoints": "6 Point",
-          "gold": "95,000 G",
-          "abilityStone": "18개",
-          "probability": "20%"
+          "skillPoints": "25 Point",
+          "gold": "250,000 G",
+          "abilityStone": "50개"
         },
         {
           "level": 7,
           "description": "아일랜드에서 채집 시 7% 확률로 씨앗 1개를 추가 드롭합니다.",
-          "skillPoints": "7 Point",
-          "gold": "175,000 G",
-          "abilityStone": "21개",
-          "probability": "15%"
+          "skillPoints": "40 Point",
+          "gold": "700,000 G",
+          "abilityStone": "80개"
         },
         {
           "level": 8,
           "description": "아일랜드에서 채집 시 8% 확률로 씨앗 2개를 추가 드롭합니다.",
-          "skillPoints": "9 Point",
-          "gold": "320,000 G",
-          "abilityStone": "27개",
-          "probability": "10%"
+          "skillPoints": "50 Point",
+          "gold": "1,500,000 G",
+          "abilityStone": "100개"
         },
         {
           "level": 9,
           "description": "아일랜드에서 채집 시 9% 확률로 씨앗 2개를 추가 드롭합니다.",
-          "skillPoints": "9 Point",
-          "gold": "580,000 G",
-          "abilityStone": "27개",
-          "probability": "7%"
+          "skillPoints": "60 Point",
+          "gold": "3,000,000 G",
+          "abilityStone": "120개"
         },
         {
           "level": 10,
           "description": "아일랜드에서 채집 시 10% 확률로 씨앗 3개를 추가 드롭합니다.",
-          "skillPoints": "10 Point",
-          "gold": "1,000,000 G",
-          "abilityStone": "30개",
-          "probability": "5%"
+          "skillPoints": "100 Point",
+          "gold": "7,000,000 G",
+          "abilityStone": "200개"
         }
       ]
     },
@@ -271,56 +242,49 @@
           "description": "수확 시 1% 확률로 아일랜드 농작물 1개를 추가 드롭합니다.",
           "skillPoints": "1 Point",
           "gold": "5,000 G",
-          "abilityStone": "3개",
-          "probability": "100%"
+          "abilityStone": "2개"
         },
         {
           "level": 2,
           "description": "수확 시 2% 확률로 아일랜드 농작물 1개를 추가 드롭합니다.",
-          "skillPoints": "2 Point",
+          "skillPoints": "3 Point",
           "gold": "10,000 G",
-          "abilityStone": "6개",
-          "probability": "70%"
+          "abilityStone": "6개"
         },
         {
           "level": 3,
           "description": "수확 시 3% 확률로 아일랜드 농작물 1개를 추가 드롭합니다.",
-          "skillPoints": "3 Point",
+          "skillPoints": "7 Point",
           "gold": "25,000 G",
-          "abilityStone": "9개",
-          "probability": "50%"
+          "abilityStone": "14개"
         },
         {
           "level": 4,
           "description": "수확 시 4% 확률로 아일랜드 농작물 1개를 추가 드롭합니다.",
-          "skillPoints": "4 Point",
-          "gold": "60,000 G",
-          "abilityStone": "12개",
-          "probability": "30%"
+          "skillPoints": "15 Point",
+          "gold": "75,000 G",
+          "abilityStone": "30개"
         },
         {
           "level": 5,
           "description": "수확 시 5% 확률로 아일랜드 농작물 2개를 추가 드롭합니다.",
-          "skillPoints": "7 Point",
-          "gold": "150,000 G",
-          "abilityStone": "21개",
-          "probability": "15%"
+          "skillPoints": "40 Point",
+          "gold": "500,000 G",
+          "abilityStone": "80개"
         },
         {
           "level": 6,
           "description": "수확 시 7% 확률로 아일랜드 농작물 2개를 추가 드롭합니다.",
-          "skillPoints": "8 Point",
-          "gold": "380,000 G",
-          "abilityStone": "24개",
-          "probability": "5%"
+          "skillPoints": "100 Point",
+          "gold": "5,000,000 G",
+          "abilityStone": "200개"
         },
         {
           "level": 7,
           "description": "수확 시 10% 확률로 아일랜드 농작물 3개를 추가 드롭합니다.",
-          "skillPoints": "10 Point",
-          "gold": "1,000,000 G",
-          "abilityStone": "30개",
-          "probability": "1%"
+          "skillPoints": "150 Point",
+          "gold": "10,000,000 G",
+          "abilityStone": "300개"
         }
       ]
     },
@@ -330,43 +294,38 @@
       "levels": [
         {
           "level": 1,
-          "description": "1초 간 과일을 한 번에 채집합니다. 손으로 쉬프트 우클릭하여 발동합니다.",
+          "description": "5초 간 과일을 한 번에 채집합니다. 손으로 쉬프트 우클릭하여 발동합니다.",
           "skillPoints": "1 Point",
-          "gold": "5,000 G",
-          "abilityStone": "3개",
-          "probability": "100%"
+          "gold": "10,000 G",
+          "abilityStone": "2개"
         },
         {
           "level": 2,
-          "description": "1.5초 간 과일을 한 번에 캘 수 있습니다. 손으로 쉬프트 우클릭하여 발동합니다.",
-          "skillPoints": "2 Point",
-          "gold": "20,000 G",
-          "abilityStone": "6개",
-          "probability": "70%"
+          "description": "10초 간 과일을 한 번에 캘 수 있습니다. 손으로 쉬프트 우클릭하여 발동합니다.",
+          "skillPoints": "3 Point",
+          "gold": "100,000 G",
+          "abilityStone": "30개"
         },
         {
           "level": 3,
-          "description": "2초 간 과일을 한 번에 캘 수 있습니다. 손으로 쉬프트 우클릭하여 발동합니다.",
-          "skillPoints": "3 Point",
-          "gold": "85,000 G",
-          "abilityStone": "9개",
-          "probability": "50%"
+          "description": "20초 간 과일을 한 번에 캘 수 있습니다. 손으로 쉬프트 우클릭하여 발동합니다.",
+          "skillPoints": "7 Point",
+          "gold": "500,000 G",
+          "abilityStone": "100개"
         },
         {
           "level": 4,
-          "description": "2.5초 간 과일을 한 번에 캘 수 있습니다. 손으로 쉬프트 우클릭하여 발동합니다.",
-          "skillPoints": "4 Point",
-          "gold": "250,000 G",
-          "abilityStone": "12개",
-          "probability": "30%"
+          "description": "25초 간 과일을 한 번에 캘 수 있습니다. 손으로 쉬프트 우클릭하여 발동합니다.",
+          "skillPoints": "15 Point",
+          "gold": "2,000,000 G",
+          "abilityStone": "140개"
         },
         {
           "level": 5,
-          "description": "3초 간 과일을 한 번에 캘 수 있습니다. 손으로 쉬프트 우클릭하여 발동합니다.",
-          "skillPoints": "5 Point",
-          "gold": "500,000 G",
-          "abilityStone": "15개",
-          "probability": "10%"
+          "description": "30초 간 과일을 한 번에 캘 수 있습니다. 손으로 쉬프트 우클릭하여 발동합니다.",
+          "skillPoints": "30 Point",
+          "gold": "5,000,000 G",
+          "abilityStone": "200개"
         }
       ]
     },
@@ -379,40 +338,35 @@
           "description": "음식을 한 번에 27세트 판매 시 1%의 보너스가 들어옵니다.",
           "skillPoints": "1 Point",
           "gold": "5,000 G",
-          "abilityStone": "3개",
-          "probability": "100%"
+          "abilityStone": "2개"
         },
         {
           "level": 2,
           "description": "음식을 한 번에 27세트 판매 시 2%의 보너스가 들어옵니다.",
-          "skillPoints": "3 Point",
-          "gold": "25,000 G",
-          "abilityStone": "9개",
-          "probability": "10%"
+          "skillPoints": "15 Point",
+          "gold": "150,000 G",
+          "abilityStone": "30개"
         },
         {
           "level": 3,
           "description": "음식을 한 번에 27세트 판매 시 3%의 보너스가 들어옵니다.",
           "skillPoints": "5 Point",
-          "gold": "120,000 G",
-          "abilityStone": "15개",
-          "probability": "5%"
+          "gold": "1,000,000 G",
+          "abilityStone": "100개"
         },
         {
           "level": 4,
           "description": "음식을 한 번에 27세트 판매 시 4%의 보너스가 들어옵니다.",
           "skillPoints": "7 Point",
-          "gold": "570,000 G",
-          "abilityStone": "21개",
-          "probability": "3%"
+          "gold": "10,000,000 G",
+          "abilityStone": "140개"
         },
         {
           "level": 5,
           "description": "음식을 한 번에 27세트 판매 시 7%의 보너스가 들어옵니다.",
-          "skillPoints": "10 Point",
-          "gold": "1,000,000 G",
-          "abilityStone": "30개",
-          "probability": "1%"
+          "skillPoints": "100 Point",
+          "gold": "30,000,000 G",
+          "abilityStone": "200개"
         }
       ]
     },
@@ -422,83 +376,73 @@
       "levels": [
         {
           "level": 1,
-          "description": "요리 판매가가 1% 증가합니다. 판매 시 자동으로 계산됩니다.",
+          "description": "요리 판매가가 1% 증가합니다. 상점에서 계산되어 보여집니다.",
           "skillPoints": "1 Point",
-          "gold": "5,000 G",
-          "abilityStone": "3개",
-          "probability": "100%"
+          "gold": "10,000 G",
+          "abilityStone": "2개"
         },
         {
           "level": 2,
-          "description": "요리 판매가가 2% 증가합니다. 판매 시 자동으로 계산됩니다.",
-          "skillPoints": "2 Point",
-          "gold": "8,000 G",
-          "abilityStone": "6개",
-          "probability": "60%"
+          "description": "요리 판매가가 2% 증가합니다. 상점에서 계산되어 보여집니다.",
+          "skillPoints": "3 Point",
+          "gold": "30,000 G",
+          "abilityStone": "6개"
         },
         {
           "level": 3,
-          "description": "요리 판매가가 3% 증가합니다. 판매 시 자동으로 계산됩니다.",
-          "skillPoints": "3 Point",
-          "gold": "15,000 G",
-          "abilityStone": "9개",
-          "probability": "30%"
+          "description": "요리 판매가가 3% 증가합니다. 상점에서 계산되어 보여집니다.",
+          "skillPoints": "7 Point",
+          "gold": "50,000 G",
+          "abilityStone": "14개"
         },
         {
           "level": 4,
-          "description": "요리 판매가가 4% 증가합니다. 판매 시 자동으로 계산됩니다.",
-          "skillPoints": "4 Point",
-          "gold": "28,000 G",
-          "abilityStone": "12개",
-          "probability": "25%"
+          "description": "요리 판매가가 4% 증가합니다. 상점에서 계산되어 보여집니다.",
+          "skillPoints": "15 Point",
+          "gold": "300,000 G",
+          "abilityStone": "30개"
         },
         {
           "level": 5,
-          "description": "요리 판매가가 5% 증가합니다. 판매 시 자동으로 계산됩니다.",
-          "skillPoints": "5 Point",
-          "gold": "52,000 G",
-          "abilityStone": "15개",
-          "probability": "20%"
+          "description": "요리 판매가가 5% 증가합니다. 상점에서 계산되어 보여집니다.",
+          "skillPoints": "30 Point",
+          "gold": "1,000,000 G",
+          "abilityStone": "60개"
         },
         {
           "level": 6,
-          "description": "요리 판매가가 6% 증가합니다. 판매 시 자동으로 계산됩니다.",
-          "skillPoints": "6 Point",
-          "gold": "95,000 G",
-          "abilityStone": "18개",
-          "probability": "15%"
+          "description": "요리 판매가가 6% 증가합니다. 상점에서 계산되어 보여집니다.",
+          "skillPoints": "50 Point",
+          "gold": "2,000,000 G",
+          "abilityStone": "100개"
         },
         {
           "level": 7,
-          "description": "요리 판매가가 7% 증가합니다. 판매 시 자동으로 계산됩니다.",
-          "skillPoints": "7 Point",
-          "gold": "175,000 G",
-          "abilityStone": "21개",
-          "probability": "10%"
+          "description": "요리 판매가가 7% 증가합니다. 상점에서 계산되어 보여집니다.",
+          "skillPoints": "60 Point",
+          "gold": "3,000,000 G",
+          "abilityStone": "120개"
         },
         {
           "level": 8,
-          "description": "요리 판매가가 8% 증가합니다. 판매 시 자동으로 계산됩니다.",
-          "skillPoints": "8 Point",
-          "gold": "320,000 G",
-          "abilityStone": "24개",
-          "probability": "5%"
+          "description": "요리 판매가가 10% 증가합니다. 상점에서 계산되어 보여집니다.",
+          "skillPoints": "70 Point",
+          "gold": "5,000,000 G",
+          "abilityStone": "140개"
         },
         {
           "level": 9,
-          "description": "요리 판매가가 9% 증가합니다. 판매 시 자동으로 계산됩니다.",
-          "skillPoints": "9 Point",
-          "gold": "580,000 G",
-          "abilityStone": "27개",
-          "probability": "3%"
+          "description": "요리 판매가가 20% 증가합니다. 상점에서 계산되어 보여집니다.",
+          "skillPoints": "80 Point",
+          "gold": "10,000,000 G",
+          "abilityStone": "160개"
         },
         {
           "level": 10,
-          "description": "요리 판매가가 15% 증가합니다. 판매 시 자동으로 계산됩니다.",
-          "skillPoints": "10 Point",
-          "gold": "1,000,000 G",
-          "abilityStone": "30개",
-          "probability": "1%"
+          "description": "요리 판매가가 30% 증가합니다. 상점에서 계산되어 보여집니다.",
+          "skillPoints": "100 Point",
+          "gold": "30,000,000 G",
+          "abilityStone": "200개"
         }
       ]
     },
@@ -508,35 +452,31 @@
       "levels": [
         {
           "level": 1,
-          "description": "마을에서 수확 시 대왕 작물이 등장할 확률이 0.04%로 증가합니다.",
+          "description": "마을에서 수확 시 대왕 작물이 등장할 확률이 0.5%로 증가합니다.",
           "skillPoints": "1 Point",
           "gold": "5,000 G",
-          "abilityStone": "3개",
-          "probability": "100%"
+          "abilityStone": "2개"
         },
         {
           "level": 2,
-          "description": "마을에서 수확 시 대왕 작물이 등장할 확률이 0.06%로 증가합니다.",
-          "skillPoints": "3 Point",
-          "gold": "30,000 G",
-          "abilityStone": "9개",
-          "probability": "70%"
+          "description": "마을에서 수확 시 대왕 작물이 등장할 확률이 1%로 증가합니다.",
+          "skillPoints": "5 Point",
+          "gold": "50,000 G",
+          "abilityStone": "10개"
         },
         {
           "level": 3,
-          "description": "마을에서 수확 시 대왕 작물이 등장할 확률이 0.08%로 증가합니다.",
-          "skillPoints": "7 Point",
-          "gold": "180,000 G",
-          "abilityStone": "21개",
-          "probability": "50%"
+          "description": "마을에서 수확 시 대왕 작물이 등장할 확률이 3%로 증가합니다.",
+          "skillPoints": "20 Point",
+          "gold": "700,000 G",
+          "abilityStone": "40개"
         },
         {
           "level": 4,
-          "description": "마을에서 수확 시 대왕 작물이 등장할 확률이 0.1%로 증가합니다.",
-          "skillPoints": "10 Point",
-          "gold": "500,000 G",
-          "abilityStone": "30개",
-          "probability": "10%"
+          "description": "마을에서 수확 시 대왕 작물이 등장할 확률이 5%로 증가합니다.",
+          "skillPoints": "50 Point",
+          "gold": "2,000,000 G",
+          "abilityStone": "100개"
         }
       ]
     },
@@ -549,80 +489,70 @@
           "description": "마을에서 아일랜드 작물 수확 시 1% 확률로 씨앗을 드롭합니다.",
           "skillPoints": "1 Point",
           "gold": "5,000 G",
-          "abilityStone": "3개",
-          "probability": "100%"
+          "abilityStone": "2개"
         },
         {
           "level": 2,
           "description": "마을에서 아일랜드 작물 수확 시 2% 확률로 씨앗을 드롭합니다.",
           "skillPoints": "2 Point",
-          "gold": "8,000 G",
-          "abilityStone": "6개",
-          "probability": "70%"
+          "gold": "15,000 G",
+          "abilityStone": "4개"
         },
         {
           "level": 3,
           "description": "마을에서 아일랜드 작물 수확 시 3% 확률로 씨앗을 드롭합니다.",
-          "skillPoints": "3 Point",
-          "gold": "15,000 G",
-          "abilityStone": "9개",
-          "probability": "60%"
+          "skillPoints": "5 Point",
+          "gold": "30,000 G",
+          "abilityStone": "10개"
         },
         {
           "level": 4,
           "description": "마을에서 아일랜드 작물 수확 시 4% 확률로 씨앗을 드롭합니다.",
-          "skillPoints": "4 Point",
-          "gold": "28,000 G",
-          "abilityStone": "12개",
-          "probability": "50%"
+          "skillPoints": "8 Point",
+          "gold": "50,000 G",
+          "abilityStone": "16개"
         },
         {
           "level": 5,
           "description": "마을에서 아일랜드 작물 수확 시 5% 확률로 씨앗을 드롭합니다.",
-          "skillPoints": "5 Point",
-          "gold": "52,000 G",
-          "abilityStone": "15개",
-          "probability": "30%"
+          "skillPoints": "15 Point",
+          "gold": "100,000 G",
+          "abilityStone": "30개"
         },
         {
           "level": 6,
           "description": "마을에서 아일랜드 작물 수확 시 6% 확률로 씨앗을 드롭합니다.",
-          "skillPoints": "6 Point",
-          "gold": "95,000 G",
-          "abilityStone": "18개",
-          "probability": "20%"
+          "skillPoints": "25 Point",
+          "gold": "250,000 G",
+          "abilityStone": "50개"
         },
         {
           "level": 7,
           "description": "마을에서 아일랜드 작물 수확 시 7% 확률로 씨앗을 드롭합니다.",
-          "skillPoints": "7 Point",
-          "gold": "175,000 G",
-          "abilityStone": "21개",
-          "probability": "10%"
+          "skillPoints": "40 Point",
+          "gold": "1,000,000 G",
+          "abilityStone": "80개"
         },
         {
           "level": 8,
           "description": "마을에서 아일랜드 작물 수확 시 8% 확률로 씨앗을 드롭합니다.",
-          "skillPoints": "8 Point",
-          "gold": "320,000 G",
-          "abilityStone": "24개",
-          "probability": "5%"
+          "skillPoints": "80 Point",
+          "gold": "3,000,000 G",
+          "abilityStone": "160개"
         },
         {
           "level": 9,
           "description": "마을에서 아일랜드 작물 수확 시 9% 확률로 씨앗을 드롭합니다.",
-          "skillPoints": "9 Point",
-          "gold": "580,000 G",
-          "abilityStone": "27개",
-          "probability": "3%"
+          "skillPoints": "100 Point",
+          "gold": "5,000,000 G",
+          "abilityStone": "200개"
         },
         {
           "level": 10,
           "description": "마을에서 아일랜드 작물 수확 시 15% 확률로 씨앗을 드롭합니다.",
-          "skillPoints": "10 Point",
-          "gold": "1,000,000 G",
-          "abilityStone": "30개",
-          "probability": "1%"
+          "skillPoints": "150 Point",
+          "gold": "7,000,000 G",
+          "abilityStone": "300개"
         }
       ]
     },
@@ -633,18 +563,16 @@
         {
           "level": 1,
           "description": "아일랜드 씨앗을 2x2 땅에 심습니다. 씨앗을 들고 쉬프트 우클릭합니다.",
-          "skillPoints": "7 Point",
-          "gold": "700,000 G",
-          "abilityStone": "21개",
-          "probability": "5%"
+          "skillPoints": "50 Point",
+          "gold": "5,000,000 G",
+          "abilityStone": "100개"
         },
         {
           "level": 2,
           "description": "아일랜드 씨앗을 3x3 땅에 심습니다. 씨앗을 들고 쉬프트 우클릭합니다.",
-          "skillPoints": "10 Point",
-          "gold": "1,000,000 G",
-          "abilityStone": "30개",
-          "probability": "1%"
+          "skillPoints": "100 Point",
+          "gold": "10,000,000 G",
+          "abilityStone": "200개"
         }
       ]
     },
@@ -655,26 +583,23 @@
         {
           "level": 1,
           "description": "농작물, 베이스 그리고 요리의 유통기한이 3일로 증가합니다.",
-          "skillPoints": "5 Point",
-          "gold": "500,000 G",
-          "abilityStone": "15개",
-          "probability": "5%"
+          "skillPoints": "50 Point",
+          "gold": "5,000,000 G",
+          "abilityStone": "100개"
+        },
+        {
+          "level": 1,
+          "description": "농작물, 베이스 그리고 요리의 유통기한이 4일로 증가합니다.",
+          "skillPoints": "70 Point",
+          "gold": "10,000,000 G",
+          "abilityStone": "140개"
         },
         {
           "level": 2,
-          "description": "농작물, 베이스 그리고 요리의 유통기한이 4일로 증가합니다.",
-          "skillPoints": "7 Point",
-          "gold": "700,000 G",
-          "abilityStone": "21개",
-          "probability": "3%"
-        },
-        {
-          "level": 3,
           "description": "농작물, 베이스 그리고 요리의 유통기한이 5일로 증가합니다.",
-          "skillPoints": "10 Point",
-          "gold": "1,000,000 G",
-          "abilityStone": "30개",
-          "probability": "1%"
+          "skillPoints": "100 Point",
+          "gold": "30,000,000 G",
+          "abilityStone": "200개"
         }
       ]
     },
@@ -685,22 +610,21 @@
         {
           "level": 1,
           "description": "아일랜드 농작물을 2x2 캡니다. 아일랜드 괭이를 들고 좌클릭합니다.",
-          "skillPoints": "7 Point",
-          "gold": "700,000 G",
-          "abilityStone": "21개",
-          "probability": "5%"
+          "skillPoints": "50 Point",
+          "gold": "5,000,000 G",
+          "abilityStone": "100개"
         },
         {
           "level": 2,
           "description": "아일랜드 농작물을 3x3 캡니다. 아일랜드 괭이를 들고 좌클릭합니다.",
-          "skillPoints": "10 Point",
-          "gold": "1,000,000 G",
-          "abilityStone": "30개",
-          "probability": "1%"
+          "skillPoints": "100 Point",
+          "gold": "10,000,000 G",
+          "abilityStone": "200개"
         }
       ]
     }
   ],
+
   "miningExpertise": [
     {
       "icon": "✨",
@@ -711,56 +635,49 @@
           "description": "아일랜드에서 채광 시 오르는 경험치가 1% 증가합니다.",
           "skillPoints": "1 Point",
           "gold": "5,000 G",
-          "abilityStone": "3개",
-          "probability": "100%"
+          "abilityStone": "2개"
         },
         {
           "level": 2,
           "description": "아일랜드에서 채광 시 오르는 경험치가 2% 증가합니다.",
           "skillPoints": "2 Point",
           "gold": "10,000 G",
-          "abilityStone": "6개",
-          "probability": "80%"
+          "abilityStone": "4개"
         },
         {
           "level": 3,
           "description": "아일랜드에서 채광 시 오르는 경험치가 3% 증가합니다.",
-          "skillPoints": "3 Point",
+          "skillPoints": "5 Point",
           "gold": "25,000 G",
-          "abilityStone": "9개",
-          "probability": "50%"
+          "abilityStone": "10개"
         },
         {
           "level": 4,
           "description": "아일랜드에서 채광 시 오르는 경험치가 5% 증가합니다.",
-          "skillPoints": "4 Point",
-          "gold": "60,000 G",
-          "abilityStone": "12개",
-          "probability": "30%"
+          "skillPoints": "10 Point",
+          "gold": "100,000 G",
+          "abilityStone": "20개"
         },
         {
           "level": 5,
           "description": "아일랜드에서 채광 시 오르는 경험치가 7% 증가합니다.",
-          "skillPoints": "5 Point",
-          "gold": "150,000 G",
-          "abilityStone": "15개",
-          "probability": "20%"
+          "skillPoints": "25 Point",
+          "gold": "400,000 G",
+          "abilityStone": "50개"
         },
         {
           "level": 6,
           "description": "아일랜드에서 채광 시 오르는 경험치가 9% 증가합니다.",
-          "skillPoints": "6 Point",
-          "gold": "380,000 G",
-          "abilityStone": "18개",
-          "probability": "10%"
+          "skillPoints": "30 Point",
+          "gold": "2,000,000 G",
+          "abilityStone": "60개"
         },
         {
           "level": 7,
           "description": "아일랜드에서 채광 시 오르는 경험치가 15% 증가합니다.",
-          "skillPoints": "10 Point",
-          "gold": "1,000,000 G",
-          "abilityStone": "30개",
-          "probability": "5%"
+          "skillPoints": "50 Point",
+          "gold": "5,000,000 G",
+          "abilityStone": "100개"
         }
       ]
     },
@@ -773,56 +690,49 @@
           "description": "야생에서 채광 시 광석 골렘이 등장할 확률이 0.8%로 증가합니다.",
           "skillPoints": "1 Point",
           "gold": "5,000 G",
-          "abilityStone": "3개",
-          "probability": "100%"
+          "abilityStone": "2개"
         },
         {
           "level": 2,
           "description": "야생에서 채광 시 광석 골렘이 등장할 확률이 1%로 증가합니다.",
-          "skillPoints": "2 Point",
+          "skillPoints": "3 Point",
           "gold": "10,000 G",
-          "abilityStone": "6개",
-          "probability": "80%"
+          "abilityStone": "6개"
         },
         {
           "level": 3,
           "description": "야생에서 채광 시 광석 골렘이 등장할 확률이 1.2%로 증가합니다.",
-          "skillPoints": "3 Point",
-          "gold": "25,000 G",
-          "abilityStone": "9개",
-          "probability": "50%"
+          "skillPoints": "7 Point",
+          "gold": "50,000 G",
+          "abilityStone": "14개"
         },
         {
           "level": 4,
-          "description": "야생에서 채광 시 광석 골렘이 등장할 확률이 1.4%로 증가합니다.",
-          "skillPoints": "4 Point",
-          "gold": "60,000 G",
-          "abilityStone": "12개",
-          "probability": "30%"
+          "description": "야생에서 채광 시 광석 골렘이 등장할 확률이 2%로 증가합니다.",
+          "skillPoints": "15 Point",
+          "gold": "200,000 G",
+          "abilityStone": "30개"
         },
         {
           "level": 5,
-          "description": "야생에서 채광 시 광석 골렘이 등장할 확률이 1.6%로 증가합니다.",
-          "skillPoints": "5 Point",
-          "gold": "150,000 G",
-          "abilityStone": "15개",
-          "probability": "20%"
+          "description": "야생에서 채광 시 광석 골렘이 등장할 확률이 3%로 증가합니다.",
+          "skillPoints": "35 Point",
+          "gold": "700,000 G",
+          "abilityStone": "70개"
         },
         {
           "level": 6,
-          "description": "야생에서 채광 시 광석 골렘이 등장할 확률이 1.8%로 증가합니다.",
-          "skillPoints": "6 Point",
-          "gold": "380,000 G",
-          "abilityStone": "18개",
-          "probability": "10%"
+          "description": "야생에서 채광 시 광석 골렘이 등장할 확률이 4%로 증가합니다.",
+          "skillPoints": "70 Point",
+          "gold": "1,000,000 G",
+          "abilityStone": "140개"
         },
         {
           "level": 7,
-          "description": "야생에서 채광 시 광석 골렘이 등장할 확률이 3%로 증가합니다.",
-          "skillPoints": "10 Point",
-          "gold": "1,000,000 G",
-          "abilityStone": "30개",
-          "probability": "5%"
+          "description": "야생에서 채광 시 광석 골렘이 등장할 확률이 5%로 증가합니다.",
+          "skillPoints": "100 Point",
+          "gold": "3,000,000 G",
+          "abilityStone": "200개"
         }
       ]
     },
@@ -835,56 +745,49 @@
           "description": "아일랜드에서 채광 시 코비가 등장할 확률이 1%로 증가합니다.",
           "skillPoints": "1 Point",
           "gold": "5,000 G",
-          "abilityStone": "3개",
-          "probability": "100%"
+          "abilityStone": "2개"
         },
         {
           "level": 2,
           "description": "아일랜드에서 채광 시 코비가 등장할 확률이 1.5%로 증가합니다.",
-          "skillPoints": "2 Point",
+          "skillPoints": "3 Point",
           "gold": "10,000 G",
-          "abilityStone": "6개",
-          "probability": "80%"
+          "abilityStone": "6개"
         },
         {
           "level": 3,
           "description": "아일랜드에서 채광 시 코비가 등장할 확률이 2%로 증가합니다.",
-          "skillPoints": "3 Point",
-          "gold": "25,000 G",
-          "abilityStone": "9개",
-          "probability": "50%"
+          "skillPoints": "7 Point",
+          "gold": "300,000 G",
+          "abilityStone": "14개"
         },
         {
           "level": 4,
           "description": "아일랜드에서 채광 시 코비가 등장할 확률이 2.5%로 증가합니다.",
-          "skillPoints": "4 Point",
-          "gold": "60,000 G",
-          "abilityStone": "12개",
-          "probability": "30%"
+          "skillPoints": "15 Point",
+          "gold": "1,000,000 G",
+          "abilityStone": "30개"
         },
         {
           "level": 5,
           "description": "아일랜드에서 채광 시 코비가 등장할 확률이 3%로 증가합니다.",
-          "skillPoints": "5 Point",
-          "gold": "150,000 G",
-          "abilityStone": "15개",
-          "probability": "20%"
+          "skillPoints": "30 Point",
+          "gold": "2,000,000 G",
+          "abilityStone": "60개"
         },
         {
           "level": 6,
-          "description": "아일랜드에서 채광 시 코비가 등장할 확률이 3.5%로 증가합니다.",
-          "skillPoints": "6 Point",
-          "gold": "380,000 G",
-          "abilityStone": "18개",
-          "probability": "10%"
+          "description": "아일랜드에서 채광 시 코비가 등장할 확률이 4%로 증가합니다.",
+          "skillPoints": "50 Point",
+          "gold": "3,000,000 G",
+          "abilityStone": "100개"
         },
         {
           "level": 7,
-          "description": "아일랜드에서 채광 시 코비가 등장할 확률이 8%로 증가합니다.",
-          "skillPoints": "10 Point",
-          "gold": "1,000,000 G",
-          "abilityStone": "30개",
-          "probability": "5%"
+          "description": "아일랜드에서 채광 시 코비가 등장할 확률이 5%로 증가합니다.",
+          "skillPoints": "70 Point",
+          "gold": "5,000,000 G",
+          "abilityStone": "140개"
         }
       ]
     },
@@ -894,43 +797,38 @@
       "levels": [
         {
           "level": 1,
-          "description": "주괴의 판매가가 1% 증가합니다. 판매 시 자동으로 계산됩니다.",
+          "description": "주괴의 판매가가 5% 증가합니다. 상점에서 계산되어 보여집니다.",
           "skillPoints": "1 Point",
           "gold": "5,000 G",
-          "abilityStone": "3개",
-          "probability": "100%"
+          "abilityStone": "2개"
         },
         {
           "level": 2,
-          "description": "주괴의 판매가가 2% 증가합니다. 판매 시 자동으로 계산됩니다.",
+          "description": "주괴의 판매가가 7% 증가합니다. 상점에서 계산되어 보여집니다.",
           "skillPoints": "3 Point",
-          "gold": "25,000 G",
-          "abilityStone": "9개",
-          "probability": "70%"
+          "gold": "15,000 G",
+          "abilityStone": "6개"
         },
         {
           "level": 3,
-          "description": "주괴의 판매가가 3% 증가합니다. 판매 시 자동으로 계산됩니다.",
+          "description": "주괴의 판매가가 10% 증가합니다. 상점에서 계산되어 보여집니다.",
           "skillPoints": "5 Point",
-          "gold": "120,000 G",
-          "abilityStone": "15개",
-          "probability": "50%"
+          "gold": "200,000 G",
+          "abilityStone": "10개"
         },
         {
           "level": 4,
-          "description": "주괴의 판매가가 4% 증가합니다. 판매 시 자동으로 계산됩니다.",
-          "skillPoints": "7 Point",
-          "gold": "570,000 G",
-          "abilityStone": "21개",
-          "probability": "10%"
+          "description": "주괴의 판매가가 20% 증가합니다. 상점에서 계산되어 보여집니다.",
+          "skillPoints": "30 Point",
+          "gold": "1,000,000 G",
+          "abilityStone": "60개"
         },
         {
           "level": 5,
-          "description": "주괴의 판매가가 10% 증가합니다. 판매 시 자동으로 계산됩니다.",
-          "skillPoints": "10 Point",
-          "gold": "1,000,000 G",
-          "abilityStone": "30개",
-          "probability": "5%"
+          "description": "주괴의 판매가가 30% 증가합니다. 상점에서 계산되어 보여집니다.",
+          "skillPoints": "60 Point",
+          "gold": "5,000,000 G",
+          "abilityStone": "120개"
         }
       ]
     },
@@ -940,27 +838,24 @@
       "levels": [
         {
           "level": 1,
-          "description": "아일랜드에서 채광 시 1% 확률로 광석에 맞는 보석을 1개를 드롭합니다.",
+          "description": "아일랜드에서 채광 시 3% 확률로 광석에 맞는 보석을 1개를 드롭합니다.",
           "skillPoints": "1 Point",
           "gold": "5,000 G",
-          "abilityStone": "3개",
-          "probability": "100%"
+          "abilityStone": "2개"
         },
         {
           "level": 2,
-          "description": "아일랜드에서 채광 시 5% 확률로 광석에 맞는 보석을 1개를 드롭합니다.",
-          "skillPoints": "3 Point",
-          "gold": "50,000 G",
-          "abilityStone": "9개",
-          "probability": "50%"
+          "description": "아일랜드에서 채광 시 7% 확률로 광석에 맞는 1개를 드롭합니다.",
+          "skillPoints": "30 Point",
+          "gold": "1,000,000 G",
+          "abilityStone": "60개"
         },
         {
           "level": 3,
-          "description": "아일랜드에서 채광 시 7% 확률로 광석에 맞는 보석을 2개를 드롭합니다.",
-          "skillPoints": "5 Point",
-          "gold": "500,000 G",
-          "abilityStone": "15개",
-          "probability": "10%"
+          "description": "아일랜드에서 채광 시 10% 확률로 광석에 맞는 2개를 드롭합니다.",
+          "skillPoints": "50 Point",
+          "gold": "5,000,000 G",
+          "abilityStone": "100개"
         }
       ]
     },
@@ -970,27 +865,24 @@
       "levels": [
         {
           "level": 1,
-          "description": "주괴 제련 시간이 3% 감소합니다. 제작 시작 시 자동 적용됩니다.",
+          "description": "주괴 제련 시간이 10% 감소합니다. 제작 시작 시 자동 적용됩니다.",
           "skillPoints": "1 Point",
           "gold": "5,000 G",
-          "abilityStone": "3개",
-          "probability": "100%"
+          "abilityStone": "2개"
         },
         {
           "level": 2,
-          "description": "주괴 제련 시간이 5% 감소합니다. 제작 시작 시 자동 적용됩니다.",
-          "skillPoints": "3 Point",
-          "gold": "50,000 G",
-          "abilityStone": "9개",
-          "probability": "50%"
+          "description": "주괴 제련 시간이 30% 감소합니다. 제작 시작 시 자동 적용됩니다.",
+          "skillPoints": "15 Point",
+          "gold": "1,000,000 G",
+          "abilityStone": "30개"
         },
         {
           "level": 3,
-          "description": "주괴 제련 시간이 7% 감소합니다. 제작 시작 시 자동 적용됩니다.",
-          "skillPoints": "5 Point",
-          "gold": "500,000 G",
-          "abilityStone": "15개",
-          "probability": "10%"
+          "description": "주괴 제련 시간이 50% 감소합니다. 제작 시작 시 자동 적용됩니다.",
+          "skillPoints": "30 Point",
+          "gold": "3,000,000 G",
+          "abilityStone": "60개"
         }
       ]
     },
@@ -1003,40 +895,35 @@
           "description": "3초 간 광석을 한 번에 캡니다. 곡괭이를 들고 쉬프트 우클릭합니다.",
           "skillPoints": "1 Point",
           "gold": "5,000 G",
-          "abilityStone": "3개",
-          "probability": "100%"
+          "abilityStone": "2개"
         },
         {
           "level": 2,
-          "description": "4초 간 광석을 한 번에 캡니다. 곡괭이를 들고 쉬프트 우클릭합니다.",
-          "skillPoints": "2 Point",
+          "description": "7초 간 광석을 한 번에 캡니다. 곡괭이를 들고 쉬프트 우클릭합니다.",
+          "skillPoints": "3 Point",
           "gold": "20,000 G",
-          "abilityStone": "6개",
-          "probability": "70%"
+          "abilityStone": "6개"
         },
         {
           "level": 3,
-          "description": "5초 간 광석을 한 번에 캡니다. 곡괭이를 들고 쉬프트 우클릭합니다.",
-          "skillPoints": "3 Point",
-          "gold": "85,000 G",
-          "abilityStone": "9개",
-          "probability": "50%"
+          "description": "10초 간 광석을 한 번에 캡니다. 곡괭이를 들고 쉬프트 우클릭합니다.",
+          "skillPoints": "10 Point",
+          "gold": "500,000 G",
+          "abilityStone": "20개"
         },
         {
           "level": 4,
-          "description": "7초 간 광석을 한 번에 캡니다. 곡괭이를 들고 쉬프트 우클릭합니다.",
-          "skillPoints": "4 Point",
-          "gold": "250,000 G",
-          "abilityStone": "12개",
-          "probability": "20%"
+          "description": "20초 간 광석을 한 번에 캡니다. 곡괭이를 들고 쉬프트 우클릭합니다.",
+          "skillPoints": "25 Point",
+          "gold": "1,000,000 G",
+          "abilityStone": "50개"
         },
         {
           "level": 5,
-          "description": "10초 간 광석을 한 번에 캡니다. 곡괭이를 들고 쉬프트 우클릭합니다.",
-          "skillPoints": "5 Point",
-          "gold": "500,000 G",
-          "abilityStone": "15개",
-          "probability": "10%"
+          "description": "30초 간 광석을 한 번에 캡니다. 곡괭이를 들고 쉬프트 우클릭합니다.",
+          "skillPoints": "30 Point",
+          "gold": "3,500,000 G",
+          "abilityStone": "60개"
         }
       ]
     },
@@ -1048,81 +935,71 @@
           "level": 1,
           "description": "아일랜드에서 채광 시 1% 확률로 광석 1개를 추가 드롭합니다.",
           "skillPoints": "1 Point",
-          "gold": "5,000 G",
-          "abilityStone": "3개",
-          "probability": "100%"
+          "gold": "10,000 G",
+          "abilityStone": "2개"
         },
         {
           "level": 2,
           "description": "아일랜드에서 채광 시 2% 확률로 광석 1개를 추가 드롭합니다.",
-          "skillPoints": "2 Point",
-          "gold": "8,000 G",
-          "abilityStone": "6개",
-          "probability": "80%"
+          "skillPoints": "3 Point",
+          "gold": "30,000 G",
+          "abilityStone": "6개"
         },
         {
           "level": 3,
           "description": "아일랜드에서 채광 시 3% 확률로 광석 1개를 추가 드롭합니다.",
-          "skillPoints": "3 Point",
-          "gold": "15,000 G",
-          "abilityStone": "9개",
-          "probability": "70%"
+          "skillPoints": "7 Point",
+          "gold": "50,000 G",
+          "abilityStone": "14개"
         },
         {
           "level": 4,
           "description": "아일랜드에서 채광 시 4% 확률로 광석 1개를 추가 드롭합니다.",
-          "skillPoints": "4 Point",
-          "gold": "28,000 G",
-          "abilityStone": "12개",
-          "probability": "50%"
+          "skillPoints": "10 Point",
+          "gold": "100,000 G",
+          "abilityStone": "20개"
         },
         {
           "level": 5,
           "description": "아일랜드에서 채광 시 5% 확률로 광석 1개를 추가 드롭합니다.",
-          "skillPoints": "5 Point",
-          "gold": "52,000 G",
-          "abilityStone": "15개",
-          "probability": "30%"
+          "skillPoints": "20 Point",
+          "gold": "300,000 G",
+          "abilityStone": "40개"
         },
         {
           "level": 6,
           "description": "아일랜드에서 채광 시 6% 확률로 광석 1개를 추가 드롭합니다.",
-          "skillPoints": "6 Point",
-          "gold": "95,000 G",
-          "abilityStone": "18개",
-          "probability": "20%"
+          "skillPoints": "30 Point",
+          "gold": "500,000 G",
+          "abilityStone": "60개"
         },
         {
           "level": 7,
           "description": "아일랜드에서 채광 시 7% 확률로 광석 1개를 추가 드롭합니다.",
-          "skillPoints": "7 Point",
-          "gold": "175,000 G",
-          "abilityStone": "21개",
-          "probability": "15%"
+          "skillPoints": "40 Point",
+          "gold": "700,000 G",
+          "abilityStone": "80개"
         },
         {
           "level": 8,
           "description": "아일랜드에서 채광 시 8% 확률로 광석 2개를 추가 드롭합니다.",
-          "skillPoints": "8 Point",
-          "gold": "320,000 G",
-          "abilityStone": "24개",
-          "probability": "10%"
+          "skillPoints": "50 Point",
+          "gold": "1,500,000 G",
+          "abilityStone": "100개"
         },
         {
           "level": 9,
-          "description": "아일랜드에서 채광 시 9% 확률로 광석 2개를 추가 드롭합니다.",
-          "skillPoints": "9 Point",
-          "gold": "580,000 G",
-          "abilityStone": "27개",
-          "probability": "7%"
+          "description": "아일랜드에서 채광 시 10% 확률로 광석 2개를 추가 드롭합니다.",
+          "skillPoints": "70 Point",
+          "gold": "3,000,000 G",
+          "abilityStone": "140개"
         },
         {
           "level": 10,
-          "description": "아일랜드에서 채광 시 10% 확률로 광석 3개를 추가 드롭합니다.",
-          "skillPoints": "10 Point",
-          "gold": "1,000,000 G",
-          "abilityStone": "30개",
-          "probability": "5%"
+          "description": "아일랜드에서 채광 시 15% 확률로 광석 3개를 추가 드롭합니다.",
+          "skillPoints": "100 Point",
+          "gold": "5,000,000 G",
+          "abilityStone": "200개"
         }
       ]
     },
@@ -1134,81 +1011,71 @@
           "level": 1,
           "description": "채광 시 1% 확률로 광석이 주괴 1개로 제련되어 드롭합니다.",
           "skillPoints": "1 Point",
-          "gold": "5,000 G",
-          "abilityStone": "3개",
-          "probability": "100%"
+          "gold": "10,000 G",
+          "abilityStone": "2개"
         },
         {
           "level": 2,
           "description": "채광 시 2% 확률로 광석이 주괴 1개로 제련되어 드롭합니다.",
-          "skillPoints": "2 Point",
-          "gold": "8,000 G",
-          "abilityStone": "6개",
-          "probability": "80%"
+          "skillPoints": "3 Point",
+          "gold": "30,000 G",
+          "abilityStone": "6개"
         },
         {
           "level": 3,
           "description": "채광 시 3% 확률로 광석이 주괴 1개로 제련되어 드롭합니다.",
-          "skillPoints": "3 Point",
-          "gold": "15,000 G",
-          "abilityStone": "9개",
-          "probability": "70%"
+          "skillPoints": "7 Point",
+          "gold": "50,000 G",
+          "abilityStone": "14개"
         },
         {
           "level": 4,
           "description": "채광 시 4% 확률로 광석이 주괴 1개로 제련되어 드롭합니다.",
-          "skillPoints": "4 Point",
-          "gold": "28,000 G",
-          "abilityStone": "12개",
-          "probability": "60%"
+          "skillPoints": "10 Point",
+          "gold": "300,000 G",
+          "abilityStone": "20개"
         },
         {
           "level": 5,
           "description": "채광 시 5% 확률로 광석이 주괴 1개로 제련되어 드롭합니다.",
-          "skillPoints": "5 Point",
-          "gold": "52,000 G",
-          "abilityStone": "15개",
-          "probability": "50%"
+          "skillPoints": "20 Point",
+          "gold": "700,000 G",
+          "abilityStone": "40개"
         },
         {
           "level": 6,
           "description": "채광 시 6% 확률로 광석이 주괴 1개로 제련되어 드롭합니다.",
-          "skillPoints": "6 Point",
-          "gold": "95,000 G",
-          "abilityStone": "18개",
-          "probability": "40%"
+          "skillPoints": "35 Point",
+          "gold": "1,000,000 G",
+          "abilityStone": "70개"
         },
         {
           "level": 7,
           "description": "채광 시 7% 확률로 광석이 주괴 1개로 제련되어 드롭합니다.",
-          "skillPoints": "7 Point",
-          "gold": "175,000 G",
-          "abilityStone": "21개",
-          "probability": "30%"
+          "skillPoints": "70 Point",
+          "gold": "2,000,000 G",
+          "abilityStone": "140개"
         },
         {
           "level": 8,
           "description": "채광 시 8% 확률로 광석이 주괴 1개로 제련되어 드롭합니다.",
-          "skillPoints": "8 Point",
-          "gold": "320,000 G",
-          "abilityStone": "24개",
-          "probability": "10%"
+          "skillPoints": "100 Point",
+          "gold": "3,000,000 G",
+          "abilityStone": "200개"
         },
         {
           "level": 9,
           "description": "채광 시 9% 확률로 광석이 주괴 1개로 제련되어 드롭합니다.",
-          "skillPoints": "9 Point",
-          "gold": "580,000 G",
-          "abilityStone": "27개",
-          "probability": "5%"
+          "skillPoints": "120 Point",
+          "gold": "5,000,000 G",
+          "abilityStone": "240개"
         },
         {
           "level": 10,
-          "description": "채광 시 15% 확률로 광석이 주괴 2개로 제련되어 드롭합니다.",
-          "skillPoints": "10 Point",
-          "gold": "1,000,000 G",
-          "abilityStone": "30개",
-          "probability": "1%"
+          "description": "채광 시 15% 확률로 광석이 주괴 1개로 제련되어 드롭합니다.",
+          "skillPoints": "150 Point",
+          "gold": "7,000,000 G",
+          "abilityStone": "300개"
         }
       ]
     },
@@ -1221,80 +1088,510 @@
           "description": "3초 간 3x3 범위를 부실 수 있습니다.",
           "skillPoints": "1 Point",
           "gold": "5,000 G",
-          "abilityStone": "3개",
-          "probability": "100%"
+          "abilityStone": "2개"
         },
         {
           "level": 2,
           "description": "5초 간 3x3 범위를 부실 수 있습니다.",
-          "skillPoints": "2 Point",
-          "gold": "8,000 G",
-          "abilityStone": "6개",
-          "probability": "80%"
+          "skillPoints": "3 Point",
+          "gold": "50,000 G",
+          "abilityStone": "6개"
         },
         {
           "level": 3,
           "description": "10초 간 3x3 범위를 부실 수 있습니다.",
-          "skillPoints": "3 Point",
-          "gold": "15,000 G",
-          "abilityStone": "9개",
-          "probability": "70%"
+          "skillPoints": "7 Point",
+          "gold": "100,000 G",
+          "abilityStone": "14개"
         },
         {
           "level": 4,
           "description": "12초 간 3x3 범위를 부실 수 있습니다.",
-          "skillPoints": "4 Point",
-          "gold": "28,000 G",
-          "abilityStone": "12개",
-          "probability": "60%"
+          "skillPoints": "10 Point",
+          "gold": "150,000 G",
+          "abilityStone": "20개"
         },
         {
           "level": 5,
           "description": "15초 간 3x3 범위를 부실 수 있습니다.",
-          "skillPoints": "5 Point",
-          "gold": "52,000 G",
-          "abilityStone": "15개",
-          "probability": "50%"
+          "skillPoints": "20 Point",
+          "gold": "300,000 G",
+          "abilityStone": "40개"
         },
         {
           "level": 6,
           "description": "17초 간 3x3 범위를 부실 수 있습니다.",
-          "skillPoints": "6 Point",
-          "gold": "95,000 G",
-          "abilityStone": "18개",
-          "probability": "40%"
+          "skillPoints": "35 Point",
+          "gold": "500,000 G",
+          "abilityStone": "70개"
         },
         {
           "level": 7,
           "description": "20초 간 3x3 범위를 부실 수 있습니다.",
-          "skillPoints": "7 Point",
-          "gold": "175,000 G",
-          "abilityStone": "21개",
-          "probability": "30%"
+          "skillPoints": "70 Point",
+          "gold": "1,000,000 G",
+          "abilityStone": "140개"
         },
         {
           "level": 8,
           "description": "25초 간 3x3 범위를 부실 수 있습니다.",
-          "skillPoints": "8 Point",
-          "gold": "320,000 G",
-          "abilityStone": "24개",
-          "probability": "10%"
+          "skillPoints": "100 Point",
+          "gold": "2,000,000 G",
+          "abilityStone": "200개"
         },
         {
           "level": 9,
           "description": "30초 간 3x3 범위를 부실 수 있습니다.",
-          "skillPoints": "9 Point",
-          "gold": "580,000 G",
-          "abilityStone": "27개",
-          "probability": "5%"
+          "skillPoints": "130 Point",
+          "gold": "3,000,000 G",
+          "abilityStone": "260개"
         },
         {
           "level": 10,
           "description": "60초 간 3x3 범위를 부실 수 있습니다.",
+          "skillPoints": "150 Point",
+          "gold": "5,000,000 G",
+          "abilityStone": "300개"
+        }
+      ]
+    }
+  ],
+  "marineExpertise": [
+    {
+      "icon": "✨",
+      "name": "[아일랜드] 해양학개론",
+      "levels": [
+        {
+          "level": 1,
+          "description": "낚시 시 오르는 경험치가 1% 증가합니다.",
+          "skillPoints": "1 Point",
+          "gold": "5,000 G",
+          "abilityStone": "2개"
+        },
+        {
+          "level": 2,
+          "description": "낚시 시 오르는 경험치가 2% 증가합니다.",
+          "skillPoints": "2 Point",
+          "gold": "10,000 G",
+          "abilityStone": "4개"
+        },
+        {
+          "level": 3,
+          "description": "낚시 시 오르는 경험치가 3% 증가합니다.",
+          "skillPoints": "5 Point",
+          "gold": "25,000 G",
+          "abilityStone": "10개"
+        },
+        {
+          "level": 4,
+          "description": "낚시 시 오르는 경험치가 5% 증가합니다.",
           "skillPoints": "10 Point",
+          "gold": "100,000 G",
+          "abilityStone": "20개"
+        },
+        {
+          "level": 5,
+          "description": "낚시 시 오르는 경험치가 7% 증가합니다.",
+          "skillPoints": "25 Point",
+          "gold": "400,000 G",
+          "abilityStone": "50개"
+        },
+        {
+          "level": 6,
+          "description": "낚시 시 오르는 경험치가 9% 증가합니다.",
+          "skillPoints": "30 Point",
+          "gold": "2,000,000 G",
+          "abilityStone": "60개"
+        },
+        {
+          "level": 7,
+          "description": "낚시 시 오르는 경험치가 15% 증가합니다.",
+          "skillPoints": "50 Point",
+          "gold": "5,000,000 G",
+          "abilityStone": "100개"
+        }
+      ]
+    },
+    {
+      "icon": "🎣",
+      "name": "[아일랜드] 청정 낚시터",
+      "levels": [
+        {
+          "level": 1,
+          "description": "쓰레기를 낚을 확률이 9%로 감소합니다.",
+          "skillPoints": "1 Point",
+          "gold": "10,000 G",
+          "abilityStone": "2개"
+        },
+        {
+          "level": 2,
+          "description": "쓰레기를 낚을 확률이 7%로 감소합니다.",
+          "skillPoints": "10 Point",
+          "gold": "500,000 G",
+          "abilityStone": "20개"
+        },
+        {
+          "level": 3,
+          "description": "쓰레기를 낚을 확률이 5%로 감소합니다.",
+          "skillPoints": "25 Point",
           "gold": "1,000,000 G",
-          "abilityStone": "30개",
-          "probability": "1%"
+          "abilityStone": "50개"
+        },
+        {
+          "level": 4,
+          "description": "쓰레기를 낚을 확률이 3%로 감소합니다.",
+          "skillPoints": "30 Point",
+          "gold": "3,000,000 G",
+          "abilityStone": "60개"
+        },
+        {
+          "level": 5,
+          "description": "쓰레기를 낚을 확률이 0%로 감소합니다.",
+          "skillPoints": "50 Point",
+          "gold": "5,000,000 G",
+          "abilityStone": "100개"
+        }
+      ]
+    },
+    {
+      "icon": "✌️",
+      "name": "[아일랜드] 일타쌍피",
+      "levels": [
+        {
+          "level": 1,
+          "description": "1% 확률로 한 번에 두마리의 물고기를 낚습니다.",
+          "skillPoints": "1 Point",
+          "gold": "5,000 G",
+          "abilityStone": "2개"
+        },
+        {
+          "level": 2,
+          "description": "2% 확률로 한 번에 두마리의 물고기를 낚습니다.",
+          "skillPoints": "25 Point",
+          "gold": "500,000 G",
+          "abilityStone": "50개"
+        },
+        {
+          "level": 3,
+          "description": "10% 확률로 한 번에 두마리의 물고기를 낚습니다.",
+          "skillPoints": "50 Point",
+          "gold": "1,000,000 G",
+          "abilityStone": "100개"
+        }
+      ]
+    },
+    {
+      "icon": "🐠",
+      "name": "[아일랜드] 치솟는 생선값",
+      "levels": [
+        {
+          "level": 1,
+          "description": "물고기의 판매가가 2% 증가합니다.",
+          "skillPoints": "1 Point",
+          "gold": "5,000 G",
+          "abilityStone": "2개"
+        },
+        {
+          "level": 2,
+          "description": "물고기의 판매가가 5% 증가합니다.",
+          "skillPoints": "3 Point",
+          "gold": "15,000 G",
+          "abilityStone": "6개"
+        },
+        {
+          "level": 3,
+          "description": "물고기의 판매가가 7% 증가합니다.",
+          "skillPoints": "10 Point",
+          "gold": "50,000 G",
+          "abilityStone": "20개"
+        },
+        {
+          "level": 4,
+          "description": "물고기의 판매가가 10% 증가합니다.",
+          "skillPoints": "20 Point",
+          "gold": "500,000 G",
+          "abilityStone": "40개"
+        },
+        {
+          "level": 5,
+          "description": "물고기의 판매가가 20% 증가합니다.",
+          "skillPoints": "30 Point",
+          "gold": "1,000,000 G",
+          "abilityStone": "60개"
+        }
+      ]
+    },
+    {
+      "icon": "🪸",
+      "name": "[야생] 열대어를 찾아서",
+      "levels": [
+        {
+          "level": 1,
+          "description": "열대어를 낚을 확률이 3%로 증가합니다.",
+          "skillPoints": "1 Point",
+          "gold": "100,000 G",
+          "abilityStone": "2개"
+        },
+        {
+          "level": 2,
+          "description": "열대어를 낚을 확률이 3.2%로 증가합니다.",
+          "skillPoints": "5 Point",
+          "gold": "500,000 G",
+          "abilityStone": "10개"
+        },
+        {
+          "level": 3,
+          "description": "열대어를 낚을 확률이 3.5%로 증가합니다.",
+          "skillPoints": "25 Point",
+          "gold": "1,000,000 G",
+          "abilityStone": "50개"
+        }
+      ]
+    },
+    {
+      "icon": "🌕",
+      "name": "[아일랜드] 달밤의 대어",
+      "levels": [
+        {
+          "level": 1,
+          "description": "밤에 낚시 시 전설 물고기 등장 확률이 10%로 증가합니다.",
+          "skillPoints": "1 Point",
+          "gold": "5,000 G",
+          "abilityStone": "2개"
+        },
+        {
+          "level": 2,
+          "description": "밤에 낚시 시 전설 물고기 등장 확률이 12%로 증가합니다.",
+          "skillPoints": "30 Point",
+          "gold": "1,000,000 G",
+          "abilityStone": "60개"
+        },
+        {
+          "level": 3,
+          "description": "밤에 낚시 시 전설 물고기 등장 확률이 15%로 증가합니다.",
+          "skillPoints": "50 Point",
+          "gold": "2,000,000 G",
+          "abilityStone": "100개"
+        }
+      ]
+    },
+    {
+      "icon": "🍚",
+      "name": "[야생] 떡밥을 뿌려라!",
+      "levels": [
+        {
+          "level": 1,
+          "description": "10초 간 물고기가 찌를 물 확률이 5% 증가합니다.",
+          "skillPoints": "1 Point",
+          "gold": "5,000 G",
+          "abilityStone": "2개"
+        },
+        {
+          "level": 2,
+          "description": "10초 간 물고기가 찌를 물 확률이 10% 증가합니다.",
+          "skillPoints": "3 Point",
+          "gold": "10,000 G",
+          "abilityStone": "6개"
+        },
+        {
+          "level": 3,
+          "description": "10초 간 물고기가 찌를 물 확률이 15% 증가합니다.",
+          "skillPoints": "5 Point",
+          "gold": "20,000 G",
+          "abilityStone": "10개"
+        },
+        {
+          "level": 4,
+          "description": "10초 간 물고기가 찌를 물 확률이 20% 증가합니다.",
+          "skillPoints": "7 Point",
+          "gold": "50,000 G",
+          "abilityStone": "14개"
+        },
+        {
+          "level": 5,
+          "description": "15초 간 물고기가 찌를 물 확률이 25% 증가합니다.",
+          "skillPoints": "10 Point",
+          "gold": "100,000 G",
+          "abilityStone": "20개"
+        },
+        {
+          "level": 6,
+          "description": "20초 간 물고기가 찌를 물 확률이 30% 증가합니다.",
+          "skillPoints": "25 Point",
+          "gold": "300,000 G",
+          "abilityStone": "50개"
+        },
+        {
+          "level": 7,
+          "description": "30초 간 물고기가 찌를 물 확률이 35% 증가합니다.",
+          "skillPoints": "40 Point",
+          "gold": "500,000 G",
+          "abilityStone": "80개"
+        },
+        {
+          "level": 8,
+          "description": "40초 간 물고기가 찌를 물 확률이 40% 증가합니다.",
+          "skillPoints": "80 Point",
+          "gold": "1,000,000 G",
+          "abilityStone": "160개"
+        },
+        {
+          "level": 9,
+          "description": "50초 간 물고기가 찌를 물 확률이 45% 증가합니다.",
+          "skillPoints": "100 Point",
+          "gold": "3,000,000 G",
+          "abilityStone": "200개"
+        },
+        {
+          "level": 10,
+          "description": "100초 간 물고기가 찌를 물 확률이 70% 증가합니다.",
+          "skillPoints": "150 Point",
+          "gold": "7,000,000 G",
+          "abilityStone": "300개"
+        }
+      ]
+    },
+    {
+      "icon": "🔔",
+      "name": "[야생] 오션오더 더 더!",
+      "levels": [
+        {
+          "level": 1,
+          "description": "오션오더 일일제한이 12회로 증가합니다.",
+          "skillPoints": "1 Point",
+          "gold": "10,000 G",
+          "abilityStone": "2개"
+        },
+        {
+          "level": 2,
+          "description": "오션오더 일일제한이 14회로 증가합니다.",
+          "skillPoints": "30 Point",
+          "gold": "1,000,000 G",
+          "abilityStone": "60개"
+        },
+        {
+          "level": 3,
+          "description": "오션오더 일일제한이 16회로 증가합니다.",
+          "skillPoints": "50 Point",
+          "gold": "2,000,000 G",
+          "abilityStone": "100개"
+        },
+        {
+          "level": 4,
+          "description": "오션오더 일일제한이 18회로 증가합니다.",
+          "skillPoints": "70 Point",
+          "gold": "3,000,000 G",
+          "abilityStone": "140개"
+        },
+        {
+          "level": 5,
+          "description": "오션오더 일일제한이 20회로 증가합니다.",
+          "skillPoints": "100 Point",
+          "gold": "5,000,000 G",
+          "abilityStone": "200개"
+        }
+      ]
+    },
+    {
+      "icon": "🏴‍☠️",
+      "name": "[아일랜드] 보물 사냥꾼",
+      "levels": [
+        {
+          "level": 1,
+          "description": "보물을 낚을 확률이 3.5% 증가합니다.",
+          "skillPoints": "1 Point",
+          "gold": "5,000 G",
+          "abilityStone": "2개"
+        },
+        {
+          "level": 2,
+          "description": "보물을 낚을 확률이 4% 증가합니다.",
+          "skillPoints": "3 Point",
+          "gold": "200,000 G",
+          "abilityStone": "6개"
+        },
+        {
+          "level": 3,
+          "description": "보물을 낚을 확률이 4.5% 증가합니다.",
+          "skillPoints": "10 Point",
+          "gold": "300,000 G",
+          "abilityStone": "20개"
+        },
+        {
+          "level": 4,
+          "description": "보물을 낚을 확률이 5% 증가합니다.",
+          "skillPoints": "25 Point",
+          "gold": "500,000 G",
+          "abilityStone": "50개"
+        },
+        {
+          "level": 5,
+          "description": "보물을 낚을 확률이 5.5% 증가합니다.",
+          "skillPoints": "40 Point",
+          "gold": "1,000,000 G",
+          "abilityStone": "80개"
+        },
+        {
+          "level": 6,
+          "description": "보물을 낚을 확률이 6% 증가합니다.",
+          "skillPoints": "70 Point",
+          "gold": "3,000,000 G",
+          "abilityStone": "140개"
+        },
+        {
+          "level": 7,
+          "description": "보물을 낚을 확률이 6.5% 증가합니다.",
+          "skillPoints": "100 Point",
+          "gold": "5,000,000 G",
+          "abilityStone": "200개"
+        },
+        {
+          "level": 8,
+          "description": "보물을 낚을 확률이 7% 증가합니다.",
+          "skillPoints": "150 Point",
+          "gold": "7,000,000 G",
+          "abilityStone": "300개"
+        }
+      ]
+    },
+    {
+      "icon": "🌊",
+      "name": "[아일랜드] 폭풍의 낚시꾼",
+      "levels": [
+        {
+          "level": 1,
+          "description": "비 오는 날 낚시 시 에픽 물고기 등장 확률이 0.7% 증가합니다.",
+          "skillPoints": "1 Point",
+          "gold": "5,000 G",
+          "abilityStone": "2개"
+        },
+        {
+          "level": 2,
+          "description": "비 오는 날 낚시 시 에픽 물고기 등장 확률이 0.9% 증가합니다.",
+          "skillPoints": "7 Point",
+          "gold": "15,000 G",
+          "abilityStone": "14개"
+        },
+        {
+          "level": 3,
+          "description": "비 오는 날 낚시 시 에픽 물고기 등장 확률이 1.2% 증가합니다.",
+          "skillPoints": "10 Point",
+          "gold": "100,000 G",
+          "abilityStone": "20개"
+        },
+        {
+          "level": 4,
+          "description": "비 오는 날 낚시 시 에픽 물고기 등장 확률이 1.5% 증가합니다.",
+          "skillPoints": "30 Point",
+          "gold": "700,000 G",
+          "abilityStone": "60개"
+        },
+        {
+          "level": 5,
+          "description": "비 오는 날 낚시 시 에픽 물고기 등장 확률이 2% 증가합니다.",
+          "skillPoints": "50 Point",
+          "gold": "1,000,000 G",
+          "abilityStone": "100개"
         }
       ]
     }

@@ -1,4 +1,2097 @@
-// 지역별 상품 데이터 (JSON에서 로드)
+// ...existing code...
+function updateCookingRankingList() {
+  const listContainer = document.getElementById("cookingRankingList");
+  if (!listContainer) return;
+
+  // 읽어올 전체 갯수 (기본 1)
+  const globalQty = Math.max(
+    1,
+    parseInt(document.getElementById("globalCookingQuantity")?.value || "1", 10)
+  );
+
+  // 요리 아이템 평탄화
+  let cookingData = [];
+  if (
+    typeof regionData.grindel.cooking === "object" &&
+    !Array.isArray(regionData.grindel.cooking)
+  ) {
+    Object.values(regionData.grindel.cooking).forEach((category) => {
+      cookingData.push(...category);
+    });
+  } else {
+    cookingData = regionData.grindel.cooking;
+  }
+
+  loadCookingPrices();
+  const savedPrices = cookingPriceStore;
+
+  // 각 요리의 효율 계산
+  const cookingItems = cookingData.map((item, idx) => {
+    const priceRange = item.price
+      .split("-")
+      .map((p) => parseInt(p.replace(/,/g, "")));
+    const minPrice = priceRange[0];
+    const maxPrice = priceRange[1];
+    const avgPrice = Math.round((minPrice + maxPrice) / 2);
+
+    const currentPrice = savedPrices[item.name] || avgPrice;
+
+    // 베이스 가격 설정 가져오기 (쿠키에서 불러오기)
+    loadBasePrices();
+    const tomatoPrice = parseFloat(basePriceStore.tomatoPrice || 0);
+    const onionPrice = parseFloat(basePriceStore.onionPrice || 0);
+    const garlicPrice = parseFloat(basePriceStore.garlicPrice || 0);
+
+    const includeTomato =
+      document.getElementById("includeTomato")?.checked || false;
+    const includeOnion =
+      document.getElementById("includeOnion")?.checked || false;
+    const includeGarlic =
+      document.getElementById("includeGarlic")?.checked || false;
+
+    // 베이스 가격 계산 (기존 베이스 가격을 빼고 새로운 가격 추가)
+    let baseCostAdjustment = 0;
+    const recipe = item.recipe || "";
+
+    // 토마토 베이스 처리
+    if (includeTomato && recipe.includes("토마토 베이스")) {
+      const tomatoBaseMatches = recipe.match(/토마토 베이스 (\d+)개/g);
+      if (tomatoBaseMatches) {
+        let totalTomatoCount = 0;
+        tomatoBaseMatches.forEach((match) => {
+          const count = parseInt(match.match(/(\d+)개/)[1]);
+          totalTomatoCount += count;
+        });
+        const originalTomatoCost = 56 * totalTomatoCount;
+        const newTomatoCost = tomatoPrice * totalTomatoCount;
+        baseCostAdjustment += newTomatoCost - originalTomatoCost;
+      }
+    }
+
+    // 양파 베이스 처리
+    if (includeOnion && recipe.includes("양파 베이스")) {
+      const onionBaseMatches = recipe.match(/양파 베이스 (\d+)개/g);
+      if (onionBaseMatches) {
+        let totalOnionCount = 0;
+        onionBaseMatches.forEach((match) => {
+          const count = parseInt(match.match(/(\d+)개/)[1]);
+          totalOnionCount += count;
+        });
+        const originalOnionCost = 88 * totalOnionCount;
+        const newOnionCost = onionPrice * totalOnionCount;
+        baseCostAdjustment += newOnionCost - originalOnionCost;
+      }
+    }
+
+    // 마늘 베이스 처리
+    if (includeGarlic && recipe.includes("마늘 베이스")) {
+      const garlicBaseMatches = recipe.match(/마늘 베이스 (\d+)개/g);
+      if (garlicBaseMatches) {
+        let totalGarlicCount = 0;
+        garlicBaseMatches.forEach((match) => {
+          const count = parseInt(match.match(/(\d+)개/)[1]);
+          totalGarlicCount += count;
+        });
+        const originalGarlicCost = 56 * totalGarlicCount;
+        const newGarlicCost = garlicPrice * totalGarlicCount;
+        baseCostAdjustment += newGarlicCost - originalGarlicCost;
+      }
+    }
+
+    // 재료 비용 계산 (개당)
+    const excludeMeatAndBundle =
+      document.getElementById("excludeMeatAndBundle")?.checked || false;
+    const ingredientCostInfo = computeTotalIngredientCost(item.recipe, {
+      excludeMeatAndBundle,
+    });
+    const ingredientCostPerItem = ingredientCostInfo.total + baseCostAdjustment;
+
+    // 수익 계산 (개당)
+    const profitPerItem = currentPrice - ingredientCostPerItem;
+    const profitRatio =
+      ingredientCostPerItem > 0
+        ? (profitPerItem / ingredientCostPerItem) * 100
+        : 0;
+
+    // 최저가 대비 %
+    const minPricePercent = ((currentPrice - minPrice) / minPrice) * 100;
+
+    // 평균가 대비 %
+    const avgPricePercent = ((currentPrice - avgPrice) / avgPrice) * 100;
+
+    // 평균가 대비 수익 % 계산
+    const avgProfitPercent =
+      avgPrice > 0 ? ((currentPrice - avgPrice) / avgPrice) * 100 : 0;
+
+    return {
+      ...item,
+      index: idx,
+      minPrice,
+      maxPrice,
+      avgPrice,
+      currentPrice,
+      ingredientCostPerItem,
+      profitPerItem,
+      profitRatio,
+      minPricePercent,
+      avgPricePercent,
+      avgProfitPercent,
+    };
+  });
+
+  // 평균가 대비 수익 % 기준으로 정렬 (높은 것부터)
+  cookingItems.sort((a, b) => b.avgProfitPercent - a.avgProfitPercent);
+
+  // 최고 수익률 (프로그레스 바 계산용)
+  const maxProfitPercent = Math.max(
+    ...cookingItems.map((item) => Math.abs(item.avgProfitPercent))
+  );
+
+  listContainer.innerHTML = cookingItems
+    .map((item, rank) => {
+      const barPercent =
+        maxProfitPercent > 0
+          ? Math.min(
+              100,
+              Math.max(
+                4,
+                (Math.abs(item.avgProfitPercent) / maxProfitPercent) * 100
+              )
+            )
+          : 0;
+
+      // 전체 갯수 적용한 총값
+      const totalIngredientCost = Math.round(
+        item.ingredientCostPerItem * globalQty
+      );
+      const totalProfit = Math.round(item.profitPerItem * globalQty);
+
+      // 평균가 대비 % 표시 (부호 포함)
+      const avgSign = item.avgPricePercent >= 0 ? "+" : "";
+      const avgArrow =
+        item.avgPricePercent > 0 ? "▲" : item.avgPricePercent < 0 ? "▼" : "—";
+      const avgClass =
+        Math.abs(item.avgPricePercent) < 0.1
+          ? "flat"
+          : item.avgPricePercent > 0
+          ? "up"
+          : "down";
+
+      // 최저가 대비 % 표시
+      const minSign = item.minPricePercent >= 0 ? "+" : "";
+      const minArrow =
+        item.minPricePercent > 0 ? "▲" : item.minPricePercent < 0 ? "▼" : "—";
+      const minClass =
+        Math.abs(item.minPricePercent) < 0.1
+          ? "flat"
+          : item.minPricePercent > 0
+          ? "up"
+          : "down";
+
+      // 수익률 클래스
+      const profitClass =
+        item.profitPerItem > 0
+          ? "profit-positive"
+          : item.profitPerItem < 0
+          ? "profit-negative"
+          : "profit-neutral";
+
+      // 등급별 클래스 (1위, 2위, 3위)
+      const rankClass =
+        rank === 0
+          ? "rank-top1"
+          : rank === 1
+          ? "rank-top2"
+          : rank === 2
+          ? "rank-top3"
+          : "";
+
+      // 메달 아이콘
+      const medalIcon =
+        rank === 0 ? "🥇" : rank === 1 ? "🥈" : rank === 2 ? "🥉" : "";
+      const medalClass =
+        rank === 0
+          ? "gold"
+          : rank === 1
+          ? "silver"
+          : rank === 2
+          ? "bronze"
+          : "";
+
+      return `
+      <div class="cooking-rank-item ${rankClass}" data-index="${item.index}">
+        ${
+          medalIcon
+            ? `<div class="rank-medal ${medalClass}">${medalIcon}</div>`
+            : ""
+        }
+        <div class="rank-content">
+          <div class="rank-badge-wrapper">
+            <span class="grade-badge ${item.grade}" data-text="${item.grade}">${
+        item.grade
+      }</span>
+          </div>
+          <div class="rank-header">
+            <div class="rank-header-left">
+              ${
+                item.image
+                  ? `<img src="${item.image}" alt="${item.name}" class="rank-item-icon"/>`
+                  : ""
+              }
+              <div class="rank-name">${item.name}</div>
+            </div>
+            <div class="rank-profit ${
+              item.profitPerItem < 0 ? "negative" : ""
+            }">
+              수익 ${formatNumber(item.profitPerItem)} G
+              <small style="color:#6b7280;">(총 ${formatNumber(
+                totalProfit
+              )} G)</small>
+            </div>
+          </div>
+          <div class="rank-kv">
+            <span class="rank-price">현재 가격 : ${formatNumber(
+              item.currentPrice
+            )} G</span>
+            <span class="rank-cost">재료비 : ${formatNumber(
+              item.ingredientCostPerItem
+            )} G
+              <small style="color:#6b7280;">(총 ${formatNumber(
+                totalIngredientCost
+              )} G)</small>
+            </span>
+          </div>
+          <div class="rank-kv">
+            <span class="rank-range">가격 범위 : ${formatNumber(
+              item.minPrice
+            )} ~ ${formatNumber(item.maxPrice)} G</span>
+            <span class="rank-avg">평균가 : ${formatNumber(
+              item.avgPrice
+            )} G</span>
+          </div>
+          <div class="rank-delta-wrapper">
+            <span class="rank-delta ${avgClass}">평균가 대비 ${avgArrow} ${avgSign}${Math.abs(
+        item.avgPricePercent
+      ).toFixed(1)}% <small class="rank-meta">(평균가 ${formatNumber(
+        item.avgPrice
+      )} G)</small></span>
+          </div>
+          <div class="rank-details">
+            <div class="detail-row"><b>레시피</b> — ${item.recipe}</div>
+          </div>
+        </div>
+      </div>
+    `;
+    })
+    .join("");
+
+  // 토글 기능 제거 - 기본적으로 모든 내용 표시
+  // global quantity 입력 변화 감지 리스너가 없으면 추가
+  const qtyInput = document.getElementById("globalCookingQuantity");
+  if (qtyInput && !qtyInput.dataset.listenerAttached) {
+    qtyInput.addEventListener("input", () => {
+      // 최소 1로 보정
+      if (!qtyInput.value || Number(qtyInput.value) < 1) qtyInput.value = "1";
+      updateCookingRankingList();
+    });
+    qtyInput.dataset.listenerAttached = "1";
+  }
+}
+// ...existing code...// ...existing code...
+function updateCookingRankingList() {
+  const listContainer = document.getElementById("cookingRankingList");
+  if (!listContainer) return;
+
+  // 읽어올 전체 갯수 (기본 1)
+  const globalQty = Math.max(
+    1,
+    parseInt(document.getElementById("globalCookingQuantity")?.value || "1", 10)
+  );
+
+  // 요리 아이템 평탄화
+  let cookingData = [];
+  if (
+    typeof regionData.grindel.cooking === "object" &&
+    !Array.isArray(regionData.grindel.cooking)
+  ) {
+    Object.values(regionData.grindel.cooking).forEach((category) => {
+      cookingData.push(...category);
+    });
+  } else {
+    cookingData = regionData.grindel.cooking;
+  }
+
+  loadCookingPrices();
+  const savedPrices = cookingPriceStore;
+
+  // 각 요리의 효율 계산
+  const cookingItems = cookingData.map((item, idx) => {
+    const priceRange = item.price
+      .split("-")
+      .map((p) => parseInt(p.replace(/,/g, "")));
+    const minPrice = priceRange[0];
+    const maxPrice = priceRange[1];
+    const avgPrice = Math.round((minPrice + maxPrice) / 2);
+
+    const currentPrice = savedPrices[item.name] || avgPrice;
+
+    // 베이스 가격 설정 가져오기 (쿠키에서 불러오기)
+    loadBasePrices();
+    const tomatoPrice = parseFloat(basePriceStore.tomatoPrice || 0);
+    const onionPrice = parseFloat(basePriceStore.onionPrice || 0);
+    const garlicPrice = parseFloat(basePriceStore.garlicPrice || 0);
+
+    const includeTomato =
+      document.getElementById("includeTomato")?.checked || false;
+    const includeOnion =
+      document.getElementById("includeOnion")?.checked || false;
+    const includeGarlic =
+      document.getElementById("includeGarlic")?.checked || false;
+
+    // 베이스 가격 계산 (기존 베이스 가격을 빼고 새로운 가격 추가)
+    let baseCostAdjustment = 0;
+    const recipe = item.recipe || "";
+
+    // 토마토 베이스 처리
+    if (includeTomato && recipe.includes("토마토 베이스")) {
+      const tomatoBaseMatches = recipe.match(/토마토 베이스 (\d+)개/g);
+      if (tomatoBaseMatches) {
+        let totalTomatoCount = 0;
+        tomatoBaseMatches.forEach((match) => {
+          const count = parseInt(match.match(/(\d+)개/)[1]);
+          totalTomatoCount += count;
+        });
+        const originalTomatoCost = 56 * totalTomatoCount;
+        const newTomatoCost = tomatoPrice * totalTomatoCount;
+        baseCostAdjustment += newTomatoCost - originalTomatoCost;
+      }
+    }
+
+    // 양파 베이스 처리
+    if (includeOnion && recipe.includes("양파 베이스")) {
+      const onionBaseMatches = recipe.match(/양파 베이스 (\d+)개/g);
+      if (onionBaseMatches) {
+        let totalOnionCount = 0;
+        onionBaseMatches.forEach((match) => {
+          const count = parseInt(match.match(/(\d+)개/)[1]);
+          totalOnionCount += count;
+        });
+        const originalOnionCost = 88 * totalOnionCount;
+        const newOnionCost = onionPrice * totalOnionCount;
+        baseCostAdjustment += newOnionCost - originalOnionCost;
+      }
+    }
+
+    // 마늘 베이스 처리
+    if (includeGarlic && recipe.includes("마늘 베이스")) {
+      const garlicBaseMatches = recipe.match(/마늘 베이스 (\d+)개/g);
+      if (garlicBaseMatches) {
+        let totalGarlicCount = 0;
+        garlicBaseMatches.forEach((match) => {
+          const count = parseInt(match.match(/(\d+)개/)[1]);
+          totalGarlicCount += count;
+        });
+        const originalGarlicCost = 56 * totalGarlicCount;
+        const newGarlicCost = garlicPrice * totalGarlicCount;
+        baseCostAdjustment += newGarlicCost - originalGarlicCost;
+      }
+    }
+
+    // 재료 비용 계산 (개당)
+    const excludeMeatAndBundle =
+      document.getElementById("excludeMeatAndBundle")?.checked || false;
+    const ingredientCostInfo = computeTotalIngredientCost(item.recipe, {
+      excludeMeatAndBundle,
+    });
+    const ingredientCostPerItem = ingredientCostInfo.total + baseCostAdjustment;
+
+    // 수익 계산 (개당)
+    const profitPerItem = currentPrice - ingredientCostPerItem;
+    const profitRatio =
+      ingredientCostPerItem > 0
+        ? (profitPerItem / ingredientCostPerItem) * 100
+        : 0;
+
+    // 최저가 대비 %
+    const minPricePercent = ((currentPrice - minPrice) / minPrice) * 100;
+
+    // 평균가 대비 %
+    const avgPricePercent = ((currentPrice - avgPrice) / avgPrice) * 100;
+
+    // 평균가 대비 수익 % 계산
+    const avgProfitPercent =
+      avgPrice > 0 ? ((currentPrice - avgPrice) / avgPrice) * 100 : 0;
+
+    return {
+      ...item,
+      index: idx,
+      minPrice,
+      maxPrice,
+      avgPrice,
+      currentPrice,
+      ingredientCostPerItem,
+      profitPerItem,
+      profitRatio,
+      minPricePercent,
+      avgPricePercent,
+      avgProfitPercent,
+    };
+  });
+
+  // 평균가 대비 수익 % 기준으로 정렬 (높은 것부터)
+  cookingItems.sort((a, b) => b.avgProfitPercent - a.avgProfitPercent);
+
+  // 최고 수익률 (프로그레스 바 계산용)
+  const maxProfitPercent = Math.max(
+    ...cookingItems.map((item) => Math.abs(item.avgProfitPercent))
+  );
+
+  listContainer.innerHTML = cookingItems
+    .map((item, rank) => {
+      const barPercent =
+        maxProfitPercent > 0
+          ? Math.min(
+              100,
+              Math.max(
+                4,
+                (Math.abs(item.avgProfitPercent) / maxProfitPercent) * 100
+              )
+            )
+          : 0;
+
+      // 전체 갯수 적용한 총값
+      const totalIngredientCost = Math.round(
+        item.ingredientCostPerItem * globalQty
+      );
+      const totalProfit = Math.round(item.profitPerItem * globalQty);
+
+      // 평균가 대비 % 표시 (부호 포함)
+      const avgSign = item.avgPricePercent >= 0 ? "+" : "";
+      const avgArrow =
+        item.avgPricePercent > 0 ? "▲" : item.avgPricePercent < 0 ? "▼" : "—";
+      const avgClass =
+        Math.abs(item.avgPricePercent) < 0.1
+          ? "flat"
+          : item.avgPricePercent > 0
+          ? "up"
+          : "down";
+
+      // 최저가 대비 % 표시
+      const minSign = item.minPricePercent >= 0 ? "+" : "";
+      const minArrow =
+        item.minPricePercent > 0 ? "▲" : item.minPricePercent < 0 ? "▼" : "—";
+      const minClass =
+        Math.abs(item.minPricePercent) < 0.1
+          ? "flat"
+          : item.minPricePercent > 0
+          ? "up"
+          : "down";
+
+      // 수익률 클래스
+      const profitClass =
+        item.profitPerItem > 0
+          ? "profit-positive"
+          : item.profitPerItem < 0
+          ? "profit-negative"
+          : "profit-neutral";
+
+      // 등급별 클래스 (1위, 2위, 3위)
+      const rankClass =
+        rank === 0
+          ? "rank-top1"
+          : rank === 1
+          ? "rank-top2"
+          : rank === 2
+          ? "rank-top3"
+          : "";
+
+      // 메달 아이콘
+      const medalIcon =
+        rank === 0 ? "🥇" : rank === 1 ? "🥈" : rank === 2 ? "🥉" : "";
+      const medalClass =
+        rank === 0
+          ? "gold"
+          : rank === 1
+          ? "silver"
+          : rank === 2
+          ? "bronze"
+          : "";
+
+      return `
+      <div class="cooking-rank-item ${rankClass}" data-index="${item.index}">
+        ${
+          medalIcon
+            ? `<div class="rank-medal ${medalClass}">${medalIcon}</div>`
+            : ""
+        }
+        <div class="rank-content">
+          <div class="rank-badge-wrapper">
+            <span class="grade-badge ${item.grade}" data-text="${item.grade}">${
+        item.grade
+      }</span>
+          </div>
+          <div class="rank-header">
+            <div class="rank-header-left">
+              ${
+                item.image
+                  ? `<img src="${item.image}" alt="${item.name}" class="rank-item-icon"/>`
+                  : ""
+              }
+              <div class="rank-name">${item.name}</div>
+            </div>
+            <div class="rank-profit ${
+              item.profitPerItem < 0 ? "negative" : ""
+            }">
+              수익 ${formatNumber(item.profitPerItem)} G
+              <small style="color:#6b7280;">(총 ${formatNumber(
+                totalProfit
+              )} G)</small>
+            </div>
+          </div>
+          <div class="rank-kv">
+            <span class="rank-price">현재 가격 : ${formatNumber(
+              item.currentPrice
+            )} G</span>
+            <span class="rank-cost">재료비 : ${formatNumber(
+              item.ingredientCostPerItem
+            )} G
+              <small style="color:#6b7280;">(총 ${formatNumber(
+                totalIngredientCost
+              )} G)</small>
+            </span>
+          </div>
+          <div class="rank-kv">
+            <span class="rank-range">가격 범위 : ${formatNumber(
+              item.minPrice
+            )} ~ ${formatNumber(item.maxPrice)} G</span>
+            <span class="rank-avg">평균가 : ${formatNumber(
+              item.avgPrice
+            )} G</span>
+          </div>
+          <div class="rank-delta-wrapper">
+            <span class="rank-delta ${avgClass}">평균가 대비 ${avgArrow} ${avgSign}${Math.abs(
+        item.avgPricePercent
+      ).toFixed(1)}% <small class="rank-meta">(평균가 ${formatNumber(
+        item.avgPrice
+      )} G)</small></span>
+          </div>
+          <div class="rank-details">
+            <div class="detail-row"><b>레시피</b> — ${item.recipe}</div>
+          </div>
+        </div>
+      </div>
+    `;
+    })
+    .join("");
+
+  // 토글 기능 제거 - 기본적으로 모든 내용 표시
+  // global quantity 입력 변화 감지 리스너가 없으면 추가
+  const qtyInput = document.getElementById("globalCookingQuantity");
+  if (qtyInput && !qtyInput.dataset.listenerAttached) {
+    qtyInput.addEventListener("input", () => {
+      // 최소 1로 보정
+      if (!qtyInput.value || Number(qtyInput.value) < 1) qtyInput.value = "1";
+      updateCookingRankingList();
+    });
+    qtyInput.dataset.listenerAttached = "1";
+  }
+}
+// ...existing code...// ...existing code...
+function updateCookingRankingList() {
+  const listContainer = document.getElementById("cookingRankingList");
+  if (!listContainer) return;
+
+  // 읽어올 전체 갯수 (기본 1)
+  const globalQty = Math.max(
+    1,
+    parseInt(document.getElementById("globalCookingQuantity")?.value || "1", 10)
+  );
+
+  // 요리 아이템 평탄화
+  let cookingData = [];
+  if (
+    typeof regionData.grindel.cooking === "object" &&
+    !Array.isArray(regionData.grindel.cooking)
+  ) {
+    Object.values(regionData.grindel.cooking).forEach((category) => {
+      cookingData.push(...category);
+    });
+  } else {
+    cookingData = regionData.grindel.cooking;
+  }
+
+  loadCookingPrices();
+  const savedPrices = cookingPriceStore;
+
+  // 각 요리의 효율 계산
+  const cookingItems = cookingData.map((item, idx) => {
+    const priceRange = item.price
+      .split("-")
+      .map((p) => parseInt(p.replace(/,/g, "")));
+    const minPrice = priceRange[0];
+    const maxPrice = priceRange[1];
+    const avgPrice = Math.round((minPrice + maxPrice) / 2);
+
+    const currentPrice = savedPrices[item.name] || avgPrice;
+
+    // 베이스 가격 설정 가져오기 (쿠키에서 불러오기)
+    loadBasePrices();
+    const tomatoPrice = parseFloat(basePriceStore.tomatoPrice || 0);
+    const onionPrice = parseFloat(basePriceStore.onionPrice || 0);
+    const garlicPrice = parseFloat(basePriceStore.garlicPrice || 0);
+
+    const includeTomato =
+      document.getElementById("includeTomato")?.checked || false;
+    const includeOnion =
+      document.getElementById("includeOnion")?.checked || false;
+    const includeGarlic =
+      document.getElementById("includeGarlic")?.checked || false;
+
+    // 베이스 가격 계산 (기존 베이스 가격을 빼고 새로운 가격 추가)
+    let baseCostAdjustment = 0;
+    const recipe = item.recipe || "";
+
+    // 토마토 베이스 처리
+    if (includeTomato && recipe.includes("토마토 베이스")) {
+      const tomatoBaseMatches = recipe.match(/토마토 베이스 (\d+)개/g);
+      if (tomatoBaseMatches) {
+        let totalTomatoCount = 0;
+        tomatoBaseMatches.forEach((match) => {
+          const count = parseInt(match.match(/(\d+)개/)[1]);
+          totalTomatoCount += count;
+        });
+        const originalTomatoCost = 56 * totalTomatoCount;
+        const newTomatoCost = tomatoPrice * totalTomatoCount;
+        baseCostAdjustment += newTomatoCost - originalTomatoCost;
+      }
+    }
+
+    // 양파 베이스 처리
+    if (includeOnion && recipe.includes("양파 베이스")) {
+      const onionBaseMatches = recipe.match(/양파 베이스 (\d+)개/g);
+      if (onionBaseMatches) {
+        let totalOnionCount = 0;
+        onionBaseMatches.forEach((match) => {
+          const count = parseInt(match.match(/(\d+)개/)[1]);
+          totalOnionCount += count;
+        });
+        const originalOnionCost = 88 * totalOnionCount;
+        const newOnionCost = onionPrice * totalOnionCount;
+        baseCostAdjustment += newOnionCost - originalOnionCost;
+      }
+    }
+
+    // 마늘 베이스 처리
+    if (includeGarlic && recipe.includes("마늘 베이스")) {
+      const garlicBaseMatches = recipe.match(/마늘 베이스 (\d+)개/g);
+      if (garlicBaseMatches) {
+        let totalGarlicCount = 0;
+        garlicBaseMatches.forEach((match) => {
+          const count = parseInt(match.match(/(\d+)개/)[1]);
+          totalGarlicCount += count;
+        });
+        const originalGarlicCost = 56 * totalGarlicCount;
+        const newGarlicCost = garlicPrice * totalGarlicCount;
+        baseCostAdjustment += newGarlicCost - originalGarlicCost;
+      }
+    }
+
+    // 재료 비용 계산 (개당)
+    const excludeMeatAndBundle =
+      document.getElementById("excludeMeatAndBundle")?.checked || false;
+    const ingredientCostInfo = computeTotalIngredientCost(item.recipe, {
+      excludeMeatAndBundle,
+    });
+    const ingredientCostPerItem = ingredientCostInfo.total + baseCostAdjustment;
+
+    // 수익 계산 (개당)
+    const profitPerItem = currentPrice - ingredientCostPerItem;
+    const profitRatio =
+      ingredientCostPerItem > 0
+        ? (profitPerItem / ingredientCostPerItem) * 100
+        : 0;
+
+    // 최저가 대비 %
+    const minPricePercent = ((currentPrice - minPrice) / minPrice) * 100;
+
+    // 평균가 대비 %
+    const avgPricePercent = ((currentPrice - avgPrice) / avgPrice) * 100;
+
+    // 평균가 대비 수익 % 계산
+    const avgProfitPercent =
+      avgPrice > 0 ? ((currentPrice - avgPrice) / avgPrice) * 100 : 0;
+
+    return {
+      ...item,
+      index: idx,
+      minPrice,
+      maxPrice,
+      avgPrice,
+      currentPrice,
+      ingredientCostPerItem,
+      profitPerItem,
+      profitRatio,
+      minPricePercent,
+      avgPricePercent,
+      avgProfitPercent,
+    };
+  });
+
+  // 평균가 대비 수익 % 기준으로 정렬 (높은 것부터)
+  cookingItems.sort((a, b) => b.avgProfitPercent - a.avgProfitPercent);
+
+  // 최고 수익률 (프로그레스 바 계산용)
+  const maxProfitPercent = Math.max(
+    ...cookingItems.map((item) => Math.abs(item.avgProfitPercent))
+  );
+
+  listContainer.innerHTML = cookingItems
+    .map((item, rank) => {
+      const barPercent =
+        maxProfitPercent > 0
+          ? Math.min(
+              100,
+              Math.max(
+                4,
+                (Math.abs(item.avgProfitPercent) / maxProfitPercent) * 100
+              )
+            )
+          : 0;
+
+      // 전체 갯수 적용한 총값
+      const totalIngredientCost = Math.round(
+        item.ingredientCostPerItem * globalQty
+      );
+      const totalProfit = Math.round(item.profitPerItem * globalQty);
+
+      // 평균가 대비 % 표시 (부호 포함)
+      const avgSign = item.avgPricePercent >= 0 ? "+" : "";
+      const avgArrow =
+        item.avgPricePercent > 0 ? "▲" : item.avgPricePercent < 0 ? "▼" : "—";
+      const avgClass =
+        Math.abs(item.avgPricePercent) < 0.1
+          ? "flat"
+          : item.avgPricePercent > 0
+          ? "up"
+          : "down";
+
+      // 최저가 대비 % 표시
+      const minSign = item.minPricePercent >= 0 ? "+" : "";
+      const minArrow =
+        item.minPricePercent > 0 ? "▲" : item.minPricePercent < 0 ? "▼" : "—";
+      const minClass =
+        Math.abs(item.minPricePercent) < 0.1
+          ? "flat"
+          : item.minPricePercent > 0
+          ? "up"
+          : "down";
+
+      // 수익률 클래스
+      const profitClass =
+        item.profitPerItem > 0
+          ? "profit-positive"
+          : item.profitPerItem < 0
+          ? "profit-negative"
+          : "profit-neutral";
+
+      // 등급별 클래스 (1위, 2위, 3위)
+      const rankClass =
+        rank === 0
+          ? "rank-top1"
+          : rank === 1
+          ? "rank-top2"
+          : rank === 2
+          ? "rank-top3"
+          : "";
+
+      // 메달 아이콘
+      const medalIcon =
+        rank === 0 ? "🥇" : rank === 1 ? "🥈" : rank === 2 ? "🥉" : "";
+      const medalClass =
+        rank === 0
+          ? "gold"
+          : rank === 1
+          ? "silver"
+          : rank === 2
+          ? "bronze"
+          : "";
+
+      return `
+      <div class="cooking-rank-item ${rankClass}" data-index="${item.index}">
+        ${
+          medalIcon
+            ? `<div class="rank-medal ${medalClass}">${medalIcon}</div>`
+            : ""
+        }
+        <div class="rank-content">
+          <div class="rank-badge-wrapper">
+            <span class="grade-badge ${item.grade}" data-text="${item.grade}">${
+        item.grade
+      }</span>
+          </div>
+          <div class="rank-header">
+            <div class="rank-header-left">
+              ${
+                item.image
+                  ? `<img src="${item.image}" alt="${item.name}" class="rank-item-icon"/>`
+                  : ""
+              }
+              <div class="rank-name">${item.name}</div>
+            </div>
+            <div class="rank-profit ${
+              item.profitPerItem < 0 ? "negative" : ""
+            }">
+              수익 ${formatNumber(item.profitPerItem)} G
+              <small style="color:#6b7280;">(총 ${formatNumber(
+                totalProfit
+              )} G)</small>
+            </div>
+          </div>
+          <div class="rank-kv">
+            <span class="rank-price">현재 가격 : ${formatNumber(
+              item.currentPrice
+            )} G</span>
+            <span class="rank-cost">재료비 : ${formatNumber(
+              item.ingredientCostPerItem
+            )} G
+              <small style="color:#6b7280;">(총 ${formatNumber(
+                totalIngredientCost
+              )} G)</small>
+            </span>
+          </div>
+          <div class="rank-kv">
+            <span class="rank-range">가격 범위 : ${formatNumber(
+              item.minPrice
+            )} ~ ${formatNumber(item.maxPrice)} G</span>
+            <span class="rank-avg">평균가 : ${formatNumber(
+              item.avgPrice
+            )} G</span>
+          </div>
+          <div class="rank-delta-wrapper">
+            <span class="rank-delta ${avgClass}">평균가 대비 ${avgArrow} ${avgSign}${Math.abs(
+        item.avgPricePercent
+      ).toFixed(1)}% <small class="rank-meta">(평균가 ${formatNumber(
+        item.avgPrice
+      )} G)</small></span>
+          </div>
+          <div class="rank-details">
+            <div class="detail-row"><b>레시피</b> — ${item.recipe}</div>
+          </div>
+        </div>
+      </div>
+    `;
+    })
+    .join("");
+
+  // 토글 기능 제거 - 기본적으로 모든 내용 표시
+  // global quantity 입력 변화 감지 리스너가 없으면 추가
+  const qtyInput = document.getElementById("globalCookingQuantity");
+  if (qtyInput && !qtyInput.dataset.listenerAttached) {
+    qtyInput.addEventListener("input", () => {
+      // 최소 1로 보정
+      if (!qtyInput.value || Number(qtyInput.value) < 1) qtyInput.value = "1";
+      updateCookingRankingList();
+    });
+    qtyInput.dataset.listenerAttached = "1";
+  }
+}
+// ...existing code...// ...existing code...
+function updateCookingRankingList() {
+  const listContainer = document.getElementById("cookingRankingList");
+  if (!listContainer) return;
+
+  // 읽어올 전체 갯수 (기본 1)
+  const globalQty = Math.max(
+    1,
+    parseInt(document.getElementById("globalCookingQuantity")?.value || "1", 10)
+  );
+
+  // 요리 아이템 평탄화
+  let cookingData = [];
+  if (
+    typeof regionData.grindel.cooking === "object" &&
+    !Array.isArray(regionData.grindel.cooking)
+  ) {
+    Object.values(regionData.grindel.cooking).forEach((category) => {
+      cookingData.push(...category);
+    });
+  } else {
+    cookingData = regionData.grindel.cooking;
+  }
+
+  loadCookingPrices();
+  const savedPrices = cookingPriceStore;
+
+  // 각 요리의 효율 계산
+  const cookingItems = cookingData.map((item, idx) => {
+    const priceRange = item.price
+      .split("-")
+      .map((p) => parseInt(p.replace(/,/g, "")));
+    const minPrice = priceRange[0];
+    const maxPrice = priceRange[1];
+    const avgPrice = Math.round((minPrice + maxPrice) / 2);
+
+    const currentPrice = savedPrices[item.name] || avgPrice;
+
+    // 베이스 가격 설정 가져오기 (쿠키에서 불러오기)
+    loadBasePrices();
+    const tomatoPrice = parseFloat(basePriceStore.tomatoPrice || 0);
+    const onionPrice = parseFloat(basePriceStore.onionPrice || 0);
+    const garlicPrice = parseFloat(basePriceStore.garlicPrice || 0);
+
+    const includeTomato =
+      document.getElementById("includeTomato")?.checked || false;
+    const includeOnion =
+      document.getElementById("includeOnion")?.checked || false;
+    const includeGarlic =
+      document.getElementById("includeGarlic")?.checked || false;
+
+    // 베이스 가격 계산 (기존 베이스 가격을 빼고 새로운 가격 추가)
+    let baseCostAdjustment = 0;
+    const recipe = item.recipe || "";
+
+    // 토마토 베이스 처리
+    if (includeTomato && recipe.includes("토마토 베이스")) {
+      const tomatoBaseMatches = recipe.match(/토마토 베이스 (\d+)개/g);
+      if (tomatoBaseMatches) {
+        let totalTomatoCount = 0;
+        tomatoBaseMatches.forEach((match) => {
+          const count = parseInt(match.match(/(\d+)개/)[1]);
+          totalTomatoCount += count;
+        });
+        const originalTomatoCost = 56 * totalTomatoCount;
+        const newTomatoCost = tomatoPrice * totalTomatoCount;
+        baseCostAdjustment += newTomatoCost - originalTomatoCost;
+      }
+    }
+
+    // 양파 베이스 처리
+    if (includeOnion && recipe.includes("양파 베이스")) {
+      const onionBaseMatches = recipe.match(/양파 베이스 (\d+)개/g);
+      if (onionBaseMatches) {
+        let totalOnionCount = 0;
+        onionBaseMatches.forEach((match) => {
+          const count = parseInt(match.match(/(\d+)개/)[1]);
+          totalOnionCount += count;
+        });
+        const originalOnionCost = 88 * totalOnionCount;
+        const newOnionCost = onionPrice * totalOnionCount;
+        baseCostAdjustment += newOnionCost - originalOnionCost;
+      }
+    }
+
+    // 마늘 베이스 처리
+    if (includeGarlic && recipe.includes("마늘 베이스")) {
+      const garlicBaseMatches = recipe.match(/마늘 베이스 (\d+)개/g);
+      if (garlicBaseMatches) {
+        let totalGarlicCount = 0;
+        garlicBaseMatches.forEach((match) => {
+          const count = parseInt(match.match(/(\d+)개/)[1]);
+          totalGarlicCount += count;
+        });
+        const originalGarlicCost = 56 * totalGarlicCount;
+        const newGarlicCost = garlicPrice * totalGarlicCount;
+        baseCostAdjustment += newGarlicCost - originalGarlicCost;
+      }
+    }
+
+    // 재료 비용 계산 (개당)
+    const excludeMeatAndBundle =
+      document.getElementById("excludeMeatAndBundle")?.checked || false;
+    const ingredientCostInfo = computeTotalIngredientCost(item.recipe, {
+      excludeMeatAndBundle,
+    });
+    const ingredientCostPerItem = ingredientCostInfo.total + baseCostAdjustment;
+
+    // 수익 계산 (개당)
+    const profitPerItem = currentPrice - ingredientCostPerItem;
+    const profitRatio =
+      ingredientCostPerItem > 0
+        ? (profitPerItem / ingredientCostPerItem) * 100
+        : 0;
+
+    // 최저가 대비 %
+    const minPricePercent = ((currentPrice - minPrice) / minPrice) * 100;
+
+    // 평균가 대비 %
+    const avgPricePercent = ((currentPrice - avgPrice) / avgPrice) * 100;
+
+    // 평균가 대비 수익 % 계산
+    const avgProfitPercent =
+      avgPrice > 0 ? ((currentPrice - avgPrice) / avgPrice) * 100 : 0;
+
+    return {
+      ...item,
+      index: idx,
+      minPrice,
+      maxPrice,
+      avgPrice,
+      currentPrice,
+      ingredientCostPerItem,
+      profitPerItem,
+      profitRatio,
+      minPricePercent,
+      avgPricePercent,
+      avgProfitPercent,
+    };
+  });
+
+  // 평균가 대비 수익 % 기준으로 정렬 (높은 것부터)
+  cookingItems.sort((a, b) => b.avgProfitPercent - a.avgProfitPercent);
+
+  // 최고 수익률 (프로그레스 바 계산용)
+  const maxProfitPercent = Math.max(
+    ...cookingItems.map((item) => Math.abs(item.avgProfitPercent))
+  );
+
+  listContainer.innerHTML = cookingItems
+    .map((item, rank) => {
+      const barPercent =
+        maxProfitPercent > 0
+          ? Math.min(
+              100,
+              Math.max(
+                4,
+                (Math.abs(item.avgProfitPercent) / maxProfitPercent) * 100
+              )
+            )
+          : 0;
+
+      // 전체 갯수 적용한 총값
+      const totalIngredientCost = Math.round(
+        item.ingredientCostPerItem * globalQty
+      );
+      const totalProfit = Math.round(item.profitPerItem * globalQty);
+
+      // 평균가 대비 % 표시 (부호 포함)
+      const avgSign = item.avgPricePercent >= 0 ? "+" : "";
+      const avgArrow =
+        item.avgPricePercent > 0 ? "▲" : item.avgPricePercent < 0 ? "▼" : "—";
+      const avgClass =
+        Math.abs(item.avgPricePercent) < 0.1
+          ? "flat"
+          : item.avgPricePercent > 0
+          ? "up"
+          : "down";
+
+      // 최저가 대비 % 표시
+      const minSign = item.minPricePercent >= 0 ? "+" : "";
+      const minArrow =
+        item.minPricePercent > 0 ? "▲" : item.minPricePercent < 0 ? "▼" : "—";
+      const minClass =
+        Math.abs(item.minPricePercent) < 0.1
+          ? "flat"
+          : item.minPricePercent > 0
+          ? "up"
+          : "down";
+
+      // 수익률 클래스
+      const profitClass =
+        item.profitPerItem > 0
+          ? "profit-positive"
+          : item.profitPerItem < 0
+          ? "profit-negative"
+          : "profit-neutral";
+
+      // 등급별 클래스 (1위, 2위, 3위)
+      const rankClass =
+        rank === 0
+          ? "rank-top1"
+          : rank === 1
+          ? "rank-top2"
+          : rank === 2
+          ? "rank-top3"
+          : "";
+
+      // 메달 아이콘
+      const medalIcon =
+        rank === 0 ? "🥇" : rank === 1 ? "🥈" : rank === 2 ? "🥉" : "";
+      const medalClass =
+        rank === 0
+          ? "gold"
+          : rank === 1
+          ? "silver"
+          : rank === 2
+          ? "bronze"
+          : "";
+
+      return `
+      <div class="cooking-rank-item ${rankClass}" data-index="${item.index}">
+        ${
+          medalIcon
+            ? `<div class="rank-medal ${medalClass}">${medalIcon}</div>`
+            : ""
+        }
+        <div class="rank-content">
+          <div class="rank-badge-wrapper">
+            <span class="grade-badge ${item.grade}" data-text="${item.grade}">${
+        item.grade
+      }</span>
+          </div>
+          <div class="rank-header">
+            <div class="rank-header-left">
+              ${
+                item.image
+                  ? `<img src="${item.image}" alt="${item.name}" class="rank-item-icon"/>`
+                  : ""
+              }
+              <div class="rank-name">${item.name}</div>
+            </div>
+            <div class="rank-profit ${
+              item.profitPerItem < 0 ? "negative" : ""
+            }">
+              수익 ${formatNumber(item.profitPerItem)} G
+              <small style="color:#6b7280;">(총 ${formatNumber(
+                totalProfit
+              )} G)</small>
+            </div>
+          </div>
+          <div class="rank-kv">
+            <span class="rank-price">현재 가격 : ${formatNumber(
+              item.currentPrice
+            )} G</span>
+            <span class="rank-cost">재료비 : ${formatNumber(
+              item.ingredientCostPerItem
+            )} G
+              <small style="color:#6b7280;">(총 ${formatNumber(
+                totalIngredientCost
+              )} G)</small>
+            </span>
+          </div>
+          <div class="rank-kv">
+            <span class="rank-range">가격 범위 : ${formatNumber(
+              item.minPrice
+            )} ~ ${formatNumber(item.maxPrice)} G</span>
+            <span class="rank-avg">평균가 : ${formatNumber(
+              item.avgPrice
+            )} G</span>
+          </div>
+          <div class="rank-delta-wrapper">
+            <span class="rank-delta ${avgClass}">평균가 대비 ${avgArrow} ${avgSign}${Math.abs(
+        item.avgPricePercent
+      ).toFixed(1)}% <small class="rank-meta">(평균가 ${formatNumber(
+        item.avgPrice
+      )} G)</small></span>
+          </div>
+          <div class="rank-details">
+            <div class="detail-row"><b>레시피</b> — ${item.recipe}</div>
+          </div>
+        </div>
+      </div>
+    `;
+    })
+    .join("");
+
+  // 토글 기능 제거 - 기본적으로 모든 내용 표시
+  // global quantity 입력 변화 감지 리스너가 없으면 추가
+  const qtyInput = document.getElementById("globalCookingQuantity");
+  if (qtyInput && !qtyInput.dataset.listenerAttached) {
+    qtyInput.addEventListener("input", () => {
+      // 최소 1로 보정
+      if (!qtyInput.value || Number(qtyInput.value) < 1) qtyInput.value = "1";
+      updateCookingRankingList();
+    });
+    qtyInput.dataset.listenerAttached = "1";
+  }
+}
+// ...existing code...// ...existing code...
+function updateCookingRankingList() {
+  const listContainer = document.getElementById("cookingRankingList");
+  if (!listContainer) return;
+
+  // 읽어올 전체 갯수 (기본 1)
+  const globalQty = Math.max(
+    1,
+    parseInt(document.getElementById("globalCookingQuantity")?.value || "1", 10)
+  );
+
+  // 요리 아이템 평탄화
+  let cookingData = [];
+  if (
+    typeof regionData.grindel.cooking === "object" &&
+    !Array.isArray(regionData.grindel.cooking)
+  ) {
+    Object.values(regionData.grindel.cooking).forEach((category) => {
+      cookingData.push(...category);
+    });
+  } else {
+    cookingData = regionData.grindel.cooking;
+  }
+
+  loadCookingPrices();
+  const savedPrices = cookingPriceStore;
+
+  // 각 요리의 효율 계산
+  const cookingItems = cookingData.map((item, idx) => {
+    const priceRange = item.price
+      .split("-")
+      .map((p) => parseInt(p.replace(/,/g, "")));
+    const minPrice = priceRange[0];
+    const maxPrice = priceRange[1];
+    const avgPrice = Math.round((minPrice + maxPrice) / 2);
+
+    const currentPrice = savedPrices[item.name] || avgPrice;
+
+    // 베이스 가격 설정 가져오기 (쿠키에서 불러오기)
+    loadBasePrices();
+    const tomatoPrice = parseFloat(basePriceStore.tomatoPrice || 0);
+    const onionPrice = parseFloat(basePriceStore.onionPrice || 0);
+    const garlicPrice = parseFloat(basePriceStore.garlicPrice || 0);
+
+    const includeTomato =
+      document.getElementById("includeTomato")?.checked || false;
+    const includeOnion =
+      document.getElementById("includeOnion")?.checked || false;
+    const includeGarlic =
+      document.getElementById("includeGarlic")?.checked || false;
+
+    // 베이스 가격 계산 (기존 베이스 가격을 빼고 새로운 가격 추가)
+    let baseCostAdjustment = 0;
+    const recipe = item.recipe || "";
+
+    // 토마토 베이스 처리
+    if (includeTomato && recipe.includes("토마토 베이스")) {
+      const tomatoBaseMatches = recipe.match(/토마토 베이스 (\d+)개/g);
+      if (tomatoBaseMatches) {
+        let totalTomatoCount = 0;
+        tomatoBaseMatches.forEach((match) => {
+          const count = parseInt(match.match(/(\d+)개/)[1]);
+          totalTomatoCount += count;
+        });
+        const originalTomatoCost = 56 * totalTomatoCount;
+        const newTomatoCost = tomatoPrice * totalTomatoCount;
+        baseCostAdjustment += newTomatoCost - originalTomatoCost;
+      }
+    }
+
+    // 양파 베이스 처리
+    if (includeOnion && recipe.includes("양파 베이스")) {
+      const onionBaseMatches = recipe.match(/양파 베이스 (\d+)개/g);
+      if (onionBaseMatches) {
+        let totalOnionCount = 0;
+        onionBaseMatches.forEach((match) => {
+          const count = parseInt(match.match(/(\d+)개/)[1]);
+          totalOnionCount += count;
+        });
+        const originalOnionCost = 88 * totalOnionCount;
+        const newOnionCost = onionPrice * totalOnionCount;
+        baseCostAdjustment += newOnionCost - originalOnionCost;
+      }
+    }
+
+    // 마늘 베이스 처리
+    if (includeGarlic && recipe.includes("마늘 베이스")) {
+      const garlicBaseMatches = recipe.match(/마늘 베이스 (\d+)개/g);
+      if (garlicBaseMatches) {
+        let totalGarlicCount = 0;
+        garlicBaseMatches.forEach((match) => {
+          const count = parseInt(match.match(/(\d+)개/)[1]);
+          totalGarlicCount += count;
+        });
+        const originalGarlicCost = 56 * totalGarlicCount;
+        const newGarlicCost = garlicPrice * totalGarlicCount;
+        baseCostAdjustment += newGarlicCost - originalGarlicCost;
+      }
+    }
+
+    // 재료 비용 계산 (개당)
+    const excludeMeatAndBundle =
+      document.getElementById("excludeMeatAndBundle")?.checked || false;
+    const ingredientCostInfo = computeTotalIngredientCost(item.recipe, {
+      excludeMeatAndBundle,
+    });
+    const ingredientCostPerItem = ingredientCostInfo.total + baseCostAdjustment;
+
+    // 수익 계산 (개당)
+    const profitPerItem = currentPrice - ingredientCostPerItem;
+    const profitRatio =
+      ingredientCostPerItem > 0
+        ? (profitPerItem / ingredientCostPerItem) * 100
+        : 0;
+
+    // 최저가 대비 %
+    const minPricePercent = ((currentPrice - minPrice) / minPrice) * 100;
+
+    // 평균가 대비 %
+    const avgPricePercent = ((currentPrice - avgPrice) / avgPrice) * 100;
+
+    // 평균가 대비 수익 % 계산
+    const avgProfitPercent =
+      avgPrice > 0 ? ((currentPrice - avgPrice) / avgPrice) * 100 : 0;
+
+    return {
+      ...item,
+      index: idx,
+      minPrice,
+      maxPrice,
+      avgPrice,
+      currentPrice,
+      ingredientCostPerItem,
+      profitPerItem,
+      profitRatio,
+      minPricePercent,
+      avgPricePercent,
+      avgProfitPercent,
+    };
+  });
+
+  // 평균가 대비 수익 % 기준으로 정렬 (높은 것부터)
+  cookingItems.sort((a, b) => b.avgProfitPercent - a.avgProfitPercent);
+
+  // 최고 수익률 (프로그레스 바 계산용)
+  const maxProfitPercent = Math.max(
+    ...cookingItems.map((item) => Math.abs(item.avgProfitPercent))
+  );
+
+  listContainer.innerHTML = cookingItems
+    .map((item, rank) => {
+      const barPercent =
+        maxProfitPercent > 0
+          ? Math.min(
+              100,
+              Math.max(
+                4,
+                (Math.abs(item.avgProfitPercent) / maxProfitPercent) * 100
+              )
+            )
+          : 0;
+
+      // 전체 갯수 적용한 총값
+      const totalIngredientCost = Math.round(
+        item.ingredientCostPerItem * globalQty
+      );
+      const totalProfit = Math.round(item.profitPerItem * globalQty);
+
+      // 평균가 대비 % 표시 (부호 포함)
+      const avgSign = item.avgPricePercent >= 0 ? "+" : "";
+      const avgArrow =
+        item.avgPricePercent > 0 ? "▲" : item.avgPricePercent < 0 ? "▼" : "—";
+      const avgClass =
+        Math.abs(item.avgPricePercent) < 0.1
+          ? "flat"
+          : item.avgPricePercent > 0
+          ? "up"
+          : "down";
+
+      // 최저가 대비 % 표시
+      const minSign = item.minPricePercent >= 0 ? "+" : "";
+      const minArrow =
+        item.minPricePercent > 0 ? "▲" : item.minPricePercent < 0 ? "▼" : "—";
+      const minClass =
+        Math.abs(item.minPricePercent) < 0.1
+          ? "flat"
+          : item.minPricePercent > 0
+          ? "up"
+          : "down";
+
+      // 수익률 클래스
+      const profitClass =
+        item.profitPerItem > 0
+          ? "profit-positive"
+          : item.profitPerItem < 0
+          ? "profit-negative"
+          : "profit-neutral";
+
+      // 등급별 클래스 (1위, 2위, 3위)
+      const rankClass =
+        rank === 0
+          ? "rank-top1"
+          : rank === 1
+          ? "rank-top2"
+          : rank === 2
+          ? "rank-top3"
+          : "";
+
+      // 메달 아이콘
+      const medalIcon =
+        rank === 0 ? "🥇" : rank === 1 ? "🥈" : rank === 2 ? "🥉" : "";
+      const medalClass =
+        rank === 0
+          ? "gold"
+          : rank === 1
+          ? "silver"
+          : rank === 2
+          ? "bronze"
+          : "";
+
+      return `
+      <div class="cooking-rank-item ${rankClass}" data-index="${item.index}">
+        ${
+          medalIcon
+            ? `<div class="rank-medal ${medalClass}">${medalIcon}</div>`
+            : ""
+        }
+        <div class="rank-content">
+          <div class="rank-badge-wrapper">
+            <span class="grade-badge ${item.grade}" data-text="${item.grade}">${
+        item.grade
+      }</span>
+          </div>
+          <div class="rank-header">
+            <div class="rank-header-left">
+              ${
+                item.image
+                  ? `<img src="${item.image}" alt="${item.name}" class="rank-item-icon"/>`
+                  : ""
+              }
+              <div class="rank-name">${item.name}</div>
+            </div>
+            <div class="rank-profit ${
+              item.profitPerItem < 0 ? "negative" : ""
+            }">
+              수익 ${formatNumber(item.profitPerItem)} G
+              <small style="color:#6b7280;">(총 ${formatNumber(
+                totalProfit
+              )} G)</small>
+            </div>
+          </div>
+          <div class="rank-kv">
+            <span class="rank-price">현재 가격 : ${formatNumber(
+              item.currentPrice
+            )} G</span>
+            <span class="rank-cost">재료비 : ${formatNumber(
+              item.ingredientCostPerItem
+            )} G
+              <small style="color:#6b7280;">(총 ${formatNumber(
+                totalIngredientCost
+              )} G)</small>
+            </span>
+          </div>
+          <div class="rank-kv">
+            <span class="rank-range">가격 범위 : ${formatNumber(
+              item.minPrice
+            )} ~ ${formatNumber(item.maxPrice)} G</span>
+            <span class="rank-avg">평균가 : ${formatNumber(
+              item.avgPrice
+            )} G</span>
+          </div>
+          <div class="rank-delta-wrapper">
+            <span class="rank-delta ${avgClass}">평균가 대비 ${avgArrow} ${avgSign}${Math.abs(
+        item.avgPricePercent
+      ).toFixed(1)}% <small class="rank-meta">(평균가 ${formatNumber(
+        item.avgPrice
+      )} G)</small></span>
+          </div>
+          <div class="rank-details">
+            <div class="detail-row"><b>레시피</b> — ${item.recipe}</div>
+          </div>
+        </div>
+      </div>
+    `;
+    })
+    .join("");
+
+  // 토글 기능 제거 - 기본적으로 모든 내용 표시
+  // global quantity 입력 변화 감지 리스너가 없으면 추가
+  const qtyInput = document.getElementById("globalCookingQuantity");
+  if (qtyInput && !qtyInput.dataset.listenerAttached) {
+    qtyInput.addEventListener("input", () => {
+      // 최소 1로 보정
+      if (!qtyInput.value || Number(qtyInput.value) < 1) qtyInput.value = "1";
+      updateCookingRankingList();
+    });
+    qtyInput.dataset.listenerAttached = "1";
+  }
+}
+// ...existing code...// ...existing code...
+function updateCookingRankingList() {
+  const listContainer = document.getElementById("cookingRankingList");
+  if (!listContainer) return;
+
+  // 읽어올 전체 갯수 (기본 1)
+  const globalQty = Math.max(
+    1,
+    parseInt(document.getElementById("globalCookingQuantity")?.value || "1", 10)
+  );
+
+  // 요리 아이템 평탄화
+  let cookingData = [];
+  if (
+    typeof regionData.grindel.cooking === "object" &&
+    !Array.isArray(regionData.grindel.cooking)
+  ) {
+    Object.values(regionData.grindel.cooking).forEach((category) => {
+      cookingData.push(...category);
+    });
+  } else {
+    cookingData = regionData.grindel.cooking;
+  }
+
+  loadCookingPrices();
+  const savedPrices = cookingPriceStore;
+
+  // 각 요리의 효율 계산
+  const cookingItems = cookingData.map((item, idx) => {
+    const priceRange = item.price
+      .split("-")
+      .map((p) => parseInt(p.replace(/,/g, "")));
+    const minPrice = priceRange[0];
+    const maxPrice = priceRange[1];
+    const avgPrice = Math.round((minPrice + maxPrice) / 2);
+
+    const currentPrice = savedPrices[item.name] || avgPrice;
+
+    // 베이스 가격 설정 가져오기 (쿠키에서 불러오기)
+    loadBasePrices();
+    const tomatoPrice = parseFloat(basePriceStore.tomatoPrice || 0);
+    const onionPrice = parseFloat(basePriceStore.onionPrice || 0);
+    const garlicPrice = parseFloat(basePriceStore.garlicPrice || 0);
+
+    const includeTomato =
+      document.getElementById("includeTomato")?.checked || false;
+    const includeOnion =
+      document.getElementById("includeOnion")?.checked || false;
+    const includeGarlic =
+      document.getElementById("includeGarlic")?.checked || false;
+
+    // 베이스 가격 계산 (기존 베이스 가격을 빼고 새로운 가격 추가)
+    let baseCostAdjustment = 0;
+    const recipe = item.recipe || "";
+
+    // 토마토 베이스 처리
+    if (includeTomato && recipe.includes("토마토 베이스")) {
+      const tomatoBaseMatches = recipe.match(/토마토 베이스 (\d+)개/g);
+      if (tomatoBaseMatches) {
+        let totalTomatoCount = 0;
+        tomatoBaseMatches.forEach((match) => {
+          const count = parseInt(match.match(/(\d+)개/)[1]);
+          totalTomatoCount += count;
+        });
+        const originalTomatoCost = 56 * totalTomatoCount;
+        const newTomatoCost = tomatoPrice * totalTomatoCount;
+        baseCostAdjustment += newTomatoCost - originalTomatoCost;
+      }
+    }
+
+    // 양파 베이스 처리
+    if (includeOnion && recipe.includes("양파 베이스")) {
+      const onionBaseMatches = recipe.match(/양파 베이스 (\d+)개/g);
+      if (onionBaseMatches) {
+        let totalOnionCount = 0;
+        onionBaseMatches.forEach((match) => {
+          const count = parseInt(match.match(/(\d+)개/)[1]);
+          totalOnionCount += count;
+        });
+        const originalOnionCost = 88 * totalOnionCount;
+        const newOnionCost = onionPrice * totalOnionCount;
+        baseCostAdjustment += newOnionCost - originalOnionCost;
+      }
+    }
+
+    // 마늘 베이스 처리
+    if (includeGarlic && recipe.includes("마늘 베이스")) {
+      const garlicBaseMatches = recipe.match(/마늘 베이스 (\d+)개/g);
+      if (garlicBaseMatches) {
+        let totalGarlicCount = 0;
+        garlicBaseMatches.forEach((match) => {
+          const count = parseInt(match.match(/(\d+)개/)[1]);
+          totalGarlicCount += count;
+        });
+        const originalGarlicCost = 56 * totalGarlicCount;
+        const newGarlicCost = garlicPrice * totalGarlicCount;
+        baseCostAdjustment += newGarlicCost - originalGarlicCost;
+      }
+    }
+
+    // 재료 비용 계산 (개당)
+    const excludeMeatAndBundle =
+      document.getElementById("excludeMeatAndBundle")?.checked || false;
+    const ingredientCostInfo = computeTotalIngredientCost(item.recipe, {
+      excludeMeatAndBundle,
+    });
+    const ingredientCostPerItem = ingredientCostInfo.total + baseCostAdjustment;
+
+    // 수익 계산 (개당)
+    const profitPerItem = currentPrice - ingredientCostPerItem;
+    const profitRatio =
+      ingredientCostPerItem > 0
+        ? (profitPerItem / ingredientCostPerItem) * 100
+        : 0;
+
+    // 최저가 대비 %
+    const minPricePercent = ((currentPrice - minPrice) / minPrice) * 100;
+
+    // 평균가 대비 %
+    const avgPricePercent = ((currentPrice - avgPrice) / avgPrice) * 100;
+
+    // 평균가 대비 수익 % 계산
+    const avgProfitPercent =
+      avgPrice > 0 ? ((currentPrice - avgPrice) / avgPrice) * 100 : 0;
+
+    return {
+      ...item,
+      index: idx,
+      minPrice,
+      maxPrice,
+      avgPrice,
+      currentPrice,
+      ingredientCostPerItem,
+      profitPerItem,
+      profitRatio,
+      minPricePercent,
+      avgPricePercent,
+      avgProfitPercent,
+    };
+  });
+
+  // 평균가 대비 수익 % 기준으로 정렬 (높은 것부터)
+  cookingItems.sort((a, b) => b.avgProfitPercent - a.avgProfitPercent);
+
+  // 최고 수익률 (프로그레스 바 계산용)
+  const maxProfitPercent = Math.max(
+    ...cookingItems.map((item) => Math.abs(item.avgProfitPercent))
+  );
+
+  listContainer.innerHTML = cookingItems
+    .map((item, rank) => {
+      const barPercent =
+        maxProfitPercent > 0
+          ? Math.min(
+              100,
+              Math.max(
+                4,
+                (Math.abs(item.avgProfitPercent) / maxProfitPercent) * 100
+              )
+            )
+          : 0;
+
+      // 전체 갯수 적용한 총값
+      const totalIngredientCost = Math.round(
+        item.ingredientCostPerItem * globalQty
+      );
+      const totalProfit = Math.round(item.profitPerItem * globalQty);
+
+      // 평균가 대비 % 표시 (부호 포함)
+      const avgSign = item.avgPricePercent >= 0 ? "+" : "";
+      const avgArrow =
+        item.avgPricePercent > 0 ? "▲" : item.avgPricePercent < 0 ? "▼" : "—";
+      const avgClass =
+        Math.abs(item.avgPricePercent) < 0.1
+          ? "flat"
+          : item.avgPricePercent > 0
+          ? "up"
+          : "down";
+
+      // 최저가 대비 % 표시
+      const minSign = item.minPricePercent >= 0 ? "+" : "";
+      const minArrow =
+        item.minPricePercent > 0 ? "▲" : item.minPricePercent < 0 ? "▼" : "—";
+      const minClass =
+        Math.abs(item.minPricePercent) < 0.1
+          ? "flat"
+          : item.minPricePercent > 0
+          ? "up"
+          : "down";
+
+      // 수익률 클래스
+      const profitClass =
+        item.profitPerItem > 0
+          ? "profit-positive"
+          : item.profitPerItem < 0
+          ? "profit-negative"
+          : "profit-neutral";
+
+      // 등급별 클래스 (1위, 2위, 3위)
+      const rankClass =
+        rank === 0
+          ? "rank-top1"
+          : rank === 1
+          ? "rank-top2"
+          : rank === 2
+          ? "rank-top3"
+          : "";
+
+      // 메달 아이콘
+      const medalIcon =
+        rank === 0 ? "🥇" : rank === 1 ? "🥈" : rank === 2 ? "🥉" : "";
+      const medalClass =
+        rank === 0
+          ? "gold"
+          : rank === 1
+          ? "silver"
+          : rank === 2
+          ? "bronze"
+          : "";
+
+      return `
+      <div class="cooking-rank-item ${rankClass}" data-index="${item.index}">
+        ${
+          medalIcon
+            ? `<div class="rank-medal ${medalClass}">${medalIcon}</div>`
+            : ""
+        }
+        <div class="rank-content">
+          <div class="rank-badge-wrapper">
+            <span class="grade-badge ${item.grade}" data-text="${item.grade}">${
+        item.grade
+      }</span>
+          </div>
+          <div class="rank-header">
+            <div class="rank-header-left">
+              ${
+                item.image
+                  ? `<img src="${item.image}" alt="${item.name}" class="rank-item-icon"/>`
+                  : ""
+              }
+              <div class="rank-name">${item.name}</div>
+            </div>
+            <div class="rank-profit ${
+              item.profitPerItem < 0 ? "negative" : ""
+            }">
+              수익 ${formatNumber(item.profitPerItem)} G
+              <small style="color:#6b7280;">(총 ${formatNumber(
+                totalProfit
+              )} G)</small>
+            </div>
+          </div>
+          <div class="rank-kv">
+            <span class="rank-price">현재 가격 : ${formatNumber(
+              item.currentPrice
+            )} G</span>
+            <span class="rank-cost">재료비 : ${formatNumber(
+              item.ingredientCostPerItem
+            )} G
+              <small style="color:#6b7280;">(총 ${formatNumber(
+                totalIngredientCost
+              )} G)</small>
+            </span>
+          </div>
+          <div class="rank-kv">
+            <span class="rank-range">가격 범위 : ${formatNumber(
+              item.minPrice
+            )} ~ ${formatNumber(item.maxPrice)} G</span>
+            <span class="rank-avg">평균가 : ${formatNumber(
+              item.avgPrice
+            )} G</span>
+          </div>
+          <div class="rank-delta-wrapper">
+            <span class="rank-delta ${avgClass}">평균가 대비 ${avgArrow} ${avgSign}${Math.abs(
+        item.avgPricePercent
+      ).toFixed(1)}% <small class="rank-meta">(평균가 ${formatNumber(
+        item.avgPrice
+      )} G)</small></span>
+          </div>
+          <div class="rank-details">
+            <div class="detail-row"><b>레시피</b> — ${item.recipe}</div>
+          </div>
+        </div>
+      </div>
+    `;
+    })
+    .join("");
+
+  // 토글 기능 제거 - 기본적으로 모든 내용 표시
+  // global quantity 입력 변화 감지 리스너가 없으면 추가
+  const qtyInput = document.getElementById("globalCookingQuantity");
+  if (qtyInput && !qtyInput.dataset.listenerAttached) {
+    qtyInput.addEventListener("input", () => {
+      // 최소 1로 보정
+      if (!qtyInput.value || Number(qtyInput.value) < 1) qtyInput.value = "1";
+      updateCookingRankingList();
+    });
+    qtyInput.dataset.listenerAttached = "1";
+  }
+}
+// ...existing code...// ...existing code...
+function updateCookingRankingList() {
+  const listContainer = document.getElementById("cookingRankingList");
+  if (!listContainer) return;
+
+  // 읽어올 전체 갯수 (기본 1)
+  const globalQty = Math.max(
+    1,
+    parseInt(document.getElementById("globalCookingQuantity")?.value || "1", 10)
+  );
+
+  // 요리 아이템 평탄화
+  let cookingData = [];
+  if (
+    typeof regionData.grindel.cooking === "object" &&
+    !Array.isArray(regionData.grindel.cooking)
+  ) {
+    Object.values(regionData.grindel.cooking).forEach((category) => {
+      cookingData.push(...category);
+    });
+  } else {
+    cookingData = regionData.grindel.cooking;
+  }
+
+  loadCookingPrices();
+  const savedPrices = cookingPriceStore;
+
+  // 각 요리의 효율 계산
+  const cookingItems = cookingData.map((item, idx) => {
+    const priceRange = item.price
+      .split("-")
+      .map((p) => parseInt(p.replace(/,/g, "")));
+    const minPrice = priceRange[0];
+    const maxPrice = priceRange[1];
+    const avgPrice = Math.round((minPrice + maxPrice) / 2);
+
+    const currentPrice = savedPrices[item.name] || avgPrice;
+
+    // 베이스 가격 설정 가져오기 (쿠키에서 불러오기)
+    loadBasePrices();
+    const tomatoPrice = parseFloat(basePriceStore.tomatoPrice || 0);
+    const onionPrice = parseFloat(basePriceStore.onionPrice || 0);
+    const garlicPrice = parseFloat(basePriceStore.garlicPrice || 0);
+
+    const includeTomato =
+      document.getElementById("includeTomato")?.checked || false;
+    const includeOnion =
+      document.getElementById("includeOnion")?.checked || false;
+    const includeGarlic =
+      document.getElementById("includeGarlic")?.checked || false;
+
+    // 베이스 가격 계산 (기존 베이스 가격을 빼고 새로운 가격 추가)
+    let baseCostAdjustment = 0;
+    const recipe = item.recipe || "";
+
+    // 토마토 베이스 처리
+    if (includeTomato && recipe.includes("토마토 베이스")) {
+      const tomatoBaseMatches = recipe.match(/토마토 베이스 (\d+)개/g);
+      if (tomatoBaseMatches) {
+        let totalTomatoCount = 0;
+        tomatoBaseMatches.forEach((match) => {
+          const count = parseInt(match.match(/(\d+)개/)[1]);
+          totalTomatoCount += count;
+        });
+        const originalTomatoCost = 56 * totalTomatoCount;
+        const newTomatoCost = tomatoPrice * totalTomatoCount;
+        baseCostAdjustment += newTomatoCost - originalTomatoCost;
+      }
+    }
+
+    // 양파 베이스 처리
+    if (includeOnion && recipe.includes("양파 베이스")) {
+      const onionBaseMatches = recipe.match(/양파 베이스 (\d+)개/g);
+      if (onionBaseMatches) {
+        let totalOnionCount = 0;
+        onionBaseMatches.forEach((match) => {
+          const count = parseInt(match.match(/(\d+)개/)[1]);
+          totalOnionCount += count;
+        });
+        const originalOnionCost = 88 * totalOnionCount;
+        const newOnionCost = onionPrice * totalOnionCount;
+        baseCostAdjustment += newOnionCost - originalOnionCost;
+      }
+    }
+
+    // 마늘 베이스 처리
+    if (includeGarlic && recipe.includes("마늘 베이스")) {
+      const garlicBaseMatches = recipe.match(/마늘 베이스 (\d+)개/g);
+      if (garlicBaseMatches) {
+        let totalGarlicCount = 0;
+        garlicBaseMatches.forEach((match) => {
+          const count = parseInt(match.match(/(\d+)개/)[1]);
+          totalGarlicCount += count;
+        });
+        const originalGarlicCost = 56 * totalGarlicCount;
+        const newGarlicCost = garlicPrice * totalGarlicCount;
+        baseCostAdjustment += newGarlicCost - originalGarlicCost;
+      }
+    }
+
+    // 재료 비용 계산 (개당)
+    const excludeMeatAndBundle =
+      document.getElementById("excludeMeatAndBundle")?.checked || false;
+    const ingredientCostInfo = computeTotalIngredientCost(item.recipe, {
+      excludeMeatAndBundle,
+    });
+    const ingredientCostPerItem = ingredientCostInfo.total + baseCostAdjustment;
+
+    // 수익 계산 (개당)
+    const profitPerItem = currentPrice - ingredientCostPerItem;
+    const profitRatio =
+      ingredientCostPerItem > 0
+        ? (profitPerItem / ingredientCostPerItem) * 100
+        : 0;
+
+    // 최저가 대비 %
+    const minPricePercent = ((currentPrice - minPrice) / minPrice) * 100;
+
+    // 평균가 대비 %
+    const avgPricePercent = ((currentPrice - avgPrice) / avgPrice) * 100;
+
+    // 평균가 대비 수익 % 계산
+    const avgProfitPercent =
+      avgPrice > 0 ? ((currentPrice - avgPrice) / avgPrice) * 100 : 0;
+
+    return {
+      ...item,
+      index: idx,
+      minPrice,
+      maxPrice,
+      avgPrice,
+      currentPrice,
+      ingredientCostPerItem,
+      profitPerItem,
+      profitRatio,
+      minPricePercent,
+      avgPricePercent,
+      avgProfitPercent,
+    };
+  });
+
+  // 평균가 대비 수익 % 기준으로 정렬 (높은 것부터)
+  cookingItems.sort((a, b) => b.avgProfitPercent - a.avgProfitPercent);
+
+  // 최고 수익률 (프로그레스 바 계산용)
+  const maxProfitPercent = Math.max(
+    ...cookingItems.map((item) => Math.abs(item.avgProfitPercent))
+  );
+
+  listContainer.innerHTML = cookingItems
+    .map((item, rank) => {
+      const barPercent =
+        maxProfitPercent > 0
+          ? Math.min(
+              100,
+              Math.max(
+                4,
+                (Math.abs(item.avgProfitPercent) / maxProfitPercent) * 100
+              )
+            )
+          : 0;
+
+      // 전체 갯수 적용한 총값
+      const totalIngredientCost = Math.round(
+        item.ingredientCostPerItem * globalQty
+      );
+      const totalProfit = Math.round(item.profitPerItem * globalQty);
+
+      // 평균가 대비 % 표시 (부호 포함)
+      const avgSign = item.avgPricePercent >= 0 ? "+" : "";
+      const avgArrow =
+        item.avgPricePercent > 0 ? "▲" : item.avgPricePercent < 0 ? "▼" : "—";
+      const avgClass =
+        Math.abs(item.avgPricePercent) < 0.1
+          ? "flat"
+          : item.avgPricePercent > 0
+          ? "up"
+          : "down";
+
+      // 최저가 대비 % 표시
+      const minSign = item.minPricePercent >= 0 ? "+" : "";
+      const minArrow =
+        item.minPricePercent > 0 ? "▲" : item.minPricePercent < 0 ? "▼" : "—";
+      const minClass =
+        Math.abs(item.minPricePercent) < 0.1
+          ? "flat"
+          : item.minPricePercent > 0
+          ? "up"
+          : "down";
+
+      // 수익률 클래스
+      const profitClass =
+        item.profitPerItem > 0
+          ? "profit-positive"
+          : item.profitPerItem < 0
+          ? "profit-negative"
+          : "profit-neutral";
+
+      // 등급별 클래스 (1위, 2위, 3위)
+      const rankClass =
+        rank === 0
+          ? "rank-top1"
+          : rank === 1
+          ? "rank-top2"
+          : rank === 2
+          ? "rank-top3"
+          : "";
+
+      // 메달 아이콘
+      const medalIcon =
+        rank === 0 ? "🥇" : rank === 1 ? "🥈" : rank === 2 ? "🥉" : "";
+      const medalClass =
+        rank === 0
+          ? "gold"
+          : rank === 1
+          ? "silver"
+          : rank === 2
+          ? "bronze"
+          : "";
+
+      return `
+      <div class="cooking-rank-item ${rankClass}" data-index="${item.index}">
+        ${
+          medalIcon
+            ? `<div class="rank-medal ${medalClass}">${medalIcon}</div>`
+            : ""
+        }
+        <div class="rank-content">
+          <div class="rank-badge-wrapper">
+            <span class="grade-badge ${item.grade}" data-text="${item.grade}">${
+        item.grade
+      }</span>
+          </div>
+          <div class="rank-header">
+            <div class="rank-header-left">
+              ${
+                item.image
+                  ? `<img src="${item.image}" alt="${item.name}" class="rank-item-icon"/>`
+                  : ""
+              }
+              <div class="rank-name">${item.name}</div>
+            </div>
+            <div class="rank-profit ${
+              item.profitPerItem < 0 ? "negative" : ""
+            }">
+              수익 ${formatNumber(item.profitPerItem)} G
+              <small style="color:#6b7280;">(총 ${formatNumber(
+                totalProfit
+              )} G)</small>
+            </div>
+          </div>
+          <div class="rank-kv">
+            <span class="rank-price">현재 가격 : ${formatNumber(
+              item.currentPrice
+            )} G</span>
+            <span class="rank-cost">재료비 : ${formatNumber(
+              item.ingredientCostPerItem
+            )} G
+              <small style="color:#6b7280;">(총 ${formatNumber(
+                totalIngredientCost
+              )} G)</small>
+            </span>
+          </div>
+          <div class="rank-kv">
+            <span class="rank-range">가격 범위 : ${formatNumber(
+              item.minPrice
+            )} ~ ${formatNumber(item.maxPrice)} G</span>
+            <span class="rank-avg">평균가 : ${formatNumber(
+              item.avgPrice
+            )} G</span>
+          </div>
+          <div class="rank-delta-wrapper">
+            <span class="rank-delta ${avgClass}">평균가 대비 ${avgArrow} ${avgSign}${Math.abs(
+        item.avgPricePercent
+      ).toFixed(1)}% <small class="rank-meta">(평균가 ${formatNumber(
+        item.avgPrice
+      )} G)</small></span>
+          </div>
+          <div class="rank-details">
+            <div class="detail-row"><b>레시피</b> — ${item.recipe}</div>
+          </div>
+        </div>
+      </div>
+    `;
+    })
+    .join("");
+
+  // 토글 기능 제거 - 기본적으로 모든 내용 표시
+  // global quantity 입력 변화 감지 리스너가 없으면 추가
+  const qtyInput = document.getElementById("globalCookingQuantity");
+  if (qtyInput && !qtyInput.dataset.listenerAttached) {
+    qtyInput.addEventListener("input", () => {
+      // 최소 1로 보정
+      if (!qtyInput.value || Number(qtyInput.value) < 1) qtyInput.value = "1";
+      updateCookingRankingList();
+    });
+    qtyInput.dataset.listenerAttached = "1";
+  }
+}
+// ...existing code...// 지역별 상품 데이터 (JSON에서 로드)
 let regionData = {};
 let ingredientDetails = {};
 let expertiseData = {};
@@ -1014,7 +3107,7 @@ function renderWildTables(categorizedData) {
   renderCategorizedTables(categorizedData, "판매 가격");
 }
 
-// 판매 섹션 카테고리별 테이블 렌더링 (카이/로니 등)
+// 판매 섹션 카테고리별 테이블 렌더링 (카이/로니/샤키 등)
 function renderSellTables(categorizedData) {
   renderCategorizedTables(categorizedData, "판매 가격");
 }
@@ -1926,219 +4019,6 @@ function formatNumber(n) {
   return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-// 검색 함수는 search.js로 이동
-/* function searchProducts() {
-  const searchTerm = (floatingSearchInput.value || "").toLowerCase().trim();
-
-  if (searchTerm === "") {
-    updateHeader(false); // 검색이 아닐 때
-    collectionInfo.style.display = "none"; // 컬랙션북 안내 숨기기
-    renderTable(getCurrentProducts());
-    return;
-  }
-
-  updateHeader(true); // 검색 중일 때
-
-  let allProducts = [];
-
-  // 모든 검색에서 요리와 컬랙션북 아이템도 포함
-  const allCollectionItems = [
-    ...regionData.collection.blocks.map((item) => ({
-      ...item,
-      isCollection: true,
-    })),
-    ...regionData.collection.nature.map((item) => ({
-      ...item,
-      isCollection: true,
-    })),
-    ...regionData.collection.loot.map((item) => ({
-      ...item,
-      isCollection: true,
-    })),
-    ...regionData.collection.collectibles.map((item) => ({
-      ...item,
-      isCollection: true,
-    })),
-  ];
-
-  // 요리 아이템 평탄화 (타입 및 카테고리 정보 추가)
-  const allCookingItems = [];
-  if (
-    regionData.grindel.cooking &&
-    typeof regionData.grindel.cooking === "object"
-  ) {
-    Object.entries(regionData.grindel.cooking).forEach(
-      ([categoryName, category]) => {
-        const itemsWithType = category.map((item) => ({
-          ...item,
-          itemType: "cooking",
-          categoryName: categoryName,
-        }));
-        allCookingItems.push(...itemsWithType);
-      }
-    );
-  }
-
-  // 야생 지역 아이템 평탄화 (카테고리 정보 추가)
-  const wildItems = [];
-  if (regionData.wild && typeof regionData.wild === "object") {
-    Object.entries(regionData.wild).forEach(([categoryName, category]) => {
-      const itemsWithCategory = category.map((item) => ({
-        ...item,
-        categoryName: categoryName,
-      }));
-      wildItems.push(...itemsWithCategory);
-    });
-  }
-
-  // 가공 아이템 평탄화 (카테고리 정보 추가)
-  const processItemsWithCategory = [];
-  if (
-    regionData.grindel.process &&
-    typeof regionData.grindel.process === "object"
-  ) {
-    Object.entries(regionData.grindel.process).forEach(
-      ([categoryName, category]) => {
-        const itemsWithCategory = category.map((item) => ({
-          ...item,
-          categoryName: categoryName,
-        }));
-        processItemsWithCategory.push(...itemsWithCategory);
-      }
-    );
-  }
-
-  // 판매 아이템 (카테고리 구조 또는 배열 모두 지원)
-  const sellItems = [];
-  if (regionData.grindel?.sell) {
-    if (Array.isArray(regionData.grindel.sell)) {
-      sellItems.push(
-        ...regionData.grindel.sell.map((item) => ({
-          ...item,
-          categoryName: "세레니티 - 판매",
-        }))
-      );
-    } else {
-      Object.entries(regionData.grindel.sell).forEach(([subCategory, arr]) => {
-        sellItems.push(
-          ...arr.map((item) => ({
-            ...item,
-            categoryName: `세레니티 - 판매 - ${subCategory}`,
-          }))
-        );
-      });
-    }
-  }
-
-  // 구매 아이템 (카테고리 구조 또는 배열 모두 지원)
-  const buyItems = [];
-  if (regionData.grindel?.buy) {
-    if (Array.isArray(regionData.grindel.buy)) {
-      buyItems.push(
-        ...regionData.grindel.buy.map((item) => ({
-          ...item,
-          categoryName: "세레니티 - 구매",
-        }))
-      );
-    } else {
-      Object.entries(regionData.grindel.buy).forEach(([subCategory, arr]) => {
-        buyItems.push(
-          ...arr.map((item) => ({
-            ...item,
-            categoryName: `세레니티 - 구매 - ${subCategory}`,
-          }))
-        );
-      });
-    }
-  }
-
-  // 강화 아이템 (카테고리 정보 추가)
-  const enhancementItems = (regionData.grindel?.enhancement || []).map(
-    (item) => ({
-      ...item,
-      categoryName: "세레니티 - 강화 - 로니",
-    })
-  );
-
-  // 모든 지역에서 항상 모든 섹션 검색
-  allProducts = [
-    ...wildItems,
-    ...sellItems,
-    ...buyItems,
-    ...processItemsWithCategory,
-    ...allCookingItems,
-    ...enhancementItems,
-    ...allCollectionItems,
-  ];
-
-  console.log("검색어:", searchTerm);
-  console.log("전체 상품 수:", allProducts.length);
-  console.log("판매 아이템:", sellItems.length);
-  console.log("구매 아이템:", buyItems.length);
-  console.log("가공 아이템:", processItemsWithCategory.length);
-  console.log("요리 아이템:", allCookingItems.length);
-  console.log("강화 아이템:", enhancementItems.length);
-  console.log("야생 아이템:", wildItems.length);
-  console.log("컬렉션 아이템:", allCollectionItems.length);
-
-  const filteredProducts = allProducts.filter((product) => {
-    const nameMatch = product.name.toLowerCase().includes(searchTerm);
-    const recipeText = (
-      product.recipe ||
-      product.ingredients ||
-      ""
-    ).toLowerCase();
-    const ingredientsMatch = recipeText.includes(searchTerm);
-    const priceText = String(product.price || "").toLowerCase();
-    const priceMatch = priceText.includes(searchTerm);
-    return nameMatch || ingredientsMatch || priceMatch;
-  });
-
-  console.log("필터링된 상품 수:", filteredProducts.length);
-  console.log(
-    "필터링된 상품들:",
-    filteredProducts.map((p) => p.name)
-  );
-
-  // 컬랙션북 아이템이 검색 결과에 있는지 확인
-  const hasCollectionItems = filteredProducts.some(
-    (product) => product.isCollection
-  );
-  collectionInfo.style.display = hasCollectionItems ? "block" : "none";
-
-  // 카테고리가 있는 아이템들을 그룹화
-  const hasCategorizedItems = filteredProducts.some(
-    (item) => item.categoryName
-  );
-
-  if (hasCategorizedItems) {
-    // 카테고리별로 그룹화
-    const categorized = {};
-    const uncategorized = [];
-
-    filteredProducts.forEach((item) => {
-      if (item.categoryName) {
-        if (!categorized[item.categoryName]) {
-          categorized[item.categoryName] = [];
-        }
-        categorized[item.categoryName].push(item);
-      } else {
-        uncategorized.push(item);
-      }
-    });
-
-    // 카테고리가 있으면 카테고리별로 렌더링, 없으면 일반 렌더링
-    if (Object.keys(categorized).length > 0) {
-      // 검색 결과임을 표시하기 위한 플래그 추가
-      renderTableWithCategories(categorized, uncategorized, true);
-    } else {
-      renderTable(filteredProducts);
-    }
-  } else {
-    renderTable(filteredProducts);
-  }
-} */
-
 // 현재 선택된 지역과 섹션의 데이터를 가져오는 함수
 function getCurrentProducts() {
   if (currentRegion === "wild") {
@@ -2317,7 +4197,7 @@ function showCollectionSections() {
 function showExpertiseSections() {
   sectionButtons.forEach((button) => {
     const section = button.dataset.section;
-    if (["gathering", "mining"].includes(section)) {
+    if (["gathering", "mining", "marine"].includes(section)) {
       button.style.display = "block";
     } else {
       button.style.display = "none";
@@ -2333,7 +4213,7 @@ function switchSection(section) {
   // 전문가 섹션일 때
   if (
     currentRegion === "expertise" &&
-    ["gathering", "mining"].includes(section)
+    ["gathering", "mining", "marine"].includes(section)
   ) {
     renderExpertise();
     return;
@@ -2711,14 +4591,14 @@ function renderCalculator() {
             <span class="grade-badge ${grade}" data-text="${grade}">${grade}</span>
           </h3>
           ${gradeItems
-      .map((item) => {
-        const saved = cookingPriceStore[item.name] ?? "";
+            .map((item) => {
+              const saved = cookingPriceStore[item.name] ?? "";
               const priceRange = item.price
                 .split("-")
                 .map((p) => parseInt(p.replace(/,/g, "")));
               const minPrice = priceRange[0];
               const maxPrice = priceRange[1];
-        return `
+              return `
               <div class="vault-input-row">
                 <label>
                   ${
@@ -2787,57 +4667,65 @@ function renderCalculator() {
               </svg>
             </button>
     </div>
-          <div class="settings-dropdown" id="settingsDropdown">
-            <div class="settings-content">
-              <div class="settings-header">
-                <h4>베이스 가격 설정</h4>
-                <button class="reset-base-btn" id="resetBaseBtn" title="베이스 가격 초기화">초기화</button>
-              </div>
-              <div class="base-price-inputs">
-                <div class="input-group">
-                  <label>토마토 (개당)</label>
-                  <input type="number" id="tomatoPrice" placeholder="가격 입력" min="0" />
-                </div>
-                <div class="input-group">
-                  <label>양파 (개당)</label>
-                  <input type="number" id="onionPrice" placeholder="가격 입력" min="0" />
-                </div>
-                <div class="input-group">
-                  <label>마늘 (개당)</label>
-                  <input type="number" id="garlicPrice" placeholder="가격 입력" min="0" />
-                </div>
-              </div>
-              <div class="checkbox-group">
-                <label class="checkbox-item">
-                  <input type="checkbox" id="includeTomato" />
-                  <span class="checkmark"></span>
-                  토마토 포함
-                </label>
-                <label class="checkbox-item">
-                  <input type="checkbox" id="includeOnion" />
-                  <span class="checkmark"></span>
-                  양파 포함
-                </label>
-                <label class="checkbox-item">
-                  <input type="checkbox" id="includeGarlic" />
-                  <span class="checkmark"></span>
-                  마늘 포함
-                </label>
-                <label class="checkbox-item">
-                  <input type="checkbox" id="includeAll" />
-                  <span class="checkmark"></span>
-                  전체 적용
-                </label>
-              </div>
-              <div class="checkbox-group" style="margin-top: 16px; border-top: 1px solid #e2e8f0; padding-top: 12px;">
-                <label class="checkbox-item">
-                  <input type="checkbox" id="excludeMeatAndBundle" />
-                  <span class="checkmark"></span>
-                  고기 및 바닐라 작물 비용 제외
-                </label>
-              </div>
-            </div>
+
+    <!-- 추가: 전체 갯수 입력 (랭킹 전체에 적용) -->
+    <div class="ranking-controls" style="margin:8px 0 12px 0;">
+      <label style="font-weight:600; margin-right:8px;">요리 갯수</label>
+      <input id="globalCookingQuantity" type="number" min="1" value="1" style="width:80px;padding:6px;border-radius:6px;border:1px solid #d1d5db;" />
+      <span style="margin-left:12px;color:#6b7280;font-size:13px;">입력한 갯수로 총 재료비·총 이익이 계산됩니다.</span>
+    </div>
+
+    <div class="settings-dropdown" id="settingsDropdown">
+      <div class="settings-content">
+        <div class="settings-header">
+          <h4>베이스 가격 설정</h4>
+          <button class="reset-base-btn" id="resetBaseBtn" title="베이스 가격 초기화">초기화</button>
+        </div>
+        <div class="base-price-inputs">
+          <div class="input-group">
+            <label>토마토 (개당)</label>
+            <input type="number" id="tomatoPrice" placeholder="가격 입력" min="0" />
           </div>
+          <div class="input-group">
+            <label>양파 (개당)</label>
+            <input type="number" id="onionPrice" placeholder="가격 입력" min="0" />
+          </div>
+          <div class="input-group">
+            <label>마늘 (개당)</label>
+            <input type="number" id="garlicPrice" placeholder="가격 입력" min="0" />
+          </div>
+        </div>
+        <div class="checkbox-group">
+          <label class="checkbox-item">
+            <input type="checkbox" id="includeTomato" />
+            <span class="checkmark"></span>
+            토마토 포함
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" id="includeOnion" />
+            <span class="checkmark"></span>
+            양파 포함
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" id="includeGarlic" />
+            <span class="checkmark"></span>
+            마늘 포함
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" id="includeAll" />
+            <span class="checkmark"></span>
+            전체 적용
+          </label>
+        </div>
+        <div class="checkbox-group" style="margin-top: 16px; border-top: 1px solid #e2e8f0; padding-top: 12px;">
+          <label class="checkbox-item">
+            <input type="checkbox" id="excludeMeatAndBundle" />
+            <span class="checkmark"></span>
+            고기 및 바닐라 작물 비용 제외
+          </label>
+        </div>
+      </div>
+    </div>
           <div id="cookingRankingList" class="cooking-ranking-list">
             <!-- 요리 아이템들이 여기에 렌더링됩니다 -->
     </div>
@@ -3516,8 +5404,12 @@ function renderExpertise() {
   // 채집 전문가와 채광 전문가 배열 가져오기
   const gatheringExpertise = expertiseData.gatheringExpertise || [];
   const miningExpertise = expertiseData.miningExpertise || [];
-
-  if (gatheringExpertise.length === 0 && miningExpertise.length === 0) {
+  const marineExpertise = expertiseData.marineExpertise || [];
+  if (
+    gatheringExpertise.length === 0 &&
+    miningExpertise.length === 0 &&
+    marineExpertise.length === 0
+  ) {
     container.innerHTML = "<p class='no-results'>전문가 데이터가 없습니다.</p>";
     return;
   }
@@ -3527,6 +5419,8 @@ function renderExpertise() {
     renderExpertiseSection(gatheringExpertise, container);
   } else if (currentSection === "mining" && miningExpertise.length > 0) {
     renderExpertiseSection(miningExpertise, container);
+  } else if (currentSection === "marine" && marineExpertise.length > 0) {
+    renderExpertiseSection(marineExpertise, container);
   }
 }
 
@@ -3549,7 +5443,6 @@ function renderExpertiseSection(expertiseArray, container) {
           <th>요구 스킬 포인트</th>
           <th>필요 골드</th>
           <th>필요 어빌리티 스톤</th>
-          <th>확률</th>
         </tr>
       </thead>
       <tbody></tbody>
@@ -3567,7 +5460,6 @@ function renderExpertiseSection(expertiseArray, container) {
         <td class="expertise-points">${level.skillPoints}</td>
         <td class="price">${level.gold}</td>
         <td class="expertise-stone">${level.abilityStone}</td>
-        <td class="expertise-probability">${level.probability}</td>
       `;
       tbody.appendChild(row);
 
@@ -3575,7 +5467,7 @@ function renderExpertiseSection(expertiseArray, container) {
       const descriptionRow = document.createElement("tr");
       descriptionRow.classList.add("expertise-description-row");
       descriptionRow.innerHTML = `
-        <td colspan="5" class="expertise-description-display">${level.description}</td>
+        <td colspan="4" class="expertise-description-display">${level.description}</td>
       `;
       tbody.appendChild(descriptionRow);
     });
