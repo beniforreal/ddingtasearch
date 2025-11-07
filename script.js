@@ -2151,6 +2151,46 @@ function getCookie(name) {
 // ===== 베이스 가격 설정 저장소 (쿠키) =====
 let basePriceStore = {};
 
+// ===== 요리 가격 저장소 (쿠키) =====
+let cookingPriceStore = {};
+
+// ===== 한솥가득 레벨 저장소 (쿠키) =====
+let hansotLevelStore = 0;
+
+function loadHansotLevel() {
+  try {
+    const raw = getCookie("hansotLevel");
+    hansotLevelStore = raw ? parseInt(raw, 10) : 0;
+    if (
+      isNaN(hansotLevelStore) ||
+      hansotLevelStore < 0 ||
+      hansotLevelStore > 5
+    ) {
+      hansotLevelStore = 0;
+    }
+  } catch (_) {
+    hansotLevelStore = 0;
+  }
+}
+
+function saveHansotLevel() {
+  try {
+    setCookie("hansotLevel", String(hansotLevelStore));
+  } catch (_) {
+    /* ignore */
+  }
+}
+
+function setHansotLevel(level) {
+  const levelNum = parseInt(level, 10);
+  if (isNaN(levelNum) || levelNum < 0 || levelNum > 5) {
+    hansotLevelStore = 0;
+  } else {
+    hansotLevelStore = levelNum;
+  }
+  saveHansotLevel();
+}
+
 function loadBasePrices() {
   try {
     const raw = getCookie("basePrices");
@@ -4669,10 +4709,25 @@ function renderCalculator() {
     </div>
 
     <!-- 추가: 전체 갯수 입력 (랭킹 전체에 적용) -->
-    <div class="ranking-controls" style="margin:8px 0 12px 0;">
-      <label style="font-weight:600; margin-right:8px;">요리 갯수</label>
-      <input id="globalCookingQuantity" type="number" min="1" value="1" style="width:80px;padding:6px;border-radius:6px;border:1px solid #d1d5db;" />
-      <span style="margin-left:12px;color:#6b7280;font-size:13px;">입력한 갯수로 총 재료비·총 이익이 계산됩니다.</span>
+    <div class="ranking-controls">
+      <div class="ranking-controls-row">
+        <div class="ranking-control-item">
+          <label>요리 갯수</label>
+          <input id="globalCookingQuantity" type="number" min="1" value="1" class="ranking-input" />
+        </div>
+        <div class="ranking-control-item">
+          <label>한솥가득</label>
+          <select id="hansotLevelSelect" class="ranking-select">
+            <option value="0">없음</option>
+            <option value="1">레벨 1</option>
+            <option value="2">레벨 2</option>
+            <option value="3">레벨 3</option>
+            <option value="4">레벨 4</option>
+            <option value="5">레벨 5</option>
+          </select>
+        </div>
+      </div>
+      <span class="ranking-note">입력한 갯수로 총 재료비·총 이익이 계산됩니다. (3세트 판매 시 한솥가득 보너스 적용)</span>
     </div>
 
     <div class="settings-dropdown" id="settingsDropdown">
@@ -4875,6 +4930,43 @@ function renderCalculator() {
     });
   });
 
+  // 한솥가득 레벨 로드 및 설정
+  loadHansotLevel();
+  const hansotSelect = rankingDiv.querySelector("#hansotLevelSelect");
+  const qtyInput = rankingDiv.querySelector("#globalCookingQuantity");
+  if (hansotSelect) {
+    hansotSelect.value = String(hansotLevelStore);
+    // 한솥가득 레벨이 선택되어 있고 갯수가 1이면 기본값을 192로 설정
+    if (
+      hansotLevelStore > 0 &&
+      qtyInput &&
+      parseInt(qtyInput.value || "1", 10) === 1
+    ) {
+      qtyInput.value = "192";
+    }
+    hansotSelect.addEventListener("change", () => {
+      const selectedLevel = parseInt(hansotSelect.value, 10);
+      setHansotLevel(hansotSelect.value);
+      // 한솥가득 레벨이 선택되었고 갯수가 1이면 기본값을 192로 설정
+      if (
+        selectedLevel > 0 &&
+        qtyInput &&
+        parseInt(qtyInput.value || "1", 10) === 1
+      ) {
+        qtyInput.value = "192";
+      }
+      // 한솥가득 레벨이 없음으로 변경되었고 갯수가 192이면 기본값을 1로 설정
+      else if (
+        selectedLevel === 0 &&
+        qtyInput &&
+        parseInt(qtyInput.value || "1", 10) === 192
+      ) {
+        qtyInput.value = "1";
+      }
+      updateCookingRankingList();
+    });
+  }
+
   // 초기 리스트 렌더링
   updateCookingRankingList();
 }
@@ -4882,6 +4974,17 @@ function renderCalculator() {
 function updateCookingRankingList() {
   const listContainer = document.getElementById("cookingRankingList");
   if (!listContainer) return;
+
+  // 읽어올 전체 갯수 (기본 1)
+  const globalQty = Math.max(
+    1,
+    parseInt(document.getElementById("globalCookingQuantity")?.value || "1", 10)
+  );
+
+  // 한솥가득 레벨 로드
+  loadHansotLevel();
+  const hansotBonusPerSet = [0, 1, 2, 3, 4, 7]; // 레벨별 보너스 개수 (0레벨=없음)
+  const setsCount = Math.floor(globalQty / 192); // 3세트 = 192개
 
   // 요리 아이템 평탄화
   let cookingData = [];
@@ -5038,6 +5141,16 @@ function updateCookingRankingList() {
             )
           : 0;
 
+      // 한솥가득 보너스 계산
+      const hansotBonus = hansotBonusPerSet[hansotLevelStore] * setsCount;
+      const hansotBonusProfit = hansotBonus * item.currentPrice;
+
+      // 전체 갯수 적용한 총값
+      const totalIngredientCost = Math.round(item.ingredientCost * globalQty);
+      const totalProfit = Math.round(
+        item.profit * globalQty + hansotBonusProfit
+      );
+
       // 평균가 대비 % 표시 (부호 포함)
       const avgSign = item.avgPricePercent >= 0 ? "+" : "";
       const avgArrow =
@@ -5110,18 +5223,29 @@ function updateCookingRankingList() {
                   ? `<img src="${item.image}" alt="${item.name}" class="rank-item-icon"/>`
                   : ""
               }
-              <div class="rank-name">${item.name}</div>
+              <div class="rank-name">${item.name}</div> 
             </div>
-            <div class="rank-profit ${
-              item.profit < 0 ? "negative" : ""
-            }">수익 ${formatNumber(item.profit)} G</div>
+            <div class="rank-profit ${totalProfit < 0 ? "negative" : ""}">
+              수익 ${formatNumber(totalProfit)} G
+              ${
+                hansotBonusProfit > 0
+                  ? ` <small style="color:#6b7280;">(보너스 : +${formatNumber(
+                      hansotBonusProfit
+                    )} G)</small>`
+                  : ""
+              }
+            </div>
           </div>
           <div class="rank-kv">
             <span class="rank-price">현재 가격 : ${formatNumber(
-              item.currentPrice
-            )} G</span>
+              item.currentPrice * globalQty + hansotBonusProfit
+            )} G${
+        hansotBonus > 0
+          ? ` <small style="color:#6b7280;">(보너스 +${hansotBonus}개)</small>`
+          : ""
+      }</span>
             <span class="rank-cost">재료비 : ${formatNumber(
-              item.ingredientCost
+              totalIngredientCost
             )} G</span>
           </div>
           <div class="rank-kv">
@@ -5148,7 +5272,16 @@ function updateCookingRankingList() {
     })
     .join("");
 
-  // 토글 기능 제거 - 기본적으로 모든 내용 표시
+  // global quantity 입력 변화 감지 리스너가 없으면 추가
+  const qtyInput = document.getElementById("globalCookingQuantity");
+  if (qtyInput && !qtyInput.dataset.listenerAttached) {
+    qtyInput.addEventListener("input", () => {
+      // 최소 1로 보정
+      if (!qtyInput.value || Number(qtyInput.value) < 1) qtyInput.value = "1";
+      updateCookingRankingList();
+    });
+    qtyInput.dataset.listenerAttached = "1";
+  }
 }
 
 function showCalculationArea(index, item) {
