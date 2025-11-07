@@ -136,24 +136,38 @@
       "levels": [
         {
           "level": 1,
-          "description": "요리 제작 시간이 10% 감소합니다. 제작 시작 시 자동 적용됩니다.",
+          "description": "농작물 가공과 요리 제작 시설의 제작 시간이 10% 감소합니다.",
           "skillPoints": "10 Point",
           "gold": "10,000 G",
           "abilityStone": "20개"
         },
         {
           "level": 2,
-          "description": "요리 제작 시간이 50% 감소합니다. 제작 시작 시 자동 적용됩니다.",
+          "description": "농작물 가공과 요리 제작 시설의 제작 시간이 30% 감소합니다.",
           "skillPoints": "30 Point",
           "gold": "1,000,000 G",
           "abilityStone": "60개"
         },
         {
           "level": 3,
-          "description": "요리 제작 시간이 70% 감소합니다. 제작 시작 시 자동 적용됩니다.",
+          "description": "농작물 가공과 요리 제작 시설의 제작 시간이 40% 감소합니다.",
           "skillPoints": "50 Point",
           "gold": "3,000,000 G",
           "abilityStone": "100개"
+        },
+        {
+          "level": 4,
+          "description": "농작물 가공과 요리 제작 시설의 제작 시간이 60% 감소합니다.",
+          "skillPoints": "70 Point",
+          "gold": "5,000,000 G",
+          "abilityStone": "140개"
+        },
+        {
+          "level": 5,
+          "description": "농작물 가공과 요리 제작 시설의 제작 시간이 80% 감소합니다.",
+          "skillPoints": "100 Point",
+          "gold": "7,000,000 G",
+          "abilityStone": "200개"
         }
       ]
     },
@@ -191,42 +205,42 @@
         },
         {
           "level": 5,
-          "description": "아일랜드에서 채집 시 5% 확률로 씨앗 1개를 추가 드롭합니다.",
+          "description": "아일랜드에서 채집 시 5% 확률로 씨앗 2개를 추가 드롭합니다.",
           "skillPoints": "15 Point",
           "gold": "100,000 G",
           "abilityStone": "30개"
         },
         {
           "level": 6,
-          "description": "아일랜드에서 채집 시 6% 확률로 씨앗 1개를 추가 드롭합니다.",
+          "description": "아일랜드에서 채집 시 6% 확률로 씨앗 2개를 추가 드롭합니다.",
           "skillPoints": "25 Point",
           "gold": "250,000 G",
           "abilityStone": "50개"
         },
         {
           "level": 7,
-          "description": "아일랜드에서 채집 시 7% 확률로 씨앗 1개를 추가 드롭합니다.",
+          "description": "아일랜드에서 채집 시 7% 확률로 씨앗 3개를 추가 드롭합니다.",
           "skillPoints": "40 Point",
           "gold": "700,000 G",
           "abilityStone": "80개"
         },
         {
           "level": 8,
-          "description": "아일랜드에서 채집 시 8% 확률로 씨앗 2개를 추가 드롭합니다.",
+          "description": "아일랜드에서 채집 시 8% 확률로 씨앗 4개를 추가 드롭합니다.",
           "skillPoints": "50 Point",
           "gold": "1,500,000 G",
           "abilityStone": "100개"
         },
         {
           "level": 9,
-          "description": "아일랜드에서 채집 시 9% 확률로 씨앗 2개를 추가 드롭합니다.",
+          "description": "아일랜드에서 채집 시 9% 확률로 씨앗 5개를 추가 드롭합니다.",
           "skillPoints": "60 Point",
           "gold": "3,000,000 G",
           "abilityStone": "120개"
         },
         {
           "level": 10,
-          "description": "아일랜드에서 채집 시 10% 확률로 씨앗 3개를 추가 드롭합니다.",
+          "description": "아일랜드에서 채집 시 10% 확률로 씨앗 8개를 추가 드롭합니다.",
           "skillPoints": "100 Point",
           "gold": "7,000,000 G",
           "abilityStone": "200개"
@@ -283,7 +297,7 @@
           "level": 7,
           "description": "수확 시 10% 확률로 아일랜드 농작물 3개를 추가 드롭합니다.",
           "skillPoints": "150 Point",
-          "gold": "10,000,000 G",
+          "gold": "7,000,000 G",
           "abilityStone": "300개"
         }
       ]
@@ -304,28 +318,28 @@
           "description": "10초 간 과일을 한 번에 캘 수 있습니다. 손으로 쉬프트 우클릭하여 발동합니다.",
           "skillPoints": "3 Point",
           "gold": "100,000 G",
-          "abilityStone": "30개"
+          "abilityStone": "6개"
         },
         {
           "level": 3,
           "description": "20초 간 과일을 한 번에 캘 수 있습니다. 손으로 쉬프트 우클릭하여 발동합니다.",
           "skillPoints": "7 Point",
           "gold": "500,000 G",
-          "abilityStone": "100개"
+          "abilityStone": "14개"
         },
         {
           "level": 4,
           "description": "25초 간 과일을 한 번에 캘 수 있습니다. 손으로 쉬프트 우클릭하여 발동합니다.",
           "skillPoints": "15 Point",
           "gold": "2,000,000 G",
-          "abilityStone": "140개"
+          "abilityStone": "30개"
         },
         {
           "level": 5,
           "description": "30초 간 과일을 한 번에 캘 수 있습니다. 손으로 쉬프트 우클릭하여 발동합니다.",
           "skillPoints": "30 Point",
           "gold": "5,000,000 G",
-          "abilityStone": "200개"
+          "abilityStone": "60개"
         }
       ]
     },
@@ -335,37 +349,37 @@
       "levels": [
         {
           "level": 1,
-          "description": "음식을 한 번에 27세트 판매 시 1%의 보너스가 들어옵니다.",
+          "description": "음식을 한 번에 3세트 이상 판매 시 1%의 보너스가 들어옵니다.",
           "skillPoints": "1 Point",
           "gold": "5,000 G",
           "abilityStone": "2개"
         },
         {
           "level": 2,
-          "description": "음식을 한 번에 27세트 판매 시 2%의 보너스가 들어옵니다.",
+          "description": "음식을 한 번에 3세트 이상 판매 시 2%의 보너스가 들어옵니다.",
           "skillPoints": "15 Point",
           "gold": "150,000 G",
           "abilityStone": "30개"
         },
         {
           "level": 3,
-          "description": "음식을 한 번에 27세트 판매 시 3%의 보너스가 들어옵니다.",
-          "skillPoints": "5 Point",
+          "description": "음식을 한 번에 3세트 이상 판매 시 3%의 보너스가 들어옵니다.",
+          "skillPoints": "50 Point",
           "gold": "1,000,000 G",
           "abilityStone": "100개"
         },
         {
           "level": 4,
-          "description": "음식을 한 번에 27세트 판매 시 4%의 보너스가 들어옵니다.",
-          "skillPoints": "7 Point",
+          "description": "음식을 한 번에 3세트 이상 판매 시 4%의 보너스가 들어옵니다.",
+          "skillPoints": "70 Point",
           "gold": "10,000,000 G",
           "abilityStone": "140개"
         },
         {
           "level": 5,
-          "description": "음식을 한 번에 27세트 판매 시 7%의 보너스가 들어옵니다.",
+          "description": "음식을 한 번에 3세트 이상 판매 시 7%의 보너스가 들어옵니다.",
           "skillPoints": "100 Point",
-          "gold": "30,000,000 G",
+          "gold": "15,000,000 G",
           "abilityStone": "200개"
         }
       ]
@@ -376,72 +390,72 @@
       "levels": [
         {
           "level": 1,
-          "description": "요리 판매가가 1% 증가합니다. 상점에서 계산되어 보여집니다.",
+          "description": "요리 판매가가 1% 증가합니다. 상점과 무역에서 계산되어 보입니다.",
           "skillPoints": "1 Point",
           "gold": "10,000 G",
           "abilityStone": "2개"
         },
         {
           "level": 2,
-          "description": "요리 판매가가 2% 증가합니다. 상점에서 계산되어 보여집니다.",
+          "description": "요리 판매가가 2% 증가합니다. 상점과 무역에서 계산되어 보입니다.",
           "skillPoints": "3 Point",
           "gold": "30,000 G",
           "abilityStone": "6개"
         },
         {
           "level": 3,
-          "description": "요리 판매가가 3% 증가합니다. 상점에서 계산되어 보여집니다.",
+          "description": "요리 판매가가 3% 증가합니다. 상점과 무역에서 계산되어 보입니다.",
           "skillPoints": "7 Point",
           "gold": "50,000 G",
           "abilityStone": "14개"
         },
         {
           "level": 4,
-          "description": "요리 판매가가 4% 증가합니다. 상점에서 계산되어 보여집니다.",
+          "description": "요리 판매가가 4% 증가합니다. 상점과 무역에서 계산되어 보입니다.",
           "skillPoints": "15 Point",
           "gold": "300,000 G",
           "abilityStone": "30개"
         },
         {
           "level": 5,
-          "description": "요리 판매가가 5% 증가합니다. 상점에서 계산되어 보여집니다.",
+          "description": "요리 판매가가 5% 증가합니다. 상점과 무역에서 계산되어 보입니다.",
           "skillPoints": "30 Point",
           "gold": "1,000,000 G",
           "abilityStone": "60개"
         },
         {
           "level": 6,
-          "description": "요리 판매가가 6% 증가합니다. 상점에서 계산되어 보여집니다.",
+          "description": "요리 판매가가 6% 증가합니다. 상점과 무역에서 계산되어 보입니다.",
           "skillPoints": "50 Point",
           "gold": "2,000,000 G",
           "abilityStone": "100개"
         },
         {
           "level": 7,
-          "description": "요리 판매가가 7% 증가합니다. 상점에서 계산되어 보여집니다.",
+          "description": "요리 판매가가 10% 증가합니다. 상점과 무역에서 계산되어 보입니다.",
           "skillPoints": "60 Point",
           "gold": "3,000,000 G",
           "abilityStone": "120개"
         },
         {
           "level": 8,
-          "description": "요리 판매가가 10% 증가합니다. 상점에서 계산되어 보여집니다.",
+          "description": "요리 판매가가 15% 증가합니다. 상점과 무역에서 계산되어 보입니다.",
           "skillPoints": "70 Point",
           "gold": "5,000,000 G",
           "abilityStone": "140개"
         },
         {
           "level": 9,
-          "description": "요리 판매가가 20% 증가합니다. 상점에서 계산되어 보여집니다.",
+          "description": "요리 판매가가 30% 증가합니다. 상점과 무역에서 계산되어 보입니다.",
           "skillPoints": "80 Point",
           "gold": "10,000,000 G",
           "abilityStone": "160개"
         },
         {
           "level": 10,
-          "description": "요리 판매가가 30% 증가합니다. 상점에서 계산되어 보여집니다.",
+          "description": "요리 판매가가 50% 증가합니다. 상점과 무역에서 계산되어 보입니다.",
           "skillPoints": "100 Point",
-          "gold": "30,000,000 G",
+          "gold": "15,000,000 G",
           "abilityStone": "200개"
         }
       ]
@@ -475,7 +489,7 @@
           "level": 4,
           "description": "마을에서 수확 시 대왕 작물이 등장할 확률이 5%로 증가합니다.",
           "skillPoints": "50 Point",
-          "gold": "2,000,000 G",
+          "gold": "5,000,000 G",
           "abilityStone": "100개"
         }
       ]
@@ -486,73 +500,251 @@
       "levels": [
         {
           "level": 1,
-          "description": "마을에서 아일랜드 작물 수확 시 1% 확률로 씨앗을 드롭합니다.",
+          "description": "마을에서 수확 시 1% 확률로 아일랜드 씨앗을 드롭합니다.",
           "skillPoints": "1 Point",
           "gold": "5,000 G",
           "abilityStone": "2개"
         },
         {
           "level": 2,
-          "description": "마을에서 아일랜드 작물 수확 시 2% 확률로 씨앗을 드롭합니다.",
+          "description": "마을에서 수확 시 2% 확률로 아일랜드 씨앗을 드롭합니다.",
           "skillPoints": "2 Point",
           "gold": "15,000 G",
           "abilityStone": "4개"
         },
         {
           "level": 3,
-          "description": "마을에서 아일랜드 작물 수확 시 3% 확률로 씨앗을 드롭합니다.",
+          "description": "마을에서 수확 시 3% 확률로 아일랜드 씨앗을 드롭합니다.",
           "skillPoints": "5 Point",
           "gold": "30,000 G",
           "abilityStone": "10개"
         },
         {
           "level": 4,
-          "description": "마을에서 아일랜드 작물 수확 시 4% 확률로 씨앗을 드롭합니다.",
+          "description": "마을에서 수확 시 4% 확률로 아일랜드 씨앗을 드롭합니다.",
           "skillPoints": "8 Point",
           "gold": "50,000 G",
           "abilityStone": "16개"
         },
         {
           "level": 5,
-          "description": "마을에서 아일랜드 작물 수확 시 5% 확률로 씨앗을 드롭합니다.",
+          "description": "마을에서 수확 시 5% 확률로 아일랜드 씨앗을 드롭합니다.",
           "skillPoints": "15 Point",
           "gold": "100,000 G",
           "abilityStone": "30개"
         },
         {
           "level": 6,
-          "description": "마을에서 아일랜드 작물 수확 시 6% 확률로 씨앗을 드롭합니다.",
+          "description": "마을에서 수확 시 6% 확률로 아일랜드 씨앗을 드롭합니다.",
           "skillPoints": "25 Point",
           "gold": "250,000 G",
           "abilityStone": "50개"
         },
         {
           "level": 7,
-          "description": "마을에서 아일랜드 작물 수확 시 7% 확률로 씨앗을 드롭합니다.",
+          "description": "마을에서 수확 시 7% 확률로 아일랜드 씨앗을 드롭합니다.",
           "skillPoints": "40 Point",
           "gold": "1,000,000 G",
           "abilityStone": "80개"
         },
         {
           "level": 8,
-          "description": "마을에서 아일랜드 작물 수확 시 8% 확률로 씨앗을 드롭합니다.",
+          "description": "마을에서 수확 시 10% 확률로 아일랜드 씨앗을 드롭합니다.",
           "skillPoints": "80 Point",
           "gold": "3,000,000 G",
           "abilityStone": "160개"
         },
         {
           "level": 9,
-          "description": "마을에서 아일랜드 작물 수확 시 9% 확률로 씨앗을 드롭합니다.",
+          "description": "마을에서 수확 시 20% 확률로 아일랜드 씨앗을 드롭합니다.",
           "skillPoints": "100 Point",
           "gold": "5,000,000 G",
           "abilityStone": "200개"
         },
         {
           "level": 10,
-          "description": "마을에서 아일랜드 작물 수확 시 15% 확률로 씨앗을 드롭합니다.",
+          "description": "마을에서 수확 시 30% 확률로 아일랜드 씨앗을 드롭합니다.",
           "skillPoints": "150 Point",
           "gold": "7,000,000 G",
           "abilityStone": "300개"
+        }
+      ]
+    },
+    {
+      "icon": "🍳",
+      "name": "[아일랜드] 5성급 주방",
+      "levels": [
+        {
+          "level": 1,
+          "description": "요리 제작 시설의 총 대기 슬롯이 5개로 증가합니다.",
+          "skillPoints": "10 Point",
+          "gold": "10,000 G",
+          "abilityStone": "20개"
+        },
+        {
+          "level": 2,
+          "description": "요리 제작 시설의 총 대기 슬롯이 6개로 증가합니다.",
+          "skillPoints": "30 Point",
+          "gold": "500,000 G",
+          "abilityStone": "60개"
+        },
+        {
+          "level": 3,
+          "description": "요리 제작 시설의 총 대기 슬롯이 7개로 증가합니다.",
+          "skillPoints": "50 Point",
+          "gold": "1,000,000 G",
+          "abilityStone": "100개"
+        },
+        {
+          "level": 4,
+          "description": "요리 제작 시설의 총 대기 슬롯이 8개로 증가합니다.",
+          "skillPoints": "70 Point",
+          "gold": "3,000,000 G",
+          "abilityStone": "140개"
+        },
+        {
+          "level": 5,
+          "description": "요리 제작 시설의 총 대기 슬롯이 9개로 증가합니다.",
+          "skillPoints": "100 Point",
+          "gold": "5,000,000 G",
+          "abilityStone": "200개"
+        }
+      ]
+    },
+    {
+      "icon": "🐦‍🔥",
+      "name": "[아일랜드] 불붙은 괭이",
+      "levels": [
+        {
+          "level": 1,
+          "description": "채집 시 1% 확률로 씨앗이 베이스 1개로 가공되어 드롭합니다.",
+          "skillPoints": "1 Point",
+          "gold": "10,000 G",
+          "abilityStone": "2개"
+        },
+        {
+          "level": 2,
+          "description": "채집 시 2% 확률로 씨앗이 베이스 1개로 가공되어 드롭합니다.",
+          "skillPoints": "3 Point",
+          "gold": "30,000 G",
+          "abilityStone": "6개"
+        },
+        {
+          "level": 3,
+          "description": "채집 시 3% 확률로 씨앗이 베이스 2개로 가공되어 드롭합니다.",
+          "skillPoints": "7 Point",
+          "gold": "50,000 G",
+          "abilityStone": "14개"
+        },
+        {
+          "level": 4,
+          "description": "채집 시 4% 확률로 씨앗이 베이스 2개로 가공되어 드롭합니다.",
+          "skillPoints": "10 Point",
+          "gold": "300,000 G",
+          "abilityStone": "20개"
+        },
+        {
+          "level": 5,
+          "description": "채집 시 5% 확률로 씨앗이 베이스 2개로 가공되어 드롭합니다.",
+          "skillPoints": "20 Point",
+          "gold": "700,000 G",
+          "abilityStone": "40개"
+        },
+        {
+          "level": 6,
+          "description": "채집 시 6% 확률로 씨앗이 베이스 3개로 가공되어 드롭합니다.",
+          "skillPoints": "35 Point",
+          "gold": "1,000,000 G",
+          "abilityStone": "70개"
+        },
+        {
+          "level": 7,
+          "description": "채집 시 7% 확률로 씨앗이 베이스 3개로 가공되어 드롭합니다.",
+          "skillPoints": "70 Point",
+          "gold": "2,000,000 G",
+          "abilityStone": "140개"
+        },
+        {
+          "level": 8,
+          "description": "채집 시 8% 확률로 씨앗이 베이스 5개로 가공되어 드롭합니다.",
+          "skillPoints": "100 Point",
+          "gold": "3,000,000 G",
+          "abilityStone": "200개"
+        },
+        {
+          "level": 9,
+          "description": "채집 시 9% 확률로 씨앗이 베이스 5개로 가공되어 드롭합니다.",
+          "skillPoints": "120 Point",
+          "gold": "5,000,000 G",
+          "abilityStone": "240개"
+        },
+        {
+          "level": 10,
+          "description": "채집 시 15% 확률로 씨앗이 베이스 7개로 가공되어 드롭합니다.",
+          "skillPoints": "150 Point",
+          "gold": "7,000,000 G",
+          "abilityStone": "300개"
+        }
+      ]
+    },
+    {
+      "icon": "🪴",
+      "name": "[마을] 수확은 한방에!",
+      "levels": [
+        {
+          "level": 1,
+          "description": "아일랜드 농작물을 2x2 캡니다. 아일랜드 괭이를 들고 좌클릭합니다.",
+          "skillPoints": "50 Point",
+          "gold": "5,000,000 G",
+          "abilityStone": "100개"
+        },
+        {
+          "level": 2,
+          "description": "아일랜드 농작물을 3x3 캡니다. 아일랜드 괭이를 들고 좌클릭합니다.",
+          "skillPoints": "100 Point",
+          "gold": "10,000,000 G",
+          "abilityStone": "200개"
+        }
+      ]
+    },
+    {
+      "icon": "🪽",
+      "name": "[아일랜드] 가공의 신",
+      "levels": [
+        {
+          "level": 1,
+          "description": "농작물 가공 시설의 총 대기 슬롯이 5개로 증가합니다.",
+          "skillPoints": "10 Point",
+          "gold": "10,000 G",
+          "abilityStone": "20개"
+        },
+        {
+          "level": 2,
+          "description": "농작물 가공 시설의 총 대기 슬롯이 6개로 증가합니다.",
+          "skillPoints": "30 Point",
+          "gold": "500,000 G",
+          "abilityStone": "60개"
+        },
+        {
+          "level": 3,
+          "description": "농작물 가공 시설의 총 대기 슬롯이 7개로 증가합니다.",
+          "skillPoints": "50 Point",
+          "gold": "1,000,000 G",
+          "abilityStone": "100개"
+        },
+        {
+          "level": 4,
+          "description": "농작물 가공 시설의 총 대기 슬롯이 8개로 증가합니다.",
+          "skillPoints": "70 Point",
+          "gold": "3,000,000 G",
+          "abilityStone": "140개"
+        },
+        {
+          "level": 5,
+          "description": "농작물 가공 시설의 총 대기 슬롯이 9개로 증가합니다.",
+          "skillPoints": "100 Point",
+          "gold": "5,000,000 G",
+          "abilityStone": "200개"
         }
       ]
     },
@@ -588,37 +780,17 @@
           "abilityStone": "100개"
         },
         {
-          "level": 1,
+          "level": 2,
           "description": "농작물, 베이스 그리고 요리의 유통기한이 4일로 증가합니다.",
           "skillPoints": "70 Point",
           "gold": "10,000,000 G",
           "abilityStone": "140개"
         },
         {
-          "level": 2,
+          "level": 3,
           "description": "농작물, 베이스 그리고 요리의 유통기한이 5일로 증가합니다.",
           "skillPoints": "100 Point",
           "gold": "30,000,000 G",
-          "abilityStone": "200개"
-        }
-      ]
-    },
-    {
-      "icon": "🪴",
-      "name": "[마을] 수확은 한방에!",
-      "levels": [
-        {
-          "level": 1,
-          "description": "아일랜드 농작물을 2x2 캡니다. 아일랜드 괭이를 들고 좌클릭합니다.",
-          "skillPoints": "50 Point",
-          "gold": "5,000,000 G",
-          "abilityStone": "100개"
-        },
-        {
-          "level": 2,
-          "description": "아일랜드 농작물을 3x3 캡니다. 아일랜드 괭이를 들고 좌클릭합니다.",
-          "skillPoints": "100 Point",
-          "gold": "10,000,000 G",
           "abilityStone": "200개"
         }
       ]
@@ -742,49 +914,49 @@
       "levels": [
         {
           "level": 1,
-          "description": "아일랜드에서 채광 시 코비가 등장할 확률이 1%로 증가합니다.",
+          "description": "아일랜드에서 채광 시 코비가 등장할 확률이 1% 증가합니다.",
           "skillPoints": "1 Point",
           "gold": "5,000 G",
           "abilityStone": "2개"
         },
         {
           "level": 2,
-          "description": "아일랜드에서 채광 시 코비가 등장할 확률이 1.5%로 증가합니다.",
+          "description": "아일랜드에서 채광 시 코비가 등장할 확률이 1.5% 증가합니다.",
           "skillPoints": "3 Point",
           "gold": "10,000 G",
           "abilityStone": "6개"
         },
         {
           "level": 3,
-          "description": "아일랜드에서 채광 시 코비가 등장할 확률이 2%로 증가합니다.",
+          "description": "아일랜드에서 채광 시 코비가 등장할 확률이 2% 증가합니다.",
           "skillPoints": "7 Point",
           "gold": "300,000 G",
           "abilityStone": "14개"
         },
         {
           "level": 4,
-          "description": "아일랜드에서 채광 시 코비가 등장할 확률이 2.5%로 증가합니다.",
+          "description": "아일랜드에서 채광 시 코비가 등장할 확률이 2.5% 증가합니다.",
           "skillPoints": "15 Point",
           "gold": "1,000,000 G",
           "abilityStone": "30개"
         },
         {
           "level": 5,
-          "description": "아일랜드에서 채광 시 코비가 등장할 확률이 3%로 증가합니다.",
+          "description": "아일랜드에서 채광 시 코비가 등장할 확률이 3% 증가합니다.",
           "skillPoints": "30 Point",
           "gold": "2,000,000 G",
           "abilityStone": "60개"
         },
         {
           "level": 6,
-          "description": "아일랜드에서 채광 시 코비가 등장할 확률이 4%로 증가합니다.",
+          "description": "아일랜드에서 채광 시 코비가 등장할 확률이 4% 증가합니다.",
           "skillPoints": "50 Point",
           "gold": "3,000,000 G",
           "abilityStone": "100개"
         },
         {
           "level": 7,
-          "description": "아일랜드에서 채광 시 코비가 등장할 확률이 5%로 증가합니다.",
+          "description": "아일랜드에서 채광 시 코비가 등장할 확률이 5% 증가합니다.",
           "skillPoints": "70 Point",
           "gold": "5,000,000 G",
           "abilityStone": "140개"
@@ -797,38 +969,45 @@
       "levels": [
         {
           "level": 1,
-          "description": "주괴의 판매가가 5% 증가합니다. 상점에서 계산되어 보여집니다.",
+          "description": "주괴의 판매가가 5% 증가합니다. 상점과 무역에서 계산되어 보입니다.",
           "skillPoints": "1 Point",
           "gold": "5,000 G",
           "abilityStone": "2개"
         },
         {
           "level": 2,
-          "description": "주괴의 판매가가 7% 증가합니다. 상점에서 계산되어 보여집니다.",
+          "description": "주괴의 판매가가 7% 증가합니다. 상점과 무역에서 계산되어 보입니다.",
           "skillPoints": "3 Point",
           "gold": "15,000 G",
           "abilityStone": "6개"
         },
         {
           "level": 3,
-          "description": "주괴의 판매가가 10% 증가합니다. 상점에서 계산되어 보여집니다.",
+          "description": "주괴의 판매가가 10% 증가합니다. 상점과 무역에서 계산되어 보입니다.",
           "skillPoints": "5 Point",
           "gold": "200,000 G",
           "abilityStone": "10개"
         },
         {
           "level": 4,
-          "description": "주괴의 판매가가 20% 증가합니다. 상점에서 계산되어 보여집니다.",
+          "description": "주괴의 판매가가 20% 증가합니다. 상점과 무역에서 계산되어 보입니다.",
           "skillPoints": "30 Point",
           "gold": "1,000,000 G",
           "abilityStone": "60개"
         },
         {
           "level": 5,
-          "description": "주괴의 판매가가 30% 증가합니다. 상점에서 계산되어 보여집니다.",
+          "description": "주괴의 판매가가 30% 증가합니다. 상점과 무역에서 계산되어 보입니다.",
           "skillPoints": "60 Point",
           "gold": "5,000,000 G",
           "abilityStone": "120개"
+        },
+        {
+          "level": 6,
+          "description": "주괴의 판매가가 50% 증가합니다. 상점과 무역에서 계산되어 보입니다.",
+          "skillPoints": "80 Point",
+          "gold": "7,000,000 G",
+          "abilityStone": "160개"
         }
       ]
     },
@@ -845,14 +1024,14 @@
         },
         {
           "level": 2,
-          "description": "아일랜드에서 채광 시 7% 확률로 광석에 맞는 1개를 드롭합니다.",
+          "description": "아일랜드에서 채광 시 7% 확률로 광석에 맞는 보석을 1개를 드롭합니다.",
           "skillPoints": "30 Point",
           "gold": "1,000,000 G",
           "abilityStone": "60개"
         },
         {
           "level": 3,
-          "description": "아일랜드에서 채광 시 10% 확률로 광석에 맞는 2개를 드롭합니다.",
+          "description": "아일랜드에서 채광 시 10% 확률로 광석에 맞는 보석을 2개를 드롭합니다.",
           "skillPoints": "50 Point",
           "gold": "5,000,000 G",
           "abilityStone": "100개"
@@ -865,24 +1044,38 @@
       "levels": [
         {
           "level": 1,
-          "description": "주괴 제련 시간이 10% 감소합니다. 제작 시작 시 자동 적용됩니다.",
-          "skillPoints": "1 Point",
+          "description": "채광물 가공과 강화 제작 시설의 제작 시간이 10% 감소합니다. 제작 시작 시 자동 적용됩니다.",
+          "skillPoints": "10 Point",
           "gold": "5,000 G",
-          "abilityStone": "2개"
+          "abilityStone": "20개"
         },
         {
           "level": 2,
-          "description": "주괴 제련 시간이 30% 감소합니다. 제작 시작 시 자동 적용됩니다.",
-          "skillPoints": "15 Point",
+          "description": "채광물 가공과 강화 제작 시설의 제작 시간이 30% 감소합니다. 제작 시작 시 자동 적용됩니다.",
+          "skillPoints": "30 Point",
           "gold": "1,000,000 G",
-          "abilityStone": "30개"
+          "abilityStone": "60개"
         },
         {
           "level": 3,
-          "description": "주괴 제련 시간이 50% 감소합니다. 제작 시작 시 자동 적용됩니다.",
-          "skillPoints": "30 Point",
+          "description": "채광물 가공과 강화 제작 시설의 제작 시간이 40% 감소합니다. 제작 시작 시 자동 적용됩니다.",
+          "skillPoints": "50 Point",
           "gold": "3,000,000 G",
-          "abilityStone": "60개"
+          "abilityStone": "100개"
+        },
+        {
+          "level": 4,
+          "description": "채광물 가공과 강화 제작 시설의 제작 시간이 60% 감소합니다. 제작 시작 시 자동 적용됩니다.",
+          "skillPoints": "70 Point",
+          "gold": "5,000,000 G",
+          "abilityStone": "140개"
+        },
+        {
+          "level": 5,
+          "description": "채광물 가공과 강화 제작 시설의 제작 시간이 80% 감소합니다. 제작 시작 시 자동 적용됩니다.",
+          "skillPoints": "100 Point",
+          "gold": "7,000,000 G",
+          "abilityStone": "200개"
         }
       ]
     },
@@ -1085,77 +1278,160 @@
       "levels": [
         {
           "level": 1,
-          "description": "3초 간 3x3 범위를 부실 수 있습니다.",
+          "description": "3초 간 3x3 범위를 부실 수 있습니다. 곡괭이를 들고 쉬프트 우클릭합니다.",
           "skillPoints": "1 Point",
           "gold": "5,000 G",
           "abilityStone": "2개"
         },
         {
           "level": 2,
-          "description": "5초 간 3x3 범위를 부실 수 있습니다.",
+          "description": "5초 간 3x3 범위를 부실 수 있습니다. 곡괭이를 들고 쉬프트 우클릭합니다.",
           "skillPoints": "3 Point",
           "gold": "50,000 G",
           "abilityStone": "6개"
         },
         {
           "level": 3,
-          "description": "10초 간 3x3 범위를 부실 수 있습니다.",
+          "description": "10초 간 3x3 범위를 부실 수 있습니다. 곡괭이를 들고 쉬프트 우클릭합니다.",
           "skillPoints": "7 Point",
           "gold": "100,000 G",
           "abilityStone": "14개"
         },
         {
           "level": 4,
-          "description": "12초 간 3x3 범위를 부실 수 있습니다.",
+          "description": "12초 간 3x3 범위를 부실 수 있습니다. 곡괭이를 들고 쉬프트 우클릭합니다.",
           "skillPoints": "10 Point",
           "gold": "150,000 G",
           "abilityStone": "20개"
         },
         {
           "level": 5,
-          "description": "15초 간 3x3 범위를 부실 수 있습니다.",
+          "description": "15초 간 3x3 범위를 부실 수 있습니다. 곡괭이를 들고 쉬프트 우클릭합니다.",
           "skillPoints": "20 Point",
           "gold": "300,000 G",
           "abilityStone": "40개"
         },
         {
           "level": 6,
-          "description": "17초 간 3x3 범위를 부실 수 있습니다.",
+          "description": "17초 간 3x3 범위를 부실 수 있습니다. 곡괭이를 들고 쉬프트 우클릭합니다.",
           "skillPoints": "35 Point",
           "gold": "500,000 G",
           "abilityStone": "70개"
         },
         {
           "level": 7,
-          "description": "20초 간 3x3 범위를 부실 수 있습니다.",
+          "description": "20초 간 3x3 범위를 부실 수 있습니다. 곡괭이를 들고 쉬프트 우클릭합니다.",
           "skillPoints": "70 Point",
           "gold": "1,000,000 G",
           "abilityStone": "140개"
         },
         {
           "level": 8,
-          "description": "25초 간 3x3 범위를 부실 수 있습니다.",
+          "description": "25초 간 3x3 범위를 부실 수 있습니다. 곡괭이를 들고 쉬프트 우클릭합니다.",
           "skillPoints": "100 Point",
           "gold": "2,000,000 G",
           "abilityStone": "200개"
         },
         {
           "level": 9,
-          "description": "30초 간 3x3 범위를 부실 수 있습니다.",
+          "description": "30초 간 3x3 범위를 부실 수 있습니다. 곡괭이를 들고 쉬프트 우클릭합니다.",
           "skillPoints": "130 Point",
           "gold": "3,000,000 G",
           "abilityStone": "260개"
         },
         {
           "level": 10,
-          "description": "60초 간 3x3 범위를 부실 수 있습니다.",
+          "description": "60초 간 3x3 범위를 부실 수 있습니다. 곡괭이를 들고 쉬프트 우클릭합니다.",
           "skillPoints": "150 Point",
           "gold": "5,000,000 G",
           "abilityStone": "300개"
         }
       ]
+    },
+    {
+      "icon": "🔥",
+      "name": "[아일랜드] 용광로 풀가동!",
+      "levels": [
+        {
+          "level": 1,
+          "description": "채광물 가공 시설의 총 대기 슬롯이 5개로 증가합니다.",
+          "skillPoints": "10 Point",
+          "gold": "10,000 G",
+          "abilityStone": "20개"
+        },
+        {
+          "level": 2,
+          "description": "채광물 가공 시설의 총 대기 슬롯이 6개로 증가합니다.",
+          "skillPoints": "30 Point",
+          "gold": "500,000 G",
+          "abilityStone": "60개"
+        },
+        {
+          "level": 3,
+          "description": "채광물 가공 시설의 총 대기 슬롯이 7개로 증가합니다.",
+          "skillPoints": "50 Point",
+          "gold": "1,000,000 G",
+          "abilityStone": "100개"
+        },
+        {
+          "level": 4,
+          "description": "채광물 가공 시설의 총 대기 슬롯이 8개로 증가합니다.",
+          "skillPoints": "70 Point",
+          "gold": "3,000,000 G",
+          "abilityStone": "140개"
+        },
+        {
+          "level": 5,
+          "description": "채광물 가공 시설의 총 대기 슬롯이 9개로 증가합니다.",
+          "skillPoints": "100 Point",
+          "gold": "5,000,000 G",
+          "abilityStone": "200개"
+        }
+      ]
+    },
+    {
+      "icon": "⚒️",
+      "name": "[아일랜드] 장인의 손놀림",
+      "levels": [
+        {
+          "level": 1,
+          "description": "강화 제작 시설의 총 대기 슬롯이 5개로 증가합니다.",
+          "skillPoints": "10 Point",
+          "gold": "10,000 G",
+          "abilityStone": "20개"
+        },
+        {
+          "level": 2,
+          "description": "강화 제작 시설의 총 대기 슬롯이 6개로 증가합니다.",
+          "skillPoints": "30 Point",
+          "gold": "500,000 G",
+          "abilityStone": "60개"
+        },
+        {
+          "level": 3,
+          "description": "강화 제작 시설의 총 대기 슬롯이 7개로 증가합니다.",
+          "skillPoints": "50 Point",
+          "gold": "1,000,000 G",
+          "abilityStone": "100개"
+        },
+        {
+          "level": 4,
+          "description": "강화 제작 시설의 총 대기 슬롯이 8개로 증가합니다.",
+          "skillPoints": "70 Point",
+          "gold": "3,000,000 G",
+          "abilityStone": "140개"
+        },
+        {
+          "level": 5,
+          "description": "강화 제작 시설의 총 대기 슬롯이 9개로 증가합니다.",
+          "skillPoints": "100 Point",
+          "gold": "5,000,000 G",
+          "abilityStone": "200개"
+        }
+      ]
     }
   ],
+
   "marineExpertise": [
     {
       "icon": "✨",
